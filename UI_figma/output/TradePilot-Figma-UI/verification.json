@@ -1,0 +1,25 @@
+{
+  "build": "2.0.3",
+  "screens": 35,
+  "connections": 213,
+  "reachableStates": 35,
+  "checks": [
+    "self NAVIGATE rejected by test API",
+    "no self navigation or self SWAP in final tree",
+    "NAVIGATE targets different top-level frame on same page",
+    "reproduced previous MANUAL-overlay constraint failure",
+    "all current actions pass overlay coordinate constraint",
+    "graph reachability",
+    "popup targets",
+    "geometry",
+    "stored reactions",
+    "preserve existing frame IDs",
+    "idempotent rerun",
+    "single token collection",
+    "failure leaves original content intact",
+    "string/object/null/undefined errors retain diagnostics",
+    "error HTML escaped",
+    "reaction errors report phase and API"
+  ],
+  "nativeFigmaVerified": false
+}

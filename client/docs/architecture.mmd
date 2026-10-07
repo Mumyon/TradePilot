@@ -1,0 +1,28 @@
+flowchart LR
+    subgraph mobile["Flutter · Dart 클라이언트"]
+        views["관심종목 · 종목/AI · 주문 · 매매일지 · 설정"]
+        controller["TradingController · 화면/주문 상태"]
+        repository["TradingRepository 인터페이스"]
+        demo["DemoTradingRepository · 가상 데이터"]
+        remote["RemoteTradingRepository"]
+        rest["ApiClient · REST · 주문 식별자"]
+        socket["MarketSocket · 재연결 · heartbeat"]
+        secure["SecureTokenStore · 토큰 저장"]
+        pending["계정별 미확인 주문 보안 저장"]
+        views --> controller
+        controller --> pending
+        controller --> repository
+        repository --> demo
+        repository --> remote
+        remote --> rest
+        remote --> socket
+        rest --> secure
+        socket -->|"접속 티켓 요청"| rest
+    end
+    subgraph backend["예정된 서버 · 이번 작업 범위 밖"]
+        fastapi["FastAPI · 인증/조회/주문/시세"]
+        database[("PostgreSQL")]
+        fastapi -->|"서버에서만 접근"| database
+    end
+    rest <-->|"HTTPS · JSON"| fastapi
+    socket <-->|"WSS · 시세 이벤트"| fastapi

@@ -1,0 +1,37 @@
+# TradePilot · iOS UI 시안
+
+390 × 844, 흑백 중심, 각진 버튼과 선형 아이콘. 한국어 UI 6개 화면.
+
+## Figma에서 생성
+
+1. Figma 데스크톱 앱에서 디자인 파일을 엽니다.
+2. `Plugins → Development → Import plugin from manifest…`에서 이 폴더의 `manifest.json`을 선택합니다.
+3. `Plugins → Development → TradePilot UI Generator`를 실행합니다.
+4. 새 `TradePilot / Client UI` 페이지에 6개 프레임이 생성됩니다. Present에서 관심종목 → 차트 → 거래 전 점검 → 주문 확인 흐름과 하단 탭을 확인할 수 있습니다.
+
+플러그인은 텍스트·벡터·프레임과 색상 변수를 생성합니다. 버튼은 Auto Layout입니다. 기존 페이지를 수정하지 않으며 다시 실행하면 새 페이지가 추가됩니다. 네트워크를 사용하지 않습니다.
+
+폰트: Apple SD Gothic Neo 우선, 없으면 Pretendard 또는 Noto Sans KR/CJK KR. 선택한 글꼴의 지원 스타일을 불러옵니다. 로컬 PNG 미리보기는 Apple SD Gothic Neo로 렌더링했습니다. Figma에서 대체 글꼴을 사용할 경우 자간과 줄바꿈이 조금 달라질 수 있습니다.
+
+## 화면
+
+1. 관심종목: 시장지수, 종목 목록, 미니 차트
+2. 차트: 캔들·거래량·시간간격, AI 확률과 위험 근거
+3. 거래 전 점검: FOMO 경고, 주문 한도, 중복 주문 점검, 진입 근거
+4. 자동매매: 모의계좌, 운용 전략, 리스크 설정, 전체 중지 시안
+5. 매매일지: 원칙 준수율, AI와 사용자 비교, 거래 복기
+6. 주문 확인: 모의주문 요약과 최종 확인 시안
+
+## 범위 및 검증 상태
+
+시세·손익·확률·거래 내역은 모두 가상 예시입니다. 실제 거래, AI 분석, 입력 편집, 차트 시간간격 변경, 주문 완료, 전략 중지 기능은 구현하지 않은 UI 견본입니다. 주요 화면 전환만 연결합니다.
+
+Figma MCP로 파일 생성에는 성공했으나 Starter 플랜 호출 한도로 캔버스 작성이 차단됐습니다. 따라서 제공된 Figma URL의 파일은 비어 있습니다. 로컬 플러그인은 JavaScript 구문과 데이터 경계를 검사했으며, 실제 Figma 실행 검증은 아직 하지 못했습니다. PNG 6개 화면은 시각적으로 검토했습니다.
+
+## 참고
+
+- 제공된 캡스톤 제안서의 예측 → 거래 전 점검 → 모의주문 → 기록 → 피드백 흐름을 반영했습니다. 문서의 가칭 대신 요청한 TradePilot을 사용했습니다.
+- TradingView iOS: https://apps.apple.com/us/app/tradingview-track-all-markets/id1205990992
+- 관심종목 및 차트 중심의 구성을 참고했고 로고와 자산은 복제하지 않았습니다.
+
+`TradePilot-overview.png`: 전체 미리보기. `screen-1.png`~`screen-6.png`: 화면별 2배 해상도. `design.json`: 공통 디자인 데이터. `code.js`: 외부 의존성이 없는 Figma 실행 파일.

@@ -1,0 +1,971 @@
+PAGE 1
+문서 개요
+1.
+프로젝트명
+1.1
+TradeGuard AI
+AI 기반 주식 자동매매 및 감정 매매 방지 의사결정 보조 시스템
+개발 목적
+1.2
+주식 시장 데이터와 사용자의 매매 기록을 기반으로 AI가 단기 시장 방향 및 매매 타이밍을 분석하고,
+사용자가 주문하기 전에 감정 매매 가능성과 투자 위험도를 검사한다.
+또한 모의투자 및 자동매매 결과를 기록하고 AI 판단과 사용자의 실제 판단을 비교하여 개인화된 피
+드백을 제공하는 것을 목적으로 한다.
+핵심 서비스 흐름
+1.3
+PAGE 2
+시장 데이터 수집
+↓
+AI 예측
+↓
+사용자 주문 또는 전략 신호
+↓
+감정 매매 검사
+↓
+리스크 검사
+↓
+주문 승인 / 차단
+↓
+모의매매 또는 자동매매
+↓
+거래 결과 기록
+↓
+AI 판단과 사용자 판단 비교
+PAGE 3
+↓
+개인화 피드백
+시스템 구성
+2.
+구분 주요 역할
+Client 주가 조회, AI 예측 확인, 주문, 매매일지, 피드백 확인
+Backend API 사용자·주문·전략·시장 데이터 관리
+Market Data Module 실시간/과거 주식 데이터 수집
+AI Prediction Module 주가 방향 및 매매 적합도 예측
+Emotion Guard 감정 매매 패턴 탐지
+Risk Manager 주문 위험성 검사
+Trading Engine 주문 처리 및 상태 관리
+Broker Adapter 모의투자/실거래 API 연결
+Backtest Engine 과거 데이터를 이용한 전략 검증
+Feedback Module AI와 사용자 매매 결과 비교
+PostgreSQL 사용자·주문·예측·매매 기록 저장
+Redis 실시간 시세 및 임시 데이터 캐싱
+사용자 구분
+3.
+사용자 설명
+일반 사용자 시세 조회, AI 예측 확인, 모의매매, 자동매매, 매매일지 사용
+관리자 시스템 상태 및 로그 확인
+시스템 전략에 따라 자동으로 AI 분석 및 주문 수행
+기능 목록
+4.
+기능 ID 기능명 우선순위
+AUTH-01 회원가입 필수
+PAGE 4
+기능 ID 기능명 우선순위
+AUTH-02 로그인/로그아웃 필수
+USER-01 사용자 투자 설정 관리 필수
+MARKET-01 종목 조회 필수
+MARKET-02 실시간 시세 수집 필수
+MARKET-03 과거 시세 조회 필수
+MARKET-04 기술지표 계산 필수
+AI-01 AI 가격 방향 예측 필수
+AI-02 예측 확률 및 신뢰도 표시 필수
+AI-03 AI 모델 성능 관리 선택
+EMOTION-01 FOMO 탐지 필수
+EMOTION-02 공포매도 탐지 필수
+EMOTION-03 복수매매 탐지 필수
+EMOTION-04 과매매 탐지 필수
+EMOTION-05 감정 매매 위험점수 필수
+RISK-01 1회 주문 한도 검사 필수
+RISK-02 일일 손실 한도 검사 필수
+RISK-03 중복 주문 방지 필수
+RISK-04 주문 쿨다운 필수
+RISK-05 Kill Switch 필수
+STRATEGY-01 사용자 전략 생성 필수
+STRATEGY-02 전략 활성화/비활성화 필수
+TRADE-01 모의 매수/매도 필수
+TRADE-02 자동매매 선택
+TRADE-03 주문 상태 관리 필수
+TRADE-04 주문 기록 저장 필수
+BACKTEST-01 전략 백테스트 필수
+BACKTEST-02 백테스트 결과 분석 필수
+JOURNAL-01 매매일지 필수
+FEEDBACK-01 AI와 사용자 판단 비교 필수
+FEEDBACK-02 사용자 매매 습관 분석 필수
+FEEDBACK-03 개인화 피드백 필수
+DASH-01 투자 대시보드 필수
+LOG-01 시스템 로그 관리 필수
+PAGE 5
+회원 및 사용자 관리
+5.
+회원가입
+AUTH-01
+항목 내용
+기능 설명 사용자가 TradeGuard AI 계정을 생성한다.
+입력 이메일, 비밀번호, 비밀번호 확인
+처리 이메일 중복 검사 → 비밀번호 암호화 → 사용자 생성
+출력 회원가입 완료
+예외 이메일 중복, 잘못된 이메일 형식, 비밀번호 정책 불충족
+처리 흐름
+회원가입 요청
+↓
+입력값 검증
+↓
+이메일 중복 검사
+↓
+비밀번호 암호화
+↓
+DB 저장
+↓
+회원가입 완료
+로그인
+AUTH-02
+항목 내용
+기능 설명 등록된 사용자를 인증한다.
+입력 이메일, 비밀번호
+처리 사용자 조회 → 비밀번호 검증 → 인증 토큰 발급
+출력 Access Token
+예외 계정 없음, 비밀번호 오류
+PAGE 6
+사용자 투자 설정
+6.
+투자 설정 관리
+USER-01
+사용자가 투자 위험 기준을 직접 설정한다.
+설정 가능 항목
+항목 예시
+1회 최대 주문 금액 100,000원
+하루 최대 손실 금액 50,000원
+최대 보유 종목 5
+주문 쿨다운 5분
+감정 매매 경고 기준 60점
+자동매매 사용 여부 OFF
+설정값은 Risk Manager와 Trading Engine에서 사용한다.
+시장 데이터 기능
+7.
+종목 조회
+MARKET-01
+항목 내용
+기능 설명 종목명 또는 종목코드로 주식을 검색한다.
+입력 종목명 또는 종목코드
+출력 종목명, 종목코드, 현재가, 등락률
+예외 존재하지 않는 종목
+실시간 시세 수집
+MARKET-02
+증권사 또는 시장 데이터 API에서 실시간 또는 준실시간 데이터를 수집한다.
+수집 데이터
+종목코드
+현재가
+시가
+PAGE 7
+고가
+저가
+종가
+거래량
+등락률
+Timestamp
+처리 과정
+시장 데이터 API
+↓
+Market Data Collector
+↓
+데이터 검증
+↓
+Redis 캐시
+↓
+PostgreSQL 저장
+↓
+AI / Frontend 전달
+시세 데이터는 시스템 내부의 AI 분석 및 전략 판단에 사용한다.
+과거 시세 조회
+MARKET-03
+사용자가 선택한 기간의 가격 데이터를 조회한다.
+입력 예시
+종목 : 삼성전자
+시작 : 2026-01-01
+종료 : 2026-06-30
+봉 : 일봉
+출력
+OHLCV 데이터를 차트 형태로 표시한다.
+기술지표
+8.
+기술지표 계산
+MARKET-04
+시장 데이터를 기반으로 AI 입력 데이터와 사용자 분석에 필요한 기술지표를 계산한다.
+PAGE 8
+초기 구현 지표
+지표 목적
+MA5 단기 이동평균
+MA20 중기 이동평균
+RSI 과매수/과매도 판단
+MACD 추세 분석
+거래량 변화율 거래량 증가 탐지
+가격 변화율 단기 급등·급락 탐지
+계산된 지표는 AI Prediction 및 Emotion Guard에서 활용한다.
+예측 시스템
+9. AI
+가격 방향 예측
+AI-01
+과거 가격 데이터와 기술지표를 이용하여 다음 구간의 가격 방향을 예측한다.
+입력
+가격 데이터
+거래량
+MA5
+MA20
+RSI
+MACD
+가격 변화율
+거래량 변화율
+출력 예시
+{
+"ticker": "005930",
+"prediction": "UP",
+"probability": 0.71,
+"confidence": 0.64,
+"risk": "MEDIUM",
+"model_version": "v1"
+}
+예측 결과
+PAGE 9
+UP
+DOWN
+NEUTRAL
+예측 결과 표시
+AI-02
+사용자에게 AI 결과를 단순 매수/매도 형태로 제공하지 않는다.
+다음 정보를 함께 제공한다.
+예상 방향
+상승/하락 확률
+AI 신뢰도
+위험도
+주요 판단 지표
+화면 예시
+AI 분석
+예상 방향 상승
+상승 확률 71%
+신뢰도 64%
+위험도 MEDIUM
+주요 지표
+RSI 56
+MA5 > MA20
+거래량 +18%
+10. Emotion Guard
+Emotion Guard는 사용자가 왜 해당 주문을 시도하는지 분석한다.
+AI 가격예측 시스템과 독립적으로 동작한다.
+탐지
+EMOTION-01 FOMO
+최근 급등한 종목을 사용자가 추격 매수하는 상황을 탐지한다.
+PAGE 10
+예시 조건
+최근 10분 가격 상승률 ≥ 기준값
+AND
+사용자 주문 = 매수
+결과
+FOMO 위험 감지
+최근 급격하게 상승한 종목입니다.
+추격 매수 가능성이 있습니다.
+공포매도 탐지
+11.
+EMOTION-02
+급격한 가격 하락 직후 사용자가 손실 상태의 종목을 매도하려는 상황을 분석한다.
+단기간 급락
++
+사용자 손실 상태
++
+매도 요청
+조건을 만족하면 공포 매도 가능성을 표시한다.
+복수매매 탐지
+12.
+EMOTION-03
+연속 손실 후 짧은 시간 내 다시 주문하는 행동을 탐지한다.
+예시
+최근 거래 3회 연속 손실
++
+30분 이내 추가 주문
+출력:
+PAGE 11
+복수매매 가능성 높음
+최근 연속적인 손실 이후 새로운 거래를 시도하고 있습니다.
+과매매 탐지
+13.
+EMOTION-04
+일정 시간 동안 과도하게 많은 거래가 발생하는지 검사한다.
+예시
+1시간 주문 횟수 ≥ 5
+경고:
+최근 1시간 동안 주문 빈도가 높습니다.
+과도한 매매가 아닌지 확인하십시오.
+감정 매매 위험 점수
+14.
+EMOTION-05
+각 감정 패턴에 위험 점수를 부여한다.
+예시
+위험 요소 점수
+FOMO +30
+공포매도 +30
+복수매매 +25
+과매매 +20
+투자전략 위반 +20
+위험 등급
+PAGE 12
+점수 위험도
+0~29 LOW
+30~59 MEDIUM
+60 이상 HIGH
+HIGH 상태일 경우 사용자에게 추가 확인 절차를 제공한다.
+15. Risk Manager
+Emotion Guard가 사용자의 행동을 검사한다면 Risk Manager는 해당 주문을 실제로 실행할 수 있
+는지 판단한다.
+주문 요청
+↓
+Emotion Guard
+↓
+Risk Manager
+↓
+Trading Engine
+회 주문한도
+RISK-01 1
+사용자가 설정한 최대 주문 금액을 초과하는 주문을 차단한다.
+주문금액 > 최대 주문금액
+→ 주문 거절
+일일 손실한도
+RISK-02
+하루 누적 손실 금액이 설정값을 초과하면 추가 주문을 차단한다.
+오늘 손실
+-52,000원
+일 손실한도
+PAGE 13
+-50,000원
+→ 주문 차단
+중복주문 방지
+RISK-03
+동일한 주문이 반복적으로 전달되는 것을 방지한다.
+비교 정보:
+사용자
+종목
+주문 방향
+수량
+주문 생성 시간
+동일 주문이 이미 처리 중인 경우 새로운 주문을 거절한다.
+주문 쿨다운
+RISK-04
+사용자가 주문을 지나치게 반복하지 못하도록 일정 시간 동안 동일 또는 유사 주문을 제한한다.
+예:
+삼성전자 매수
+↓
+5분 주문 쿨다운
+↓
+5분 이내 동일 매수 제한
+RISK-05 Kill Switch
+비정상 상황 발생 시 모든 자동주문을 즉시 정지한다.
+작동 조건
+API 장애
+비정상 주문 증가
+일일 손실 한도 초과
+PAGE 14
+관리자 수동 정지
+사용자 자동매매 정지
+상태:
+NORMAL
+↓
+TRADING_DISABLED
+사용자 투자전략
+16.
+전략 생성
+STRATEGY-01
+사용자가 자신의 매매 조건을 설정한다.
+전략 예시
+전략명
+RSI 반등 전략
+조건
+RSI < 30
+AND
+MA5 > MA20
+AND
+AI 상승 확률 > 65%
+실행
+매수
+전략 활성화
+STRATEGY-02
+사용자는 전략을 다음 상태로 관리한다.
+ACTIVE
+INACTIVE
+ACTIVE 상태 전략만 Trading Engine에서 검사한다.
+PAGE 15
+17. Trading Engine
+Trading Engine은 승인된 주문을 실제 Broker에 전달하는 역할을 한다.
+주문 흐름
+사용자 주문
+또는
+Strategy Signal
+↓
+AI Prediction
+↓
+Emotion Guard
+↓
+Risk Manager
+↓
+Trading Engine
+↓
+Broker
+모의투자
+TRADE-01
+실제 자금을 사용하지 않고 가상 계좌를 이용하여 거래한다.
+기능
+가상 잔액 관리
+가상 종목 보유
+매수
+매도
+평균매수가 계산
+수익률 계산
+거래 기록
+프로젝트의 기본 거래 방식은 모의투자로 설정한다.
+자동매매
+TRADE-02
+사용자가 활성화한 전략 조건을 만족할 경우 자동으로 주문을 생성한다.
+실행 조건
+PAGE 16
+전략 조건 만족
+AND
+AI 조건 만족
+AND
+Emotion Guard 허용
+AND
+Risk Manager 허용
+모든 조건을 만족해야 주문을 실행한다.
+주문 상태 관리
+18.
+TRADE-03
+모든 주문은 상태 머신을 이용하여 관리한다.
+CREATED
+↓
+VALIDATED
+↓
+SUBMITTED
+↓
+FILLED
+오류 또는 거절 발생 시:
+REJECTED
+FAILED
+CANCELLED
+주문 기록
+19.
+TRADE-04
+모든 주문 시점의 정보를 저장한다.
+저장 정보
+Trade ID
+User ID
+종목
+매수 / 매도
+PAGE 17
+가격
+수량
+주문금액
+AI 예상 방향
+AI 확률
+AI 신뢰도
+Emotion Score
+Emotion Type
+Risk Score
+사용자 매매 이유
+주문 결과
+손익
+주문 시간
+이 정보는 이후 Feedback 시스템에서 사용한다.
+20. Backtest Engine
+전략 백테스트
+BACKTEST-01
+과거 시장 데이터를 이용하여 사용자 전략 또는 AI 전략의 성능을 검증한다.
+입력
+종목
+기간
+초기 자본
+전략
+처리
+과거 Market Data
+↓
+Strategy
+↓
+Trading Engine
+↓
+Backtest Broker
+PAGE 18
+↓
+가상 주문 처리
+결과 분석
+BACKTEST-02
+백테스트 완료 후 다음 정보를 제공한다.
+총 거래 횟수
+승리 거래
+패배 거래
+승률
+총 수익률
+최대 손실
+평균 수익
+평균 손실
+결과 예시:
+초기 자본 1,000,000원
+최종 자본 1,082,000원
+수익률 +8.2%
+총 거래 35회
+승리 21회
+패배 14회
+승률 60%
+매매일지
+21.
+JOURNAL-01
+사용자의 모든 거래 내역을 확인할 수 있다.
+표시 항목
+거래일
+종목
+매수/매도
+가격
+수량
+손익
+PAGE 19
+AI 판단
+감정매매 경고
+사용자 매매 이유
+사용자는 거래 당시 자신의 판단 이유를 추가로 기록할 수 있다.
+와 사용자 판단 비교
+22. AI
+FEEDBACK-01
+거래 당시 AI 판단과 사용자의 실제 행동을 비교한다.
+예시
+AI 판단 사용자 행동 결과
+BUY 72% BUY +3.2%
+HOLD 55% BUY -2.1%
+SELL 68% HOLD -1.3%
+이를 통해 AI 예측과 사용자 판단 간의 차이를 분석한다.
+사용자 매매 습관 분석
+23.
+FEEDBACK-02
+사용자의 일정 기간 거래 데이터를 이용하여 행동 패턴을 분석한다.
+분석 항목
+FOMO 발생 횟수
+공포매도 횟수
+복수매매 횟수
+과매매 횟수
+AI 판단 일치율
+전략 준수율
+평균 손익
+승률
+평균 보유 시간
+PAGE 20
+개인화 피드백
+24.
+FEEDBACK-03
+사용자의 매매 결과 및 행동 패턴을 기반으로 피드백을 제공한다.
+예시
+이번 주 투자 분석
+총 거래
+14회
+AI 판단 일치율
+71%
+전략 준수율
+64%
+가장 많이 발생한 문제
+FOMO
+FOMO 거래
+4회
+FOMO 거래 평균 수익률
+-2.4%
+피드백
+최근 급등 종목의 추격 매수 빈도가 높았습니다.
+급등 직후 진입보다는 설정한 투자 전략을 확인한 후
+주문하는 것이 좋습니다.
+투자 대시보드
+25.
+DASH-01
+사용자가 로그인하면 전체 투자 상태를 한 화면에서 확인할 수 있도록 한다.
+대시보드 구성
+현재 자산
+오늘 손익
+PAGE 21
+누적 수익률
+보유 종목
+AI 추천 종목
+최근 AI 예측
+감정매매 위험도
+최근 거래
+전략 상태
+종목 상세화면 예시
+┌──────────────────────────────────────┐
+삼성전자
+현재가 71,200
+등락률 +1.2%
+──────────────────────────────────────
+주가 차트
+──────────────────────────────────────
+AI 분석
+상승 확률 68%
+신뢰도 72%
+위험도 MEDIUM
+──────────────────────────────────────
+감정매매 분석
+현재 위험도 LOW
+──────────────────────────────────────
+[매수] [매도]
+└──────────────────────────────────────┘
+PAGE 22
+시스템 로그
+26.
+LOG-01
+시스템에서 발생하는 주요 이벤트를 기록한다.
+기록 대상
+AI 예측 실행
+시장 데이터 수신
+주문 생성
+주문 승인
+주문 거절
+Risk Manager 차단
+Emotion Guard 경고
+Broker 오류
+API 오류
+단, 다음 정보는 로그에 직접 저장하지 않는다.
+사용자 비밀번호
+증권 API Secret
+계좌 인증 정보
+Access Token
+27. Broker Adapter
+Trading Engine이 특정 증권사 API에 직접 의존하지 않도록 Broker 인터페이스를 사용한다.
+Broker
+├─ BacktestBroker
+├─ PaperBroker
+└─ RealBroker
+공통 기능:
+PAGE 23
+buy()
+sell()
+get_balance()
+get_positions()
+get_order()
+이를 통해 Trading Engine의 코드를 변경하지 않고 거래 환경을 변경할 수 있다.
+거래 모드
+28.
+사용자는 시스템을 다음 3가지 단계로 사용할 수 있다.
+단계
+1 — Backtest
+과거 데이터
+↓
+전략 검증
+실제 주문 없음.
+단계
+2 — Paper Trading
+실시간 데이터
+↓
+가상 계좌
+↓
+모의 주문
+실제 자금 사용 없음.
+단계
+3 — Real Trading
+실시간 데이터
+↓
+실계좌
+↓
+실제 주문
+프로젝트 개발 및 시연의 기본값은 Paper Trading으로 한다.
+PAGE 24
+핵심 데이터
+29. DB
+users
+id
+email
+password_hash
+created_at
+user_settings
+user_id
+max_order_amount
+daily_loss_limit
+cooldown
+max_positions
+auto_trade_enabled
+market_data
+ticker
+timestamp
+open
+high
+low
+close
+volume
+predictions
+prediction_id
+ticker
+prediction
+probability
+confidence
+risk
+model_version
+created_at
+strategies
+strategy_id
+user_id
+PAGE 25
+name
+condition
+status
+trades
+trade_id
+user_id
+ticker
+action
+price
+quantity
+status
+profit_loss
+created_at
+emotion_events
+event_id
+trade_id
+emotion_type
+emotion_score
+created_at
+risk_events
+event_id
+trade_id
+risk_type
+blocked
+created_at
+backtest_results
+backtest_id
+user_id
+strategy_id
+return_rate
+win_rate
+max_drawdown
+created_at
+주요 명세
+30. API
+PAGE 26
+Method API 기능
+POST /auth/signup 회원가입
+POST /auth/login 로그인
+GET /market/stocks 종목검색
+GET /market/{ticker} 종목 정보
+GET /market/{ticker}/history 과거 시세
+GET /predictions/{ticker} AI 예측
+POST /trades/orders 주문
+GET /trades 거래내역
+GET /portfolio 보유자산
+POST /strategies 전략 생성
+GET /strategies 전략 조회
+POST /backtests 백테스트 실행
+GET /backtests/{id} 백테스트 결과
+GET /emotion/status 감정매매 상태
+GET /feedback 투자 피드백
+GET /dashboard 대시보드
+핵심 주문 처리 시나리오
+31.
+사용자가 삼성전자 10주 매수를 요청한다고 가정한다.
+[1]
+사용자
+삼성전자 10주 매수 요청
+↓
+[2]
+Backend
+현재 주가 조회
+↓
+PAGE 27
+[3]
+AI Prediction
+상승 확률 68%
+↓
+[4]
+Emotion Guard
+FOMO 검사
+공포매매 검사
+복수매매 검사
+과매매 검사
+↓
+Emotion Score = 20
+↓
+[5]
+Risk Manager
+1회 주문한도 → 통과
+일 손실한도 → 통과
+중복 주문 → 없음
+Cooldown → 통과
+↓
+[6]
+Trading Engine
+주문 생성
+CREATED
+↓
+VALIDATED
+↓
+SUBMITTED
+PAGE 28
+↓
+[7]
+Paper Broker
+가상 주문 체결
+↓
+FILLED
+↓
+[8]
+Database
+Trade 기록 저장
+↓
+[9]
+Feedback
+AI 판단과 사용자 판단 비교
+주문 차단 시나리오
+32.
+사용자 주문
+↓
+Emotion Guard
+복수매매 감지
+Score = 65
+↓
+HIGH RISK
+↓
+Risk Manager
+일 손실한도 초과 확인
+PAGE 29
+↓
+ORDER REJECTED
+사용자 화면:
+주문이 제한되었습니다.
+오늘 설정한 최대 손실 금액을 초과했습니다.
+현재 일일 손익
+-52,000원
+설정 손실한도
+-50,000원
+기능 우선순위
+33.
+차 개발 핵심 기능
+1 —
+회원관리
+시장 데이터
+AI Prediction
+모의투자
+Trading Engine
+Risk Manager
+Emotion Guard
+매매일지
+차 개발 분석 기능
+2 —
+백테스트
+AI vs 사용자 비교
+매매습관 분석
+개인화 피드백
+대시보드
+차 개발 확장 기능
+3 —
+자동매매
+Real Broker
+Push 알림
+PAGE 30
+AI 모델 고도화
+개인 전략 자동 생성
+핵심 성능 목표
+34.
+구분 목표
+시장 데이터 반영 평균 2초 이내
+모의 주문 테스트 100건 이상
+주문 성공률 99% 이상
+Risk Rule 5종 이상
+감정매매 패턴 4종 이상
+감정매매 탐지율 시나리오 기준 90% 이상
+사용자 테스트 10명 이상
+만족도 평균 4.0 / 5.0 이상
+프로젝트 범위
+35. MVP
+캡스톤 최종 시연에서 반드시 완성할 MVP는 다음 흐름이 정상적으로 동작하는 상태로 정의한다.
+사용자 로그인
+↓
+종목 선택
+↓
+실시간/준실시간 시세 조회
+↓
+AI 예측
+↓
+매수/매도 요청
+↓
+Emotion Guard
+↓
+Risk Manager
+↓
+모의 주문
+↓
+거래 결과 저장
+↓
+매매일지
+↓
+PAGE 31
+AI와 사용자 판단 비교
+↓
+개인화 피드백
+실거래 기능보다 위 전체 사이클의 안정적인 구현을 우선한다.
+최종 기능 구조
+36.
+TradeGuard AI
+├── 사용자 관리
+│ ├── 회원가입
+│ ├── 로그인
+│ └── 투자 설정
+│
+├── Market Data
+│ ├── 실시간 시세
+│ ├── 과거 시세
+│ └── 기술지표
+│
+├── AI
+│ ├── 가격 방향 예측
+│ ├── 확률
+│ ├── 신뢰도
+│ └── 위험도
+│
+├── Emotion Guard
+│ ├── FOMO
+│ ├── 공포매도
+│ ├── 복수매매
+│ └── 과매매
+│
+├── Risk Manager
+│ ├── 주문한도
+│ ├── 손실한도
+│ ├── 중복주문
+│ ├── Cooldown
+│ └── Kill Switch
+│
+├── Strategy
+│ ├── 전략 생성
+│ └── 전략 실행
+│
+├── Trading Engine
+│ ├── Backtest
+│ ├── Paper Trading
+PAGE 32
+│ └── Real Trading
+│
+├── Trade Journal
+│
+├── Feedback
+│ ├── AI vs User
+│ ├── 매매습관
+│ └── 개인화 피드백
+│
+└── Dashboard
+프로젝트 핵심 차별점
+37.
+TradeGuard AI는 단순한 주가 예측 또는 자동매매 프로그램이 아니라 다음의 폐쇄형 투자 학습 구
+조를 제공한다.
+예측
+↓
+판단
+↓
+위험 검사
+↓
+거래
+↓
+기록
+↓
+분석
+↓
+피드백
+↓
+다음 거래 개선
+PAGE 33
+이를 통해 AI 예측 결과뿐 아니라 사용자의 매매 행동 자체를 분석하고, 반복되는 감정적 투자 행동과
+투자전략 위반을 개선하는 투자 의사결정 보조 시스템을 구현한다.

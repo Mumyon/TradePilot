@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: tradepilot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: tradepilot
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tradepilot -d tradepilot"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  migrate:
+    build: .
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
+    command: ["alembic", "upgrade", "head"]
+    depends_on:
+      db:
+        condition: service_healthy
+  api:
+    build: .
+    environment:
+      DATABASE_URL: ${DATABASE_URL:?Set DATABASE_URL in .env}
+      MARKET_DATA_MODE: ${MARKET_DATA_MODE:-disabled}
+      SESSION_TTL_SECONDS: ${SESSION_TTL_SECONDS:-3600}
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+volumes:
+  postgres-data:
