@@ -39,7 +39,7 @@ class MarketSocket {
       final ticket = await api.request('POST', '/v1/ws-ticket');
       if (!_active(generation)) return;
       final uri = api.baseUrl.replace(
-        scheme: 'wss',
+        scheme: api.baseUrl.scheme == 'https' ? 'wss' : 'ws',
         path: '/v1/ws',
         queryParameters: {'ticket': ticket['ticket'] as String},
       );

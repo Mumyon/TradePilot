@@ -1,0 +1,9 @@
+{
+  "synthetic": true,
+  "provider_transport_mock": true,
+  "external_api_calls": 0,
+  "single_request_and_cache": true,
+  "pair_completion_gate": true,
+  "response_id": "mock-only-response",
+  "prompt_version": "post-pair-review-v1"
+}

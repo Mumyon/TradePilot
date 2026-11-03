@@ -16,6 +16,7 @@ from app.config import Settings
 from app.logging_config import RedactTicket
 from app.models import AuthSession, Order, OrderCheck, Quote, User, WsTicket, now
 from app.security import digest
+from app.services.fees import reserve
 
 
 def draft(**changes):
@@ -50,7 +51,7 @@ def test_client_contract_and_cancel(service):
     order = client.post("/v1/orders", json=body, headers={"Idempotency-Key": "one"}).json()
     assert order["status"] == "accepted"
     with sessions() as db:
-        assert db.get(User, user_id).reserved_won == 72800
+        assert db.get(User, user_id).reserved_won == reserve(72800)
     for _ in range(2):
         assert client.post(f"/v1/orders/{order['order_id']}/cancel").json()["status"] == "cancelled"
     with sessions() as db:
@@ -69,7 +70,7 @@ def test_replay_before_expiry_and_staleness_checks(service):
     assert replay.json() == result.json()
     with sessions() as db:
         assert db.scalar(select(func.count()).select_from(Order)) == 1
-        assert db.get(User, user_id).reserved_won == 72800
+        assert db.get(User, user_id).reserved_won == reserve(72800)
     conflict = client.post(
         "/v1/orders", json={**body, "quantity": 2}, headers={"Idempotency-Key": "replay"}
     )
@@ -124,13 +125,13 @@ def test_concurrent_requests_share_one_order_and_reservation(service):
         results = list(pool.map(send, range(4)))
     assert len({r["order_id"] for r in results}) == 1
     with sessions() as db:
-        assert db.get(User, user_id).reserved_won == 72800
+        assert db.get(User, user_id).reserved_won == reserve(72800)
 
 
 def test_concurrent_different_keys_cannot_overspend(service):
     client, sessions, user_id, _ = service
     with sessions.begin() as db:
-        db.get(User, user_id).cash_won = 72800
+        db.get(User, user_id).cash_won = reserve(72800)
     bodies = [checked(client), checked(client)]
 
     def send(i):
@@ -142,7 +143,7 @@ def test_concurrent_different_keys_cannot_overspend(service):
         results = list(pool.map(send, range(2)))
     assert sorted(r["status"] for r in results) == ["accepted", "rejected"]
     with sessions() as db:
-        assert db.get(User, user_id).reserved_won == 72800
+        assert db.get(User, user_id).reserved_won == reserve(72800)
 
 
 def test_user_isolation(service):
@@ -267,15 +268,20 @@ def test_commit_failure_never_returns_accepted(service):
     body = checked(client)
 
     class FailingCommit:
+        enabled = False
+
         @contextmanager
         def begin(self):
             with sessions.begin() as db:
                 yield db
-                raise RuntimeError("simulated commit failure")
+                if self.enabled:
+                    raise RuntimeError("simulated commit failure")
 
+    failing_sessions = FailingCommit()
     with TestClient(
-        create_app(settings, FailingCommit()), raise_server_exceptions=False
+        create_app(settings, failing_sessions), raise_server_exceptions=False
     ) as failing:
+        failing_sessions.enabled = True
         response = failing.post(
             "/v1/orders",
             json=body,

@@ -29,7 +29,14 @@ def create_user(db, email: str, password: str, demo_holdings=False) -> User:
     for symbol in ["005930", "000660"]:
         db.add(Watchlist(user_id=user.id, symbol=symbol))
         if demo_holdings:
-            db.add(Holding(user_id=user.id, symbol=symbol, quantity=100))
+            db.add(
+                Holding(
+                    user_id=user.id,
+                    symbol=symbol,
+                    quantity=100,
+                    cost_won={"005930": 7_280_000, "000660": 17_350_000}[symbol],
+                )
+            )
     return user
 
 

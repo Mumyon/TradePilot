@@ -1,0 +1,80 @@
+[
+  {
+    "file": "images/01-login.png",
+    "origin": "client/docs/paper-review/server-login.png",
+    "sha256": "9087195714c8e6ea72f3bda74ee8b001ca2f105973b76de512e0fa3d9b81cd10",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/03-chart-ai-state.png",
+    "origin": "client/docs/paper-review/server-chart.png",
+    "sha256": "d41cdb217995f5accc459b81b2b777ab5f3704b5591e5f8d98a9f5abfeee4a10",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/05-order-confirmation.png",
+    "origin": "client/docs/paper-review/server-confirmation.png",
+    "sha256": "f84c4b2457635d2ec8a97bf86f35332360bc4f658af9724d10828201b26a3d1e",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/06-order-fill.png",
+    "origin": "client/docs/paper-review/server-fills.png",
+    "sha256": "2ad61177e6ad48da521996d8b75d7a6d7a202637921665274b168af7cc7fc778",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/07-account.png",
+    "origin": "client/docs/paper-review/server-account.png",
+    "sha256": "baa964a953abbd5c2511db234c59ce3d77f172dfcb9ce1e1663e7138ebc5a223",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/08-risk-settings.png",
+    "origin": "client/docs/paper-review/server-settings.png",
+    "sha256": "34b4ee61fef87276fdc242dfa74581085adec675a0abf0453760ed7238e3bdcd",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/09-journal-summary.png",
+    "origin": "client/docs/paper-review/server-journal-summary.png",
+    "sha256": "edde463be9bfc3732690ffb073928bf359a1e5008739fc3df229f27694743ad2",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/10-journal-detail.png",
+    "origin": "client/docs/paper-review/server-journal.png",
+    "sha256": "f3c833e4e822b4c6d3171741909cfc66864a670e9acbcc9c922e4cec659f2654",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/11-backtest.png",
+    "origin": "client/docs/backtest-review/ios-result.png",
+    "sha256": "74d5c1c52a7ef18ecbd58c8b7b687f79366c89449150ed542d59c00addc4c406",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/12-automation.png",
+    "origin": "client/docs/automation-review/ios-result.png",
+    "sha256": "6277d8105241bd6f18929d426fa2ab2bf7587342a4a3278e1beafe08692aabc4",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/13-csv-dataset.png",
+    "origin": "client/docs/dataset-review/ios-result.png",
+    "sha256": "c77e197dd8b1fc86f85fc75b05e278dde04aa14822fd57848c6b49abbb73cb38",
+    "note": "개발 통합 검증 과정의 실제 앱 캡처. 합성 시세/테스트 계정 사용."
+  },
+  {
+    "file": "images/02-watchlist.png",
+    "origin": "제출 준비용 iPhone17 + FastAPI + 임시 PostgreSQL 통합 캡처",
+    "sha256": "dd44a61c7eaae559b1fbab28dfd037f71e121fc8fb80aa9b5cdd25d6309679ea",
+    "note": "04는 10분 전 70,000원→현재72,800원의 합성 시나리오. 실제 서버가 경고30점을 계산함."
+  },
+  {
+    "file": "images/04-behavior-warning.png",
+    "origin": "제출 준비용 iPhone17 + FastAPI + 임시 PostgreSQL 통합 캡처",
+    "sha256": "c0a4541e78e039ce1b3c47fb8948b29b1eec84c068e0436ad342fe65c8f4d599",
+    "note": "04는 10분 전 70,000원→현재72,800원의 합성 시나리오. 실제 서버가 경고30점을 계산함."
+  }
+]

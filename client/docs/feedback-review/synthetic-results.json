@@ -1,0 +1,193 @@
+{
+  "window": {
+    "start": "2026-09-20T02:25:04.993581+00:00",
+    "end": "2026-10-20T02:25:04.993581+00:00",
+    "days": 30
+  },
+  "groups": {
+    "on": {
+      "checks": 1,
+      "outcomes": {
+        "dismissed": 1
+      },
+      "filled": 0,
+      "plan_evaluated": 0,
+      "plan_adherent": 0,
+      "plan_unregistered": 0,
+      "plan_unavailable": 0,
+      "plan_compliance": null,
+      "decision_samples": 1,
+      "mean_decision_seconds": 0.797
+    },
+    "off": {
+      "checks": 0,
+      "outcomes": {},
+      "filled": 0,
+      "plan_evaluated": 0,
+      "plan_adherent": 0,
+      "plan_unregistered": 0,
+      "plan_unavailable": 0,
+      "plan_compliance": null,
+      "decision_samples": 0,
+      "mean_decision_seconds": null
+    }
+  },
+  "warning_types": [
+    {
+      "code": "fomo",
+      "title": "급등 추격 매수",
+      "detected": 1,
+      "presented": 1,
+      "outcomes": {
+        "dismissed": 1
+      },
+      "unobserved": 0,
+      "voluntary_resolved": 1,
+      "defer_rate": 1.0,
+      "feedback": "급등 추격 매수 조건에 해당한 점검 1회. 다음 매수 전, 급등 이전에 정한 진입 가격 범위를 확인하세요."
+    },
+    {
+      "code": "panic",
+      "title": "공포매도",
+      "detected": 0,
+      "presented": 0,
+      "outcomes": {},
+      "unobserved": 0,
+      "voluntary_resolved": 0,
+      "defer_rate": null,
+      "feedback": null
+    },
+    {
+      "code": "revenge",
+      "title": "복수매매",
+      "detected": 0,
+      "presented": 0,
+      "outcomes": {},
+      "unobserved": 0,
+      "voluntary_resolved": 0,
+      "defer_rate": null,
+      "feedback": null
+    },
+    {
+      "code": "overtrading",
+      "title": "과매매",
+      "detected": 0,
+      "presented": 0,
+      "outcomes": {},
+      "unobserved": 0,
+      "voluntary_resolved": 0,
+      "defer_rate": null,
+      "feedback": null
+    },
+    {
+      "code": "plan",
+      "title": "매매 계획 위반",
+      "detected": 0,
+      "presented": 0,
+      "outcomes": {},
+      "unobserved": 0,
+      "voluntary_resolved": 0,
+      "defer_rate": null,
+      "feedback": null
+    }
+  ],
+  "compliance_difference_pp": null,
+  "excluded": {},
+  "total_checks": 1,
+  "items": [
+    {
+      "check_id": "26155378-ec7f-41ee-b5f4-243f3351d015",
+      "created_at": "2026-10-20T11:25:03.274898+09:00",
+      "presented_at": "2026-10-20T11:25:03.507690+09:00",
+      "decided_at": "2026-10-20T11:25:04.305104+09:00",
+      "pilot_enabled": true,
+      "symbol": "005930",
+      "side": "buy",
+      "quantity": 1,
+      "limit_price_won": "72800",
+      "rule_version": "behavior-2026-10-20-v2",
+      "policy": {
+        "price_window_minutes": 10,
+        "fomo_percent": 3,
+        "panic_percent": -3,
+        "loss_streak": 3,
+        "revenge_minutes": 30,
+        "orders_window_minutes": 60,
+        "orders_threshold": 5,
+        "caution_score": 30,
+        "high_score": 60,
+        "weights": {
+          "fomo": 30,
+          "panic": 30,
+          "revenge": 25,
+          "overtrading": 20,
+          "plan": 20
+        }
+      },
+      "source": "demo",
+      "score": 30,
+      "partial": false,
+      "warnings": [
+        "fomo"
+      ],
+      "rule_items": [
+        {
+          "code": "fomo",
+          "title": "급등 추격 매수",
+          "status": "hit",
+          "points": 30,
+          "message": "최근 10분 가격 변화 4.00% (기준 +3%). 가능성 경고; 거래 이유를 확인하세요."
+        },
+        {
+          "code": "panic",
+          "title": "공포매도",
+          "status": "not_applicable",
+          "points": 0,
+          "message": "매도 주문에만 적용합니다."
+        },
+        {
+          "code": "revenge",
+          "title": "복수매매",
+          "status": "clear",
+          "points": 0,
+          "message": "3건 연속 손실·30분 이내 매수 조건에 해당하지 않습니다."
+        },
+        {
+          "code": "overtrading",
+          "title": "과매매",
+          "status": "clear",
+          "points": 0,
+          "message": "현재 주문 포함 최근 60분 접수 1건 (기준 5건). 검증된 분할 계획은 1건으로 집계합니다."
+        },
+        {
+          "code": "plan",
+          "title": "매매 계획 위반",
+          "status": "unregistered",
+          "points": 0,
+          "message": "계획 미등록"
+        }
+      ],
+      "allowed": true,
+      "decision": "dismissed",
+      "outcome": "dismissed",
+      "order_id": null,
+      "plan_status": "unregistered",
+      "plan_evaluated": false,
+      "plan_adherent": false,
+      "warning_presented": true,
+      "decision_seconds": 0.797,
+      "trade_reason_recorded": false,
+      "prediction_status": "unavailable"
+    }
+  ],
+  "next_offset": null,
+  "notes": [
+    "동일 계정의 수동 점검만 집계합니다. 자동매매와 도입 전 기록은 비교에서 제외합니다.",
+    "ON/OFF는 주문 당시 선택값입니다. OFF에서는 행동 경고를 평가 지표로 비교하지 않습니다.",
+    "계획 준수율은 해당 점검에 연결된 체결 주문 중 계획 평가가 가능한 주문만 분모로 씁니다.",
+    "자발적 보류율은 표시가 기록된 경고 중 보류·접수·체결·취소로 결정된 건 기준입니다. 미결정·만료·차단·거절은 제외하며 별도 표시합니다. 재점검은 별도 시도입니다.",
+    "보류는 그 점검으로 주문하지 않았다는 뜻입니다. 이후 다른 점검의 재주문 방지를 뜻하지 않습니다.",
+    "확인 시간은 화면 표시 보고 수신부터 결정 수신까지의 서버 시간이며 네트워크 지연을 포함합니다.",
+    "차이는 관찰 기록입니다. 조건·시장 상황·순서·연습 효과를 통제한 실험이나 방지 효과 입증이 아닙니다."
+  ]
+}

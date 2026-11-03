@@ -1,0 +1,1691 @@
+{
+  "schema": 2,
+  "quality": {
+    "bars": 4232,
+    "labeled_samples": 1462,
+    "observed_days": 59,
+    "zero_volume_bars": 14,
+    "class_counts": {
+      "neutral": 805,
+      "up": 308,
+      "down": 349
+    },
+    "sessions": [
+      {
+        "date": "2026-07-22",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-23",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-24",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-27",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-28",
+        "observed": 67,
+        "missing_open_times": [
+          "10:15",
+          "10:20",
+          "10:25",
+          "10:30",
+          "10:35",
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-29",
+        "observed": 67,
+        "missing_open_times": [
+          "12:35",
+          "12:40",
+          "12:45",
+          "12:50",
+          "12:55",
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-30",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-07-31",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-03",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-04",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-05",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-06",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-07",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-10",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-11",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-12",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-13",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-14",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-18",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-19",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-20",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-21",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-24",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-25",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-26",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-27",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-28",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-08-31",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-01",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-02",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-03",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-04",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-07",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-08",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-09",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-10",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-11",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-14",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-15",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-16",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-17",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-18",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-21",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-22",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-23",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-28",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-29",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-09-30",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-01",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-02",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-06",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-07",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-08",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-12",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-13",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-14",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-15",
+        "observed": 66,
+        "missing_open_times": [
+          "12:40",
+          "12:45",
+          "12:50",
+          "12:55",
+          "13:00",
+          "14:55",
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-16",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      },
+      {
+        "date": "2026-10-19",
+        "observed": 72,
+        "missing_open_times": [
+          "15:00",
+          "15:05",
+          "15:10",
+          "15:15",
+          "15:20",
+          "15:25"
+        ]
+      }
+    ],
+    "limitations": [
+      "Observed dates only; exchange holiday calendar not verified",
+      "Corporate actions and provider adjustment policy not verified",
+      "No interpolation; incomplete sessions remain incomplete",
+      "Previously inspected dataset: not a new independent holdout"
+    ]
+  },
+  "features": [
+    "return_1",
+    "return_3",
+    "ma5_gap",
+    "ma20_gap",
+    "rsi14",
+    "macd",
+    "volume_change",
+    "volume_ratio"
+  ],
+  "labels": [
+    "up",
+    "neutral",
+    "down"
+  ],
+  "horizon_minutes": 60,
+  "threshold_percent": 0.5,
+  "data_kind": "historical",
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "packages": {
+      "numpy": "2.5.4",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.1",
+      "catboost": "1.2.10",
+      "threadpoolctl": "3.7.0"
+    },
+    "implementation_sha256": {
+      "pipeline.py": "346e14657aa37b9ee502c7a0865ba31e98e641fa70871c1eb968ab317a1c16e1",
+      "candidates.py": "6dbb43ef79b9456712a3ea6b092f0f17c0145d9e88bed6b1f8538fcd28e9ab13",
+      "experiment.py": "6bad942cc0a576d93f30fc0f40d6ae5676f20187129df7cdc98cf3672c842ef9"
+    }
+  },
+  "selection_policy": "validation macro-F1 then Brier; stable candidate order breaks ties",
+  "split": {
+    "train_samples": 865,
+    "validation_samples": 280,
+    "test_samples": 293,
+    "training_target_end": "2026-09-10T03:55:00+00:00",
+    "validation_start": "2026-09-10T04:00:00+00:00",
+    "validation_target_end": "2026-09-29T04:25:00+00:00",
+    "test_start": "2026-09-29T04:30:00+00:00",
+    "class_counts": {
+      "training": {
+        "neutral": 443,
+        "up": 214,
+        "down": 208
+      },
+      "validation": {
+        "up": 34,
+        "neutral": 172,
+        "down": 74
+      },
+      "test": {
+        "neutral": 172,
+        "down": 64,
+        "up": 57
+      }
+    }
+  },
+  "candidates": [
+    {
+      "name": "softmax",
+      "parameters": {
+        "balanced": false,
+        "epochs": 100
+      },
+      "temperature": 0.75,
+      "validation": {
+        "samples": 280,
+        "start": "2026-09-10T04:00:00+00:00",
+        "end": "2026-09-29T04:25:00+00:00",
+        "accuracy": 0.6142857142857143,
+        "macro_f1": 0.2536873156342183,
+        "classes": {
+          "up": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 34
+          },
+          "neutral": {
+            "precision": 0.6142857142857143,
+            "recall": 1.0,
+            "f1": 0.7610619469026549,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 74
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            34,
+            0
+          ],
+          [
+            0,
+            172,
+            0
+          ],
+          [
+            0,
+            74,
+            0
+          ]
+        ],
+        "brier": 0.5451812097449241,
+        "log_loss": 0.9296093796866527,
+        "reliability": [
+          {
+            "count": 25,
+            "confidence": 0.48427711205129265,
+            "accuracy": 0.6
+          },
+          {
+            "count": 167,
+            "confidence": 0.5516708773576642,
+            "accuracy": 0.5688622754491018
+          },
+          {
+            "count": 78,
+            "confidence": 0.6328565392883966,
+            "accuracy": 0.6923076923076923
+          },
+          {
+            "count": 9,
+            "confidence": 0.7275639153166833,
+            "accuracy": 0.7777777777777778
+          },
+          {
+            "count": 1,
+            "confidence": 0.8050063405618398,
+            "accuracy": 1
+          }
+        ],
+        "expected_calibration_error": 0.03945765727528875,
+        "abstention_rate": 0.9,
+        "covered_predictions": 28,
+        "directional_predictions": 0,
+        "covered_accuracy": 0.75,
+        "directional_accuracy": null
+      },
+      "test": {
+        "samples": 293,
+        "start": "2026-09-29T04:30:00+00:00",
+        "end": "2026-10-19T06:00:00+00:00",
+        "accuracy": 0.5870307167235495,
+        "macro_f1": 0.24659498207885308,
+        "classes": {
+          "up": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 57
+          },
+          "neutral": {
+            "precision": 0.5870307167235495,
+            "recall": 1.0,
+            "f1": 0.7397849462365592,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 64
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            57,
+            0
+          ],
+          [
+            0,
+            172,
+            0
+          ],
+          [
+            0,
+            64,
+            0
+          ]
+        ],
+        "brier": 0.5777380944810179,
+        "log_loss": 0.9737628698599422,
+        "reliability": [
+          {
+            "count": 20,
+            "confidence": 0.48619106727680494,
+            "accuracy": 0.7
+          },
+          {
+            "count": 183,
+            "confidence": 0.5552911283385461,
+            "accuracy": 0.5737704918032787
+          },
+          {
+            "count": 82,
+            "confidence": 0.6292105315193918,
+            "accuracy": 0.5853658536585366
+          },
+          {
+            "count": 7,
+            "confidence": 0.7191817591729477,
+            "accuracy": 0.7142857142857143
+          },
+          {
+            "count": 1,
+            "confidence": 0.8041190347273498,
+            "accuracy": 0
+          }
+        ],
+        "expected_calibration_error": 0.04126811297623914,
+        "abstention_rate": 0.9283276450511946,
+        "covered_predictions": 21,
+        "directional_predictions": 0,
+        "covered_accuracy": 0.6666666666666666,
+        "directional_accuracy": null
+      },
+      "research_gate": {
+        "passed": false,
+        "checks": {
+          "macro_f1_improves": false,
+          "brier_not_worse": true,
+          "up_supported_and_recalled": false,
+          "down_supported_and_recalled": false,
+          "directional_predictions_available": false
+        },
+        "failed_checks": [
+          "macro_f1_improves",
+          "up_supported_and_recalled",
+          "down_supported_and_recalled",
+          "directional_predictions_available"
+        ]
+      }
+    },
+    {
+      "name": "balanced-softmax",
+      "parameters": {
+        "balanced": true,
+        "epochs": 100
+      },
+      "temperature": 0.75,
+      "validation": {
+        "samples": 280,
+        "start": "2026-09-10T04:00:00+00:00",
+        "end": "2026-09-29T04:25:00+00:00",
+        "accuracy": 0.44285714285714284,
+        "macro_f1": 0.4068376068376068,
+        "classes": {
+          "up": {
+            "precision": 0.20512820512820512,
+            "recall": 0.47058823529411764,
+            "f1": 0.28571428571428564,
+            "support": 34
+          },
+          "neutral": {
+            "precision": 0.7227722772277227,
+            "recall": 0.42441860465116277,
+            "f1": 0.5347985347985347,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.3465346534653465,
+            "recall": 0.47297297297297297,
+            "f1": 0.4,
+            "support": 74
+          }
+        },
+        "confusion_matrix": [
+          [
+            16,
+            6,
+            12
+          ],
+          [
+            45,
+            73,
+            54
+          ],
+          [
+            17,
+            22,
+            35
+          ]
+        ],
+        "brier": 0.6545028648912569,
+        "log_loss": 1.0830277207530268,
+        "reliability": [
+          {
+            "count": 217,
+            "confidence": 0.3675254509534994,
+            "accuracy": 0.4055299539170507
+          },
+          {
+            "count": 58,
+            "confidence": 0.4303484297933337,
+            "accuracy": 0.5344827586206896
+          },
+          {
+            "count": 4,
+            "confidence": 0.5301758965722742,
+            "accuracy": 1
+          },
+          {
+            "count": 1,
+            "confidence": 0.6149522309560564,
+            "accuracy": 1
+          }
+        ],
+        "expected_calibration_error": 0.05911111570654329,
+        "abstention_rate": 1.0,
+        "covered_predictions": 0,
+        "directional_predictions": 0,
+        "covered_accuracy": null,
+        "directional_accuracy": null
+      },
+      "test": {
+        "samples": 293,
+        "start": "2026-09-29T04:30:00+00:00",
+        "end": "2026-10-19T06:00:00+00:00",
+        "accuracy": 0.36177474402730375,
+        "macro_f1": 0.3420734503314019,
+        "classes": {
+          "up": {
+            "precision": 0.21739130434782608,
+            "recall": 0.3508771929824561,
+            "f1": 0.2684563758389262,
+            "support": 57
+          },
+          "neutral": {
+            "precision": 0.5769230769230769,
+            "recall": 0.3488372093023256,
+            "f1": 0.43478260869565216,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.26804123711340205,
+            "recall": 0.40625,
+            "f1": 0.3229813664596274,
+            "support": 64
+          }
+        },
+        "confusion_matrix": [
+          [
+            20,
+            21,
+            16
+          ],
+          [
+            57,
+            60,
+            55
+          ],
+          [
+            15,
+            23,
+            26
+          ]
+        ],
+        "brier": 0.6690762836954317,
+        "log_loss": 1.1024539482033595,
+        "reliability": [
+          {
+            "count": 244,
+            "confidence": 0.3673239536031327,
+            "accuracy": 0.3524590163934426
+          },
+          {
+            "count": 47,
+            "confidence": 0.4293780403226621,
+            "accuracy": 0.40425531914893614
+          },
+          {
+            "count": 1,
+            "confidence": 0.5122905344773128,
+            "accuracy": 1
+          },
+          {
+            "count": 1,
+            "confidence": 0.6079092954187816,
+            "accuracy": 0
+          }
+        ],
+        "expected_calibration_error": 0.02014822981321148,
+        "abstention_rate": 1.0,
+        "covered_predictions": 0,
+        "directional_predictions": 0,
+        "covered_accuracy": null,
+        "directional_accuracy": null
+      },
+      "research_gate": {
+        "passed": false,
+        "checks": {
+          "macro_f1_improves": true,
+          "brier_not_worse": false,
+          "up_supported_and_recalled": true,
+          "down_supported_and_recalled": true,
+          "directional_predictions_available": false
+        },
+        "failed_checks": [
+          "brier_not_worse",
+          "directional_predictions_available"
+        ]
+      }
+    },
+    {
+      "name": "hist-gradient-boosting",
+      "parameters": {
+        "loss": "log_loss",
+        "learning_rate": 0.05,
+        "max_iter": 120,
+        "max_depth": 3,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 20,
+        "l2_regularization": 1.0,
+        "early_stopping": false,
+        "random_state": 42
+      },
+      "temperature": 2,
+      "validation": {
+        "samples": 280,
+        "start": "2026-09-10T04:00:00+00:00",
+        "end": "2026-09-29T04:25:00+00:00",
+        "accuracy": 0.5142857142857142,
+        "macro_f1": 0.24947031288494706,
+        "classes": {
+          "up": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 34
+          },
+          "neutral": {
+            "precision": 0.592436974789916,
+            "recall": 0.8197674418604651,
+            "f1": 0.6878048780487805,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.12,
+            "recall": 0.04054054054054054,
+            "f1": 0.0606060606060606,
+            "support": 74
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            32,
+            2
+          ],
+          [
+            11,
+            141,
+            20
+          ],
+          [
+            6,
+            65,
+            3
+          ]
+        ],
+        "brier": 0.613579722424934,
+        "log_loss": 1.0267198855207171,
+        "reliability": [
+          {
+            "count": 49,
+            "confidence": 0.3788564229999897,
+            "accuracy": 0.42857142857142855
+          },
+          {
+            "count": 165,
+            "confidence": 0.4425095191313864,
+            "accuracy": 0.4727272727272727
+          },
+          {
+            "count": 58,
+            "confidence": 0.5370697631121761,
+            "accuracy": 0.6379310344827587
+          },
+          {
+            "count": 5,
+            "confidence": 0.6583503388075942,
+            "accuracy": 1
+          },
+          {
+            "count": 2,
+            "confidence": 0.7115786313168098,
+            "accuracy": 1
+          },
+          {
+            "count": 1,
+            "confidence": 0.8338553792627942,
+            "accuracy": 1
+          }
+        ],
+        "expected_calibration_error": 0.05615412149957552,
+        "abstention_rate": 0.9785714285714285,
+        "covered_predictions": 6,
+        "directional_predictions": 0,
+        "covered_accuracy": 1.0,
+        "directional_accuracy": null
+      },
+      "test": {
+        "samples": 293,
+        "start": "2026-09-29T04:30:00+00:00",
+        "end": "2026-10-19T06:00:00+00:00",
+        "accuracy": 0.5290102389078498,
+        "macro_f1": 0.3050156597917986,
+        "classes": {
+          "up": {
+            "precision": 0.14285714285714285,
+            "recall": 0.03508771929824561,
+            "f1": 0.056338028169014086,
+            "support": 57
+          },
+          "neutral": {
+            "precision": 0.5918367346938775,
+            "recall": 0.8430232558139535,
+            "f1": 0.6954436450839329,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.23529411764705882,
+            "recall": 0.125,
+            "f1": 0.16326530612244897,
+            "support": 64
+          }
+        },
+        "confusion_matrix": [
+          [
+            2,
+            47,
+            8
+          ],
+          [
+            9,
+            145,
+            18
+          ],
+          [
+            3,
+            53,
+            8
+          ]
+        ],
+        "brier": 0.6144616410663191,
+        "log_loss": 1.021612576569396,
+        "reliability": [
+          {
+            "count": 73,
+            "confidence": 0.383450926336212,
+            "accuracy": 0.4931506849315068
+          },
+          {
+            "count": 168,
+            "confidence": 0.44587961981117613,
+            "accuracy": 0.5416666666666666
+          },
+          {
+            "count": 45,
+            "confidence": 0.5341214381061945,
+            "accuracy": 0.5555555555555556
+          },
+          {
+            "count": 7,
+            "confidence": 0.6359125325834963,
+            "accuracy": 0.42857142857142855
+          }
+        ],
+        "expected_calibration_error": 0.09049907598117628,
+        "abstention_rate": 0.9931740614334471,
+        "covered_predictions": 2,
+        "directional_predictions": 0,
+        "covered_accuracy": 0.0,
+        "directional_accuracy": null
+      },
+      "research_gate": {
+        "passed": false,
+        "checks": {
+          "macro_f1_improves": true,
+          "brier_not_worse": false,
+          "up_supported_and_recalled": true,
+          "down_supported_and_recalled": true,
+          "directional_predictions_available": false
+        },
+        "failed_checks": [
+          "brier_not_worse",
+          "directional_predictions_available"
+        ]
+      }
+    },
+    {
+      "name": "catboost",
+      "parameters": {
+        "loss_function": "MultiClass",
+        "classes_count": 3,
+        "iterations": 120,
+        "depth": 3,
+        "learning_rate": 0.05,
+        "l2_leaf_reg": 3.0,
+        "has_time": true,
+        "boosting_type": "Plain",
+        "bootstrap_type": "No",
+        "random_strength": 0,
+        "random_seed": 42,
+        "thread_count": 1,
+        "allow_writing_files": false,
+        "verbose": false
+      },
+      "temperature": 1,
+      "validation": {
+        "samples": 280,
+        "start": "2026-09-10T04:00:00+00:00",
+        "end": "2026-09-29T04:25:00+00:00",
+        "accuracy": 0.6107142857142858,
+        "macro_f1": 0.25277161862527714,
+        "classes": {
+          "up": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 34
+          },
+          "neutral": {
+            "precision": 0.6129032258064516,
+            "recall": 0.9941860465116279,
+            "f1": 0.7583148558758315,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 74
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            34,
+            0
+          ],
+          [
+            1,
+            171,
+            0
+          ],
+          [
+            0,
+            74,
+            0
+          ]
+        ],
+        "brier": 0.5719427367872584,
+        "log_loss": 0.9746677653386261,
+        "reliability": [
+          {
+            "count": 5,
+            "confidence": 0.39196868924510764,
+            "accuracy": 0.6
+          },
+          {
+            "count": 84,
+            "confidence": 0.4651733165811225,
+            "accuracy": 0.6190476190476191
+          },
+          {
+            "count": 140,
+            "confidence": 0.5524384426419251,
+            "accuracy": 0.5642857142857143
+          },
+          {
+            "count": 43,
+            "confidence": 0.635126200511945,
+            "accuracy": 0.6976744186046512
+          },
+          {
+            "count": 7,
+            "confidence": 0.7265060150923566,
+            "accuracy": 0.8571428571428571
+          },
+          {
+            "count": 1,
+            "confidence": 0.8056762782717781,
+            "accuracy": 1
+          }
+        ],
+        "expected_calibration_error": 0.06936632494699553,
+        "abstention_rate": 0.9321428571428572,
+        "covered_predictions": 19,
+        "directional_predictions": 0,
+        "covered_accuracy": 0.8947368421052632,
+        "directional_accuracy": null
+      },
+      "test": {
+        "samples": 293,
+        "start": "2026-09-29T04:30:00+00:00",
+        "end": "2026-10-19T06:00:00+00:00",
+        "accuracy": 0.5733788395904437,
+        "macro_f1": 0.25288980220909324,
+        "classes": {
+          "up": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 57
+          },
+          "neutral": {
+            "precision": 0.583916083916084,
+            "recall": 0.9709302325581395,
+            "f1": 0.7292576419213974,
+            "support": 172
+          },
+          "down": {
+            "precision": 0.25,
+            "recall": 0.015625,
+            "f1": 0.029411764705882353,
+            "support": 64
+          }
+        },
+        "confusion_matrix": [
+          [
+            0,
+            56,
+            1
+          ],
+          [
+            3,
+            167,
+            2
+          ],
+          [
+            0,
+            63,
+            1
+          ]
+        ],
+        "brier": 0.5843576544764217,
+        "log_loss": 0.9768610490243667,
+        "reliability": [
+          {
+            "count": 6,
+            "confidence": 0.3829014075035573,
+            "accuracy": 0
+          },
+          {
+            "count": 95,
+            "confidence": 0.4692064766775873,
+            "accuracy": 0.631578947368421
+          },
+          {
+            "count": 147,
+            "confidence": 0.5462802311022295,
+            "accuracy": 0.5782312925170068
+          },
+          {
+            "count": 39,
+            "confidence": 0.6338575816787407,
+            "accuracy": 0.5384615384615384
+          },
+          {
+            "count": 6,
+            "confidence": 0.7226514014589785,
+            "accuracy": 0.3333333333333333
+          }
+        ],
+        "expected_calibration_error": 0.09718755386637397,
+        "abstention_rate": 0.9385665529010239,
+        "covered_predictions": 18,
+        "directional_predictions": 0,
+        "covered_accuracy": 0.3888888888888889,
+        "directional_accuracy": null
+      },
+      "research_gate": {
+        "passed": false,
+        "checks": {
+          "macro_f1_improves": true,
+          "brier_not_worse": false,
+          "up_supported_and_recalled": false,
+          "down_supported_and_recalled": true,
+          "directional_predictions_available": false
+        },
+        "failed_checks": [
+          "brier_not_worse",
+          "up_supported_and_recalled",
+          "directional_predictions_available"
+        ]
+      }
+    }
+  ],
+  "selected": "balanced-softmax",
+  "test": {
+    "samples": 293,
+    "start": "2026-09-29T04:30:00+00:00",
+    "end": "2026-10-19T06:00:00+00:00",
+    "accuracy": 0.36177474402730375,
+    "macro_f1": 0.3420734503314019,
+    "classes": {
+      "up": {
+        "precision": 0.21739130434782608,
+        "recall": 0.3508771929824561,
+        "f1": 0.2684563758389262,
+        "support": 57
+      },
+      "neutral": {
+        "precision": 0.5769230769230769,
+        "recall": 0.3488372093023256,
+        "f1": 0.43478260869565216,
+        "support": 172
+      },
+      "down": {
+        "precision": 0.26804123711340205,
+        "recall": 0.40625,
+        "f1": 0.3229813664596274,
+        "support": 64
+      }
+    },
+    "confusion_matrix": [
+      [
+        20,
+        21,
+        16
+      ],
+      [
+        57,
+        60,
+        55
+      ],
+      [
+        15,
+        23,
+        26
+      ]
+    ],
+    "brier": 0.6690762836954317,
+    "log_loss": 1.1024539482033595,
+    "reliability": [
+      {
+        "count": 244,
+        "confidence": 0.3673239536031327,
+        "accuracy": 0.3524590163934426
+      },
+      {
+        "count": 47,
+        "confidence": 0.4293780403226621,
+        "accuracy": 0.40425531914893614
+      },
+      {
+        "count": 1,
+        "confidence": 0.5122905344773128,
+        "accuracy": 1
+      },
+      {
+        "count": 1,
+        "confidence": 0.6079092954187816,
+        "accuracy": 0
+      }
+    ],
+    "expected_calibration_error": 0.02014822981321148,
+    "abstention_rate": 1.0,
+    "covered_predictions": 0,
+    "directional_predictions": 0,
+    "covered_accuracy": null,
+    "directional_accuracy": null
+  },
+  "baseline": {
+    "samples": 293,
+    "start": "2026-09-29T04:30:00+00:00",
+    "end": "2026-10-19T06:00:00+00:00",
+    "accuracy": 0.5870307167235495,
+    "macro_f1": 0.24659498207885308,
+    "classes": {
+      "up": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 57
+      },
+      "neutral": {
+        "precision": 0.5870307167235495,
+        "recall": 1.0,
+        "f1": 0.7397849462365592,
+        "support": 172
+      },
+      "down": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 64
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        57,
+        0
+      ],
+      [
+        0,
+        172,
+        0
+      ],
+      [
+        0,
+        64,
+        0
+      ]
+    ],
+    "brier": 0.5787261114102016,
+    "log_loss": 0.9758453075977734,
+    "reliability": [
+      {
+        "count": 293,
+        "confidence": 0.5121387283236994,
+        "accuracy": 0.5870307167235495
+      }
+    ],
+    "expected_calibration_error": 0.07489198839985,
+    "abstention_rate": 1.0,
+    "covered_predictions": 0,
+    "directional_predictions": 0,
+    "covered_accuracy": null,
+    "directional_accuracy": null
+  },
+  "research_gate_passed": false,
+  "gate_policy": "strict F1 improvement, Brier no worse, up/down support and recall > 0, at least one up/down prediction at the fixed 65% threshold",
+  "gate_version": "comparison-v2-directional-coverage",
+  "direction_threshold": 0.65,
+  "app_connection_candidate": null,
+  "app_connection_status": "no_eligible_selected_model",
+  "deployment_approved": false,
+  "note": "Exploratory comparison on previously inspected data. Test results cannot select a replacement candidate. No runtime model file is written or activated.",
+  "source": "yahoo-finance-5m",
+  "csv_sha256": "02436a021e8fc80ab50f78f5f9900a2d05123cd69a6708d1e313fb4fcabfd7a1",
+  "created_at": "2026-11-02T04:32:34.605617+00:00"
+}

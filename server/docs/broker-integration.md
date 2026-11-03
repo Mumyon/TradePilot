@@ -1,3 +1,5 @@
+> 2026-10-18 갱신: 모의 체결은 `services/portfolio.py`와 `services/paper_worker.py`에 구현했습니다. 증권사 실제 주문/체결과는 별도입니다. OHLCV 저장은 `services/candles.py::ingest`, 조회는 `history`를 사용합니다. 아래의 "모의 접수만" 설명은 이전 상태입니다. 현재 정책·검증은 루트 개발 결과 보고서를 참고하세요.
+
 # 나중에 증권사 API를 붙일 위치
 
 현재 연결된 증권사는 없습니다. 키·계좌·외부 주문 API 호출도 없습니다.

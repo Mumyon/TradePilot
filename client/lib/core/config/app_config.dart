@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class AppConfig {
   const AppConfig({required this.demo, required this.apiUrl});
 
@@ -8,7 +10,16 @@ class AppConfig {
       throw StateError('실서버 모드에는 API_BASE_URL이 필요합니다.');
     }
     final uri = Uri.parse(url.isEmpty ? 'https://localhost.invalid' : url);
-    if (uri.scheme != 'https' ||
+    const localRequested = bool.fromEnvironment(
+      'LOCAL_DEMO',
+      defaultValue: false,
+    );
+    final localDebug =
+        kDebugMode &&
+        localRequested &&
+        uri.scheme == 'http' &&
+        const ['localhost', '127.0.0.1', '::1'].contains(uri.host);
+    if ((!localDebug && uri.scheme != 'https') ||
         uri.host.isEmpty ||
         uri.userInfo.isNotEmpty ||
         uri.hasQuery ||

@@ -14,6 +14,8 @@ class PendingOrder {
       'allowed': check.allowed,
       'messages': check.messages,
       'expires_at': check.expiresAt.toIso8601String(),
+      'analysis': check.analysis,
+      ...check.confirmationJson,
     },
   };
   factory PendingOrder.fromJson(Map<String, dynamic> json) {
@@ -25,6 +27,7 @@ class PendingOrder {
         quantity: draft['quantity'] as int,
         limitPriceWon: int.parse(draft['limit_price_won'] as String),
         pilotEnabled: draft['pilot_enabled'] as bool,
+        planId: draft['plan_id'] as String?,
       ),
       OrderCheck.fromJson(json['check'] as Map<String, dynamic>),
       json['key'] as String,

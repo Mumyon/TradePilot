@@ -1,14 +1,40 @@
+> 최신 과거 장세 모의투자: 서버/앱을 재시작하고 하단 **모의투자**로 들어가면 실제 삼성전자 5분봉 사례 4개가 자동 등록됩니다. 사례 선택 → 실험 시작 → 다음 5분봉 → 주문 점검 → 종료 후 연구 CSV/원본 JSON 복사 순서입니다. [데이터 범위·누락·AI 상태](HISTORICAL_DATA_REPORT.md)를 먼저 확인하세요. 기존 합성 사례는 선택 표시로 남았습니다.
+
+> 2026-10-20 최신: [로컬 AI·과거 장세 모의실험 사용 및 연구 안내](REPLAY_RESEARCH_REPORT.md). 하단 모의투자 탭이 실험 화면으로 연결됩니다. 기존 전략/계좌는 `기존 모의계좌 · 전략`에서 접근합니다.
+
+> **최신 v3 시연:** [Docker 없이 iPhone 앱 실행](DEMO_GUIDE.md) · [최종 구현·검증 보고서](V3_COMPLETION_REPORT.md). 아래 단계별 기록은 작성 당시 상태입니다.
+
+> 2026-10-18 업데이트: 4~6단계 실행 전 DB 마이그레이션 `alembic upgrade head`와 서버 재시작이 필요합니다. [변경 내용 및 검증](STAGES_4_6_REPORT.md), [CSV 학습 안내](server/docs/csv-training.md).
+
 # TradePilot 서버 + 앱 실행 안내
 
-현재 Mac에서 Android 에뮬레이터로 테스트하는 순서입니다. 터미널 탭 3개를 사용합니다.
+- [2026-10-18 · 계좌/차트/모의 체결 개발 결과 및 실행 안내](DEVELOPMENT_REPORT_2026-10-18.md)
+현재 Mac에서 서버와 앱을 테스트하는 순서입니다. 터미널 탭 3개를 사용합니다. iPhone 사용자는 아래 iOS 안내에 따라 시뮬레이터를 켠 뒤 2~4단계를 진행하세요.
 
 앱 → HTTPS/WSS 임시 주소 → FastAPI → PostgreSQL 순서로 연결합니다. 증권사 API는 미연결 상태이므로 서버의 가상 시세와 모의 주문으로 테스트합니다.
+
+## iPhone 시뮬레이터로 실행
+
+Xcode 최초 설정을 완료한 뒤 Simulator를 엽니다. 기본 개발 도구가 CommandLineTools면 `sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer`로 변경합니다.
+
+```sh
+open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app
+```
+
+디자인만 보려면 서버 없이 실행할 수 있습니다.
+
+```sh
+cd /Users/mumyon/Documents/TradePilot/client
+./tool/flutterw run -d 415A659E-9A09-4C35-BABB-2FA140F9BDA8 --dart-define=DEMO_MODE=true
+```
+
+서버 연결 테스트는 아래 단계에서 Flutter 실행 기기로 iPhone을 선택하세요.
 
 ## 1. 처음 한 번 준비
 
 - [Docker Desktop for Mac](https://docs.docker.com/desktop/setup/install/mac-install/)에서 Apple Silicon 버전을 설치하고 실행합니다. Docker 엔진이 실행될 때까지 기다립니다.
 - Android Studio를 열고 Device Manager에서 Android 가상 기기를 시작합니다. 가상 기기가 없으면 Create Virtual Device로 하나 생성합니다.
-- Flutter는 현재 `/tmp/tradepilot-flutter-sdk`에 있습니다. 임시 폴더가 삭제되면 Flutter SDK를 다시 설치하고 아래 PATH를 설치 위치로 바꿔야 합니다.
+- Flutter는 현재 `/Users/mumyon/Documents/TradePilot/.tools/flutter`에 있습니다. 프로젝트 내부 도구 폴더에 보관하며 Git에는 포함하지 않습니다.
 
 ## 2. 터미널 1: DB와 서버 실행
 
@@ -68,8 +94,8 @@ cloudflared tunnel --url http://localhost:8000
 
 ```sh
 cd /Users/mumyon/Documents/TradePilot/client
-export PATH="/tmp/tradepilot-flutter-sdk/bin:$PATH"
-export PUB_CACHE=/tmp/tradepilot-pub-cache
+export PATH="/Users/mumyon/Documents/TradePilot/.tools/flutter/bin:$PATH"
+export PUB_CACHE=/Users/mumyon/Documents/TradePilot/.tools/pub-cache
 flutter --no-version-check devices
 ```
 
@@ -129,6 +155,6 @@ cd /Users/mumyon/Documents/TradePilot/server
 docker compose logs --tail=100 api migrate
 ```
 
-iOS는 전체 Xcode 설치와 시뮬레이터 설정이 추가로 필요합니다. 현재 환경에서는 iOS 빌드를 검증하지 않았습니다.
+iPhone 17 / iOS 26.5에서 디자인 통합 테스트와 빌드를 검증했습니다.
 
 이 안내는 프로젝트 설정에 맞춰 작성했습니다. 현재 Mac에서 Docker·터널·앱을 함께 실행하는 전체 연결 검증은 아직 수행하지 않았습니다.

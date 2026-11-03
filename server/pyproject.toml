@@ -12,6 +12,14 @@ dependencies = [
   "pwdlib[argon2]>=0.2,<1",
 ]
 
+[project.optional-dependencies]
+chatgpt-review = ["httpx>=0.28,<1", "PyJWT[crypto]>=2.10,<3"]
+model-comparison = [
+  "scikit-learn>=1.7,<2",
+  "catboost>=1.2.8,<2",
+  "threadpoolctl>=3.6,<4",
+]
+
 [dependency-groups]
 dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.9,<1"]
 postgres-test = ["pgserver==0.1.4; python_version < '3.13'"]

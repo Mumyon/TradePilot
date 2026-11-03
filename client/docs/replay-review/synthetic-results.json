@@ -1,0 +1,690 @@
+{
+  "case": {
+    "id": "e268c0ca-de27-461c-b25f-91de4f47c822",
+    "name": "합성 연습 · 급등 추격과 급락 대응",
+    "symbol": "005930",
+    "provider": "synthetic-practice-v1",
+    "generator": "synthetic-practice-v1",
+    "data_kind": "synthetic",
+    "event_key": "practice",
+    "source_url": "",
+    "start": 1439,
+    "bar_count": 1482,
+    "replay_from": "2024-01-26T02:55:00+00:00",
+    "end": "2024-01-26T06:25:00+00:00",
+    "data_sha256": "5dd137ef76d8146e20a1787c1f15ddeda57e0b0662833a65309aabb4956baa9f",
+    "provenance": "가상의 가격 · 실제 과거 사례 또는 연구 실측 아님",
+    "model": {
+      "version": "softmax-2325b75885b03f2d",
+      "data_end": "2024-01-26T02:55:00+00:00",
+      "quality_gate_passed": true,
+      "evaluation": {
+        "test": {
+          "samples": 116,
+          "start": "2024-01-22T03:55:00+00:00",
+          "end": "2024-01-25T06:30:00+00:00",
+          "accuracy": 1.0,
+          "macro_f1": 1.0,
+          "classes": {
+            "up": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 32
+            },
+            "neutral": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 52
+            },
+            "down": {
+              "precision": 1.0,
+              "recall": 1.0,
+              "f1": 1.0,
+              "support": 32
+            }
+          },
+          "confusion_matrix": [
+            [
+              32,
+              0,
+              0
+            ],
+            [
+              0,
+              52,
+              0
+            ],
+            [
+              0,
+              0,
+              32
+            ]
+          ],
+          "brier": 0.005217998660665459,
+          "log_loss": 0.03980476561610622,
+          "reliability": [
+            {
+              "count": 6,
+              "confidence": 0.8928162618688187,
+              "accuracy": 1
+            },
+            {
+              "count": 110,
+              "confidence": 0.9656017854135318,
+              "accuracy": 1
+            }
+          ],
+          "expected_calibration_error": 0.038162983045677494,
+          "abstention_rate": 0.0
+        },
+        "baseline": {
+          "samples": 116,
+          "start": "2024-01-22T03:55:00+00:00",
+          "end": "2024-01-25T06:30:00+00:00",
+          "accuracy": 0.27586206896551724,
+          "macro_f1": 0.14414414414414414,
+          "classes": {
+            "up": {
+              "precision": 0.27586206896551724,
+              "recall": 1.0,
+              "f1": 0.4324324324324324,
+              "support": 32
+            },
+            "neutral": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 52
+            },
+            "down": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 32
+            }
+          },
+          "confusion_matrix": [
+            [
+              32,
+              0,
+              0
+            ],
+            [
+              52,
+              0,
+              0
+            ],
+            [
+              32,
+              0,
+              0
+            ]
+          ],
+          "brier": 0.6868707788248013,
+          "log_loss": 1.1293993293503772,
+          "reliability": [
+            {
+              "count": 116,
+              "confidence": 0.3843843843843844,
+              "accuracy": 0.27586206896551724
+            }
+          ],
+          "expected_calibration_error": 0.10852231541886714,
+          "abstention_rate": 1.0
+        },
+        "walk_forward": [
+          {
+            "samples": 115,
+            "start": "2024-01-11T03:25:00+00:00",
+            "end": "2024-01-16T05:55:00+00:00",
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "classes": {
+              "up": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 32
+              },
+              "neutral": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 32
+              },
+              "down": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 51
+              }
+            },
+            "confusion_matrix": [
+              [
+                32,
+                0,
+                0
+              ],
+              [
+                0,
+                32,
+                0
+              ],
+              [
+                0,
+                0,
+                51
+              ]
+            ],
+            "brier": 0.08049011867460439,
+            "log_loss": 0.2004373427688089,
+            "reliability": [
+              {
+                "count": 22,
+                "confidence": 0.5885581606529064,
+                "accuracy": 1
+              },
+              {
+                "count": 10,
+                "confidence": 0.6058905916336615,
+                "accuracy": 1
+              },
+              {
+                "count": 17,
+                "confidence": 0.8914153794674147,
+                "accuracy": 1
+              },
+              {
+                "count": 66,
+                "confidence": 0.9354190275074181,
+                "accuracy": 1
+              }
+            ],
+            "expected_calibration_error": 0.16609649811185911,
+            "abstention_rate": 0.2782608695652174
+          },
+          {
+            "samples": 115,
+            "start": "2024-01-16T05:00:00+00:00",
+            "end": "2024-01-22T04:50:00+00:00",
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "classes": {
+              "up": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 32
+              },
+              "neutral": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 44
+              },
+              "down": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 39
+              }
+            },
+            "confusion_matrix": [
+              [
+                32,
+                0,
+                0
+              ],
+              [
+                0,
+                44,
+                0
+              ],
+              [
+                0,
+                0,
+                39
+              ]
+            ],
+            "brier": 0.10484422178773128,
+            "log_loss": 0.2437863348436947,
+            "reliability": [
+              {
+                "count": 31,
+                "confidence": 0.5803135204094211,
+                "accuracy": 1
+              },
+              {
+                "count": 13,
+                "confidence": 0.6113223278497175,
+                "accuracy": 1
+              },
+              {
+                "count": 71,
+                "confidence": 0.9353038309832608,
+                "accuracy": 1
+              }
+            ],
+            "expected_calibration_error": 0.19701320526478353,
+            "abstention_rate": 0.3826086956521739
+          },
+          {
+            "samples": 115,
+            "start": "2024-01-22T03:55:00+00:00",
+            "end": "2024-01-25T06:25:00+00:00",
+            "accuracy": 1.0,
+            "macro_f1": 1.0,
+            "classes": {
+              "up": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 32
+              },
+              "neutral": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 51
+              },
+              "down": {
+                "precision": 1.0,
+                "recall": 1.0,
+                "f1": 1.0,
+                "support": 32
+              }
+            },
+            "confusion_matrix": [
+              [
+                32,
+                0,
+                0
+              ],
+              [
+                0,
+                51,
+                0
+              ],
+              [
+                0,
+                0,
+                32
+              ]
+            ],
+            "brier": 0.11990815227246447,
+            "log_loss": 0.2709675186561228,
+            "reliability": [
+              {
+                "count": 39,
+                "confidence": 0.584620339513484,
+                "accuracy": 1
+              },
+              {
+                "count": 12,
+                "confidence": 0.6049054757569808,
+                "accuracy": 1
+              },
+              {
+                "count": 1,
+                "confidence": 0.8997810051826693,
+                "accuracy": 1
+              },
+              {
+                "count": 63,
+                "confidence": 0.9373612723007984,
+                "accuracy": 1
+              }
+            ],
+            "expected_calibration_error": 0.21728173817180338,
+            "abstention_rate": 0.4434782608695652
+          }
+        ],
+        "train_samples": 333,
+        "validation_samples": 103,
+        "split_policy": "chronological 60/20/20; purge overlapping future labels",
+        "training_target_end": "2024-01-16T04:55:00+00:00",
+        "validation_start": "2024-01-16T05:00:00+00:00",
+        "validation_target_end": "2024-01-19T06:30:00+00:00",
+        "test_start": "2024-01-22T03:55:00+00:00"
+      },
+      "features": [
+        "return_1",
+        "return_3",
+        "ma5_gap",
+        "ma20_gap",
+        "rsi14",
+        "macd",
+        "volume_change",
+        "volume_ratio"
+      ],
+      "labels": [
+        "up",
+        "neutral",
+        "down"
+      ]
+    },
+    "preview": [
+      {
+        "opened_at": "2024-01-26T00:05:00+00:00",
+        "open_won": 70007,
+        "high_won": 70034,
+        "low_won": 69987,
+        "close_won": 70014,
+        "volume": 100100
+      },
+      {
+        "opened_at": "2024-01-26T00:10:00+00:00",
+        "open_won": 70014,
+        "high_won": 70041,
+        "low_won": 69994,
+        "close_won": 70021,
+        "volume": 100200
+      },
+      {
+        "opened_at": "2024-01-26T00:15:00+00:00",
+        "open_won": 70021,
+        "high_won": 70048,
+        "low_won": 70001,
+        "close_won": 70028,
+        "volume": 100300
+      },
+      {
+        "opened_at": "2024-01-26T00:20:00+00:00",
+        "open_won": 70028,
+        "high_won": 70055,
+        "low_won": 70008,
+        "close_won": 70035,
+        "volume": 100400
+      },
+      {
+        "opened_at": "2024-01-26T00:25:00+00:00",
+        "open_won": 70035,
+        "high_won": 70062,
+        "low_won": 70015,
+        "close_won": 70042,
+        "volume": 100500
+      },
+      {
+        "opened_at": "2024-01-26T00:30:00+00:00",
+        "open_won": 70042,
+        "high_won": 70069,
+        "low_won": 70022,
+        "close_won": 70049,
+        "volume": 100600
+      },
+      {
+        "opened_at": "2024-01-26T00:35:00+00:00",
+        "open_won": 70049,
+        "high_won": 70076,
+        "low_won": 70029,
+        "close_won": 70056,
+        "volume": 100700
+      },
+      {
+        "opened_at": "2024-01-26T00:40:00+00:00",
+        "open_won": 70056,
+        "high_won": 70083,
+        "low_won": 70036,
+        "close_won": 70063,
+        "volume": 100800
+      },
+      {
+        "opened_at": "2024-01-26T00:45:00+00:00",
+        "open_won": 70063,
+        "high_won": 70090,
+        "low_won": 70043,
+        "close_won": 70070,
+        "volume": 100900
+      },
+      {
+        "opened_at": "2024-01-26T00:50:00+00:00",
+        "open_won": 70070,
+        "high_won": 70097,
+        "low_won": 70050,
+        "close_won": 70077,
+        "volume": 101000
+      },
+      {
+        "opened_at": "2024-01-26T00:55:00+00:00",
+        "open_won": 70077,
+        "high_won": 70104,
+        "low_won": 70057,
+        "close_won": 70084,
+        "volume": 101100
+      },
+      {
+        "opened_at": "2024-01-26T01:00:00+00:00",
+        "open_won": 70084,
+        "high_won": 70111,
+        "low_won": 70064,
+        "close_won": 70091,
+        "volume": 101200
+      },
+      {
+        "opened_at": "2024-01-26T01:05:00+00:00",
+        "open_won": 70091,
+        "high_won": 70118,
+        "low_won": 70071,
+        "close_won": 70098,
+        "volume": 101300
+      },
+      {
+        "opened_at": "2024-01-26T01:10:00+00:00",
+        "open_won": 70098,
+        "high_won": 70125,
+        "low_won": 70078,
+        "close_won": 70105,
+        "volume": 101400
+      },
+      {
+        "opened_at": "2024-01-26T01:15:00+00:00",
+        "open_won": 70105,
+        "high_won": 70132,
+        "low_won": 70085,
+        "close_won": 70112,
+        "volume": 101500
+      },
+      {
+        "opened_at": "2024-01-26T01:20:00+00:00",
+        "open_won": 70112,
+        "high_won": 70139,
+        "low_won": 70092,
+        "close_won": 70119,
+        "volume": 101600
+      },
+      {
+        "opened_at": "2024-01-26T01:25:00+00:00",
+        "open_won": 70119,
+        "high_won": 70146,
+        "low_won": 70099,
+        "close_won": 70126,
+        "volume": 101700
+      },
+      {
+        "opened_at": "2024-01-26T01:30:00+00:00",
+        "open_won": 70126,
+        "high_won": 70153,
+        "low_won": 70106,
+        "close_won": 70133,
+        "volume": 101800
+      },
+      {
+        "opened_at": "2024-01-26T01:35:00+00:00",
+        "open_won": 70133,
+        "high_won": 70160,
+        "low_won": 70113,
+        "close_won": 70140,
+        "volume": 101900
+      },
+      {
+        "opened_at": "2024-01-26T01:40:00+00:00",
+        "open_won": 70140,
+        "high_won": 70167,
+        "low_won": 70120,
+        "close_won": 70147,
+        "volume": 102000
+      },
+      {
+        "opened_at": "2024-01-26T01:45:00+00:00",
+        "open_won": 70147,
+        "high_won": 70174,
+        "low_won": 70127,
+        "close_won": 70154,
+        "volume": 102100
+      },
+      {
+        "opened_at": "2024-01-26T01:50:00+00:00",
+        "open_won": 70154,
+        "high_won": 70181,
+        "low_won": 70134,
+        "close_won": 70161,
+        "volume": 102200
+      },
+      {
+        "opened_at": "2024-01-26T01:55:00+00:00",
+        "open_won": 70161,
+        "high_won": 70188,
+        "low_won": 70141,
+        "close_won": 70168,
+        "volume": 102300
+      },
+      {
+        "opened_at": "2024-01-26T02:00:00+00:00",
+        "open_won": 70168,
+        "high_won": 70195,
+        "low_won": 70148,
+        "close_won": 70175,
+        "volume": 102400
+      },
+      {
+        "opened_at": "2024-01-26T02:05:00+00:00",
+        "open_won": 70175,
+        "high_won": 70202,
+        "low_won": 70155,
+        "close_won": 70182,
+        "volume": 102500
+      },
+      {
+        "opened_at": "2024-01-26T02:10:00+00:00",
+        "open_won": 70182,
+        "high_won": 70209,
+        "low_won": 70162,
+        "close_won": 70189,
+        "volume": 102600
+      },
+      {
+        "opened_at": "2024-01-26T02:15:00+00:00",
+        "open_won": 70189,
+        "high_won": 70216,
+        "low_won": 70169,
+        "close_won": 70196,
+        "volume": 102700
+      },
+      {
+        "opened_at": "2024-01-26T02:20:00+00:00",
+        "open_won": 70196,
+        "high_won": 70223,
+        "low_won": 70176,
+        "close_won": 70203,
+        "volume": 102800
+      },
+      {
+        "opened_at": "2024-01-26T02:25:00+00:00",
+        "open_won": 70203,
+        "high_won": 70230,
+        "low_won": 70183,
+        "close_won": 70210,
+        "volume": 102900
+      },
+      {
+        "opened_at": "2024-01-26T02:30:00+00:00",
+        "open_won": 70210,
+        "high_won": 70237,
+        "low_won": 70190,
+        "close_won": 70217,
+        "volume": 103000
+      },
+      {
+        "opened_at": "2024-01-26T02:35:00+00:00",
+        "open_won": 70217,
+        "high_won": 70244,
+        "low_won": 70197,
+        "close_won": 70224,
+        "volume": 103100
+      },
+      {
+        "opened_at": "2024-01-26T02:40:00+00:00",
+        "open_won": 70224,
+        "high_won": 70251,
+        "low_won": 70204,
+        "close_won": 70231,
+        "volume": 103200
+      },
+      {
+        "opened_at": "2024-01-26T02:45:00+00:00",
+        "open_won": 70231,
+        "high_won": 70258,
+        "low_won": 70211,
+        "close_won": 70238,
+        "volume": 103300
+      },
+      {
+        "opened_at": "2024-01-26T02:50:00+00:00",
+        "open_won": 70238,
+        "high_won": 70265,
+        "low_won": 70218,
+        "close_won": 70245,
+        "volume": 103400
+      },
+      {
+        "opened_at": "2024-01-26T02:55:00+00:00",
+        "open_won": 70245,
+        "high_won": 70272,
+        "low_won": 70225,
+        "close_won": 70252,
+        "volume": 103500
+      }
+    ]
+  },
+  "run": {
+    "id": "8b60db51-aa16-4163-a949-72c7626a6369",
+    "case_id": "e268c0ca-de27-461c-b25f-91de4f47c822",
+    "name": "합성 연습 · 급등 추격과 급락 대응",
+    "pilot_enabled": true,
+    "finished": true,
+    "pair_id": "048e3d22-1794-4b5c-964a-6dd64154212b",
+    "sequence": 1,
+    "comparison_key": "bcb860ebc52ad794eb6b9789b714b6f0ab4d3366f18c0a6dcc88599d7b67b2c4",
+    "summary": {
+      "accepted_orders": 0,
+      "filled_orders": 0,
+      "plan_evaluated_fills": 0,
+      "plan_compliant_fills": 0,
+      "plan_compliance_rate": null,
+      "rule_qualified_checks": 1,
+      "rule_qualified_submissions": 0,
+      "warnings_presented": 1,
+      "warned_deferrals": 1,
+      "explicit_deferrals": 1,
+      "decision_seconds_mean": 0.704767,
+      "decision_timed_count": 1,
+      "final_equity_won": 10000000,
+      "return_percent": 0.0,
+      "max_drawdown_percent": 0.0,
+      "warning": "반복 점검은 독립 표본이 아닙니다. 관찰 지표만으로 뇌동매매 감소의 인과 효과를 결론낼 수 없습니다."
+    }
+  },
+  "paired": {
+    "id": "95e08fea-3ed5-42a1-a598-873ecd8c3583",
+    "case_id": "e268c0ca-de27-461c-b25f-91de4f47c822",
+    "name": "합성 연습 · 급등 추격과 급락 대응",
+    "pilot_enabled": false,
+    "finished": false,
+    "pair_id": "048e3d22-1794-4b5c-964a-6dd64154212b",
+    "sequence": 2,
+    "comparison_key": "bcb860ebc52ad794eb6b9789b714b6f0ab4d3366f18c0a6dcc88599d7b67b2c4",
+    "summary": null
+  }
+}

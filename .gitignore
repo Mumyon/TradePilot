@@ -25,3 +25,18 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Local Flutter SDK and package cache (restorable tooling)
+.tools/
+
+# Local training data and fitted artifacts
+server/models/
+server/training-data/
+
+# Persistent local demonstration PostgreSQL
+server/.demo/
+
+# Share safe configuration templates and application dependency resolution.
+!server/.env.example
+!server/.env.compose.example
+!client/pubspec.lock

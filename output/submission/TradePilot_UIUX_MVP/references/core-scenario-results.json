@@ -1,0 +1,46 @@
+{
+  "tests": 77,
+  "failed": 0,
+  "skipped": 0,
+  "behavior": {
+    "fomo": {
+      "tp": 2,
+      "fp": 0,
+      "tn": 2,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "panic": {
+      "tp": 2,
+      "fp": 0,
+      "tn": 2,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "revenge": {
+      "tp": 1,
+      "fp": 0,
+      "tn": 3,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0
+    },
+    "overtrading": {
+      "tp": 2,
+      "fp": 0,
+      "tn": 2,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "false_positive_rate": 0.0
+    }
+  },
+  "scope": "Deterministic labeled scenarios only; not real-world emotional diagnosis or model accuracy",
+  "real_model_evaluation": "pending historical CSV",
+  "user_study": "pending human participants"
+}

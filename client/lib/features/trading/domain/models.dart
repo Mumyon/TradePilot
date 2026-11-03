@@ -5,12 +5,14 @@ class Quote {
     required this.priceWon,
     required this.asOf,
     required this.sequence,
+    this.source = 'demo',
   });
   final String symbol;
   final String name;
   final int priceWon;
   final DateTime asOf;
   final int sequence;
+  final String source;
   bool isFresh(DateTime now) {
     final age = now.difference(asOf);
     return age >= Duration.zero && age <= const Duration(seconds: 15);
@@ -22,6 +24,7 @@ class Quote {
     priceWon: int.parse(json['price_won'] as String),
     asOf: DateTime.parse(json['as_of'] as String).toUtc(),
     sequence: json['sequence'] as int,
+    source: json['source'] as String? ?? 'unknown',
   );
 }
 
@@ -74,11 +77,13 @@ class OrderDraft {
     required this.quantity,
     required this.limitPriceWon,
     required this.pilotEnabled,
+    this.planId,
   });
   final String symbol;
   final OrderSide side;
   final int quantity, limitPriceWon;
   final bool pilotEnabled;
+  final String? planId;
   Map<String, dynamic> toJson() => {
     'symbol': symbol,
     'side': side.name,
@@ -86,6 +91,7 @@ class OrderDraft {
     'limit_price_won': '$limitPriceWon',
     'order_type': 'limit',
     'pilot_enabled': pilotEnabled,
+    if (planId != null) 'plan_id': planId,
   };
 }
 
@@ -95,16 +101,46 @@ class OrderCheck {
     required this.allowed,
     required this.messages,
     required this.expiresAt,
+    this.analysis = const {},
+    this.warningAcknowledged = false,
+    this.highRiskAcknowledged = false,
+    this.tradeReason = '',
   });
   final String id;
   final bool allowed;
   final List<String> messages;
   final DateTime expiresAt;
+  final Map<String, dynamic> analysis;
+  final bool warningAcknowledged, highRiskAcknowledged;
+  final String tradeReason;
+  Map<String, dynamic> get behavior =>
+      (analysis['behavior'] as Map<String, dynamic>?) ?? {};
+  bool get requiresAck => behavior['requires_ack'] == true;
+  bool get requiresHighAck => behavior['requires_high_ack'] == true;
+  Map<String, dynamic> get confirmationJson => {
+    'warning_acknowledged': warningAcknowledged,
+    'high_risk_acknowledged': highRiskAcknowledged,
+    'trade_reason': tradeReason,
+  };
+  OrderCheck acknowledge(String reason, bool high) => OrderCheck(
+    id: id,
+    allowed: allowed,
+    messages: messages,
+    expiresAt: expiresAt,
+    analysis: analysis,
+    warningAcknowledged: true,
+    highRiskAcknowledged: high,
+    tradeReason: reason.trim(),
+  );
   factory OrderCheck.fromJson(Map<String, dynamic> json) => OrderCheck(
     id: json['check_id'] as String,
     allowed: json['allowed'] as bool,
     messages: (json['messages'] as List).cast<String>(),
     expiresAt: DateTime.parse(json['expires_at'] as String).toUtc(),
+    analysis: (json['analysis'] as Map<String, dynamic>?) ?? {},
+    warningAcknowledged: json['warning_acknowledged'] == true,
+    highRiskAcknowledged: json['high_risk_acknowledged'] == true,
+    tradeReason: json['trade_reason'] as String? ?? '',
   );
 }
 
@@ -113,11 +149,14 @@ class OrderReceipt {
     required this.id,
     required this.symbol,
     required this.status,
+    this.reason,
   });
   final String id, symbol, status;
+  final String? reason;
   factory OrderReceipt.fromJson(Map<String, dynamic> json) => OrderReceipt(
     id: json['order_id'] as String,
     symbol: json['symbol'] as String,
     status: json['status'] as String,
+    reason: json['reason'] as String?,
   );
 }

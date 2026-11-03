@@ -1,0 +1,119 @@
+{
+  "schema": "client-quote-latency-v1",
+  "measurement": "decoded WebSocket event delivery to Flutter framework layout/paint completion",
+  "environment": "iPhone 17 iOS simulator, debug build, local FastAPI and temporary PostgreSQL",
+  "data_kind": "synthetic_changing_test_prices",
+  "warmup_seconds": 5,
+  "requested_samples": 20,
+  "rendered_samples": 20,
+  "missed_sequences": [],
+  "unresolved_events": 0,
+  "mean_ms": 37.181599999999996,
+  "p95_ms": 52.283,
+  "max_ms": 55.141,
+  "target_mean_ms": 2000,
+  "passed": true,
+  "samples": [
+    {
+      "sequence": 24,
+      "price_won": 70048,
+      "milliseconds": 47.587
+    },
+    {
+      "sequence": 26,
+      "price_won": 70052,
+      "milliseconds": 42.018
+    },
+    {
+      "sequence": 28,
+      "price_won": 70056,
+      "milliseconds": 39.179
+    },
+    {
+      "sequence": 30,
+      "price_won": 70060,
+      "milliseconds": 55.141
+    },
+    {
+      "sequence": 32,
+      "price_won": 70064,
+      "milliseconds": 50.833
+    },
+    {
+      "sequence": 34,
+      "price_won": 70068,
+      "milliseconds": 36.98
+    },
+    {
+      "sequence": 36,
+      "price_won": 70072,
+      "milliseconds": 39.75
+    },
+    {
+      "sequence": 38,
+      "price_won": 70076,
+      "milliseconds": 17.823
+    },
+    {
+      "sequence": 40,
+      "price_won": 70080,
+      "milliseconds": 26.382
+    },
+    {
+      "sequence": 42,
+      "price_won": 70084,
+      "milliseconds": 21.224
+    },
+    {
+      "sequence": 44,
+      "price_won": 70088,
+      "milliseconds": 51.71
+    },
+    {
+      "sequence": 46,
+      "price_won": 70092,
+      "milliseconds": 52.283
+    },
+    {
+      "sequence": 48,
+      "price_won": 70096,
+      "milliseconds": 28.282
+    },
+    {
+      "sequence": 50,
+      "price_won": 70100,
+      "milliseconds": 48.989
+    },
+    {
+      "sequence": 52,
+      "price_won": 70104,
+      "milliseconds": 50.925
+    },
+    {
+      "sequence": 54,
+      "price_won": 70108,
+      "milliseconds": 16.82
+    },
+    {
+      "sequence": 56,
+      "price_won": 70112,
+      "milliseconds": 24.665
+    },
+    {
+      "sequence": 58,
+      "price_won": 70116,
+      "milliseconds": 39.972
+    },
+    {
+      "sequence": 60,
+      "price_won": 70120,
+      "milliseconds": 26.767
+    },
+    {
+      "sequence": 62,
+      "price_won": 70124,
+      "milliseconds": 26.302
+    }
+  ],
+  "limits": "Does not measure exchange/network ingress, physical display scanout, AI inference, or real device performance."
+}

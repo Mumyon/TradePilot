@@ -62,3 +62,20 @@ def consume_ticket(db: Session, ticket: str) -> tuple[str, str]:
     if session_hash is None:
         raise HTTPException(401, "WebSocket 티켓이 만료되었거나 사용되었습니다.")
     return authenticate(db, session_hash), session_hash
+
+
+def signup(db, body):
+    from sqlalchemy.exc import IntegrityError
+
+    from .models import Symbol, Watchlist
+
+    user = User(email=body.email, password_hash=passwords.hash(body.password))
+    try:
+        with db.begin_nested():
+            db.add(user)
+            db.flush()
+    except IntegrityError:
+        raise HTTPException(409, "이미 등록된 이메일입니다.") from None
+    for symbol in db.scalars(select(Symbol.symbol).order_by(Symbol.symbol).limit(2)):
+        db.add(Watchlist(user_id=user.id, symbol=symbol))
+    return {"status": "created", "user_id": user.id, "mode": "paper"}

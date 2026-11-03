@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "retrieved_on": "2026-10-20",
+  "built_at": "2026-10-20T03:21:53.605977+00:00",
+  "parser": "yahoo-krw-5m-v1",
+  "sources": [
+    {
+      "archive": "yahoo-005930-5m.json.gz",
+      "sha256": "3a330900c168da6d38ddd84d1549a7137c11d41b879547c5aa9dec7276402b1d",
+      "url": "https://query1.finance.yahoo.com/v8/finance/chart/005930.KS?interval=5m&range=60d&includePrePost=false",
+      "purpose": "실제 5분봉 OHLCV 원본"
+    },
+    {
+      "archive": "naver-005930-day.xml.gz",
+      "sha256": "a8511fbe7c845151c01d171cebdd417a3fd5f9364cc8b7c1f85bed939fc007df",
+      "url": "https://fchart.stock.naver.com/sise.nhn?symbol=005930&timeframe=day&count=3000&requestType=0",
+      "purpose": "사례 당일 시가·고가·저가 대조 전용. 재생·AI 입력으로 사용하지 않음"
+    }
+  ],
+  "cases": [
+    {
+      "file": "yahoo-005930-2026-07-29-v1.json",
+      "sha256": "f14762c540b89adf46d45e3794d9f78c5a09a8a6159b17fbf14cc68333ed06a1"
+    },
+    {
+      "file": "yahoo-005930-2026-08-21-v1.json",
+      "sha256": "b8ddcf04fe804725bea5c9fa7af91d2e04b675305850a4293515c986c0da645c",
+      "model_file": "yahoo-005930-2026-08-21-v1-model.json",
+      "model_sha256": "1aa2646a3f9a72681a19e7e6970155f615f37113f6ac481684dc4282cbcf381e"
+    },
+    {
+      "file": "yahoo-005930-2026-10-13-v1.json",
+      "sha256": "424999578af308df2801fdd3491d439b00d083c47b12f17df9f0fdd11b8fb260",
+      "model_file": "yahoo-005930-2026-10-13-v1-model.json",
+      "model_sha256": "e829690fffd2c7f0d29cdf100e8d9ff1ca25005a5f13020147b4c941a98b6c79"
+    },
+    {
+      "file": "yahoo-005930-2026-10-15-v1.json",
+      "sha256": "3a8e8d0dbe338e74994fec0511ebadb40789b87c83abf0cddcd03bd8817270a7",
+      "model_file": "yahoo-005930-2026-10-15-v1-model.json",
+      "model_sha256": "fbaaece745576c25cfdc30c40405d1546db93dcadcb1e8b9d14b8a958285b4b3"
+    }
+  ],
+  "quality": {
+    "raw_sha256": "3a330900c168da6d38ddd84d1549a7137c11d41b879547c5aa9dec7276402b1d",
+    "exclusions": {
+      "after_cutoff": 37,
+      "non_regular": 0,
+      "null_ohlcv": 16
+    },
+    "rows": 4232,
+    "volume_zero_rows": 14,
+    "first_bar": "2026-07-22T00:00:00+00:00",
+    "last_bar": "2026-10-19T05:55:00+00:00"
+  }
+}

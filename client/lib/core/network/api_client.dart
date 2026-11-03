@@ -19,6 +19,7 @@ class ApiClient {
   final Uri baseUrl;
   final TokenStore tokens;
   final http.Client _client;
+  void Function()? onUnauthorized;
 
   Future<Map<String, dynamic>> request(
     String method,
@@ -46,11 +47,19 @@ class ApiClient {
     })().timeout(const Duration(seconds: 12));
     if (response.statusCode == 401) {
       await tokens.clear();
+      onUnauthorized?.call();
       throw const ApiException('세션이 만료되었습니다. 다시 로그인하세요.', statusCode: 401);
     }
     if (response.statusCode < 200 || response.statusCode >= 300) {
+      String? detail;
+      try {
+        final parsed = jsonDecode(utf8.decode(response.bodyBytes));
+        if (parsed is Map && parsed['detail'] is String) {
+          detail = parsed['detail'] as String;
+        }
+      } catch (_) {}
       throw ApiException(
-        '서버 요청 실패 (${response.statusCode})',
+        detail ?? '입력값 또는 서버 연결을 확인하세요. (${response.statusCode})',
         statusCode: response.statusCode,
       );
     }

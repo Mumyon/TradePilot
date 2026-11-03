@@ -1,9 +1,17 @@
 import '../../../core/network/api_client.dart';
 import '../../../core/network/market_socket.dart';
 import '../domain/models.dart';
+import '../domain/workspace_repository.dart';
 import '../domain/trading_repository.dart';
 
-class RemoteTradingRepository implements TradingRepository {
+class RemoteTradingRepository
+    implements TradingRepository, WorkspaceRepository {
+  @override
+  Future<Map<String, dynamic>> workspaceRequest(
+    String method,
+    String path, {
+    Map<String, dynamic>? body,
+  }) => api.request(method, path, body: body);
   RemoteTradingRepository(this.api) : socket = MarketSocket(api);
   final ApiClient api;
   final MarketSocket socket;
@@ -53,7 +61,11 @@ class RemoteTradingRepository implements TradingRepository {
     await api.request(
       'POST',
       '/v1/orders',
-      body: {...draft.toJson(), 'check_id': check.id},
+      body: {
+        ...draft.toJson(),
+        'check_id': check.id,
+        ...check.confirmationJson,
+      },
       idempotencyKey: key,
     ),
   );

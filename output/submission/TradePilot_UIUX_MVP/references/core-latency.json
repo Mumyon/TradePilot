@@ -1,0 +1,6 @@
+{
+  "samples": 10,
+  "mean_ms": 213.6,
+  "max_ms": 549,
+  "scope": "Local synthetic quote timestamp to next Flutter frame; not live exchange latency"
+}

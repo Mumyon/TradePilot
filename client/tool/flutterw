@@ -1,0 +1,14 @@
+#!/bin/sh
+# Project-local SDK survives /tmp cleanup. FLUTTER_ROOT can override it.
+set -eu
+client_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+project_root=$(dirname "$client_root")
+sdk_root=${FLUTTER_ROOT:-"$project_root/.tools/flutter"}
+if [ ! -x "$sdk_root/bin/flutter" ]; then
+  echo "Flutter SDK가 없습니다: $sdk_root" >&2
+  echo "Flutter를 설치한 뒤 FLUTTER_ROOT를 해당 SDK 경로로 지정하세요." >&2
+  exit 1
+fi
+export PUB_CACHE=${PUB_CACHE:-"$project_root/.tools/pub-cache"}
+cd "$client_root"
+exec "$sdk_root/bin/flutter" --no-version-check "$@"

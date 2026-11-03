@@ -1,0 +1,3450 @@
+{
+  "config": {
+    "catalog_id": "yahoo-005930-2026-07-29-v1",
+    "name": "삼성전자 · 2026-07-29 실제 5분봉",
+    "symbol": "005930",
+    "provider": "yahoo-finance-5m",
+    "data_kind": "historical",
+    "interval": "5m",
+    "event_key": "observed_2026-07-29",
+    "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/005930.KS?interval=5m&range=60d&includePrePost=false",
+    "source_archives": [
+      {
+        "archive": "yahoo-005930-5m.json.gz",
+        "sha256": "3a330900c168da6d38ddd84d1549a7137c11d41b879547c5aa9dec7276402b1d",
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/005930.KS?interval=5m&range=60d&includePrePost=false",
+        "purpose": "실제 5분봉 OHLCV 원본"
+      },
+      {
+        "archive": "naver-005930-day.xml.gz",
+        "sha256": "a8511fbe7c845151c01d171cebdd417a3fd5f9364cc8b7c1f85bed939fc007df",
+        "url": "https://fchart.stock.naver.com/sise.nhn?symbol=005930&timeframe=day&count=3000&requestType=0",
+        "purpose": "사례 당일 시가·고가·저가 대조 전용. 재생·AI 입력으로 사용하지 않음"
+      }
+    ],
+    "retrieved_on": "2026-10-20",
+    "start": 355,
+    "bar_count": 422,
+    "replay_from": "2026-07-29T00:00:00+00:00",
+    "end": "2026-07-29T05:55:00+00:00",
+    "data_sha256": "02564769300a2cfd748df127814fcad180c054833d8567d1a989e3b86e4839a7",
+    "provenance": "Yahoo Finance 실제 5분봉 · 2026-10-20 수집",
+    "coverage": {
+      "date": "2026-07-29",
+      "expected_regular_bars": 78,
+      "available_bars": 67,
+      "missing_open_times": [
+        "2026-07-29T03:35:00+00:00",
+        "2026-07-29T03:40:00+00:00",
+        "2026-07-29T03:45:00+00:00",
+        "2026-07-29T03:50:00+00:00",
+        "2026-07-29T03:55:00+00:00",
+        "2026-07-29T06:00:00+00:00",
+        "2026-07-29T06:05:00+00:00",
+        "2026-07-29T06:10:00+00:00",
+        "2026-07-29T06:15:00+00:00",
+        "2026-07-29T06:20:00+00:00",
+        "2026-07-29T06:25:00+00:00"
+      ],
+      "zero_volume_bars": 0
+    },
+    "daily_cross_check": {
+      "checks": {
+        "first_open_matches": true,
+        "highs_within_daily": true,
+        "lows_within_daily": true
+      },
+      "naver_ohlcv": [
+        226500,
+        234000,
+        189200,
+        208500,
+        65555523
+      ],
+      "note": "일봉으로 일부 범위 대조만 수행. 모든 분봉의 정확성 인증은 아님"
+    },
+    "data_notice": "09:00~14:55 제공분만 재생합니다. 결측 봉은 보간하지 않습니다. 15:00~15:25 및 일부 봉이 미제공되어 전장 재현이 아닙니다. 0 거래량은 제공값 그대로이며 실제 무거래로 확정하지 않습니다.",
+    "selection_policy": "최근 제공 범위에서 사후 선택한 변동 사례. 대표성/성과 추정용 무작위 표본 아님",
+    "adjustment_policy": "제공자 OHLCV 그대로. 수정주가 여부 및 전 봉의 체결자료 대조는 별도 미확인",
+    "training_status": "unavailable",
+    "training_note": "At least 240 labeled samples are required; supply more complete trading days"
+  },
+  "rows": [
+    {
+      "opened_at": "2026-07-22T00:00:00+00:00",
+      "open_won": 276000,
+      "high_won": 276000,
+      "low_won": 272000,
+      "close_won": 274000,
+      "volume": 0
+    },
+    {
+      "opened_at": "2026-07-22T00:05:00+00:00",
+      "open_won": 274500,
+      "high_won": 275000,
+      "low_won": 272000,
+      "close_won": 273000,
+      "volume": 753393
+    },
+    {
+      "opened_at": "2026-07-22T00:10:00+00:00",
+      "open_won": 273500,
+      "high_won": 274500,
+      "low_won": 272000,
+      "close_won": 274000,
+      "volume": 619391
+    },
+    {
+      "opened_at": "2026-07-22T00:15:00+00:00",
+      "open_won": 274000,
+      "high_won": 274500,
+      "low_won": 273500,
+      "close_won": 274000,
+      "volume": 360364
+    },
+    {
+      "opened_at": "2026-07-22T00:20:00+00:00",
+      "open_won": 274000,
+      "high_won": 275000,
+      "low_won": 273500,
+      "close_won": 274000,
+      "volume": 413697
+    },
+    {
+      "opened_at": "2026-07-22T00:25:00+00:00",
+      "open_won": 274250,
+      "high_won": 274250,
+      "low_won": 272500,
+      "close_won": 273000,
+      "volume": 350769
+    },
+    {
+      "opened_at": "2026-07-22T00:30:00+00:00",
+      "open_won": 273000,
+      "high_won": 274500,
+      "low_won": 272500,
+      "close_won": 274000,
+      "volume": 394021
+    },
+    {
+      "opened_at": "2026-07-22T00:35:00+00:00",
+      "open_won": 273750,
+      "high_won": 274500,
+      "low_won": 273000,
+      "close_won": 273250,
+      "volume": 277011
+    },
+    {
+      "opened_at": "2026-07-22T00:40:00+00:00",
+      "open_won": 273000,
+      "high_won": 273500,
+      "low_won": 272500,
+      "close_won": 273000,
+      "volume": 229492
+    },
+    {
+      "opened_at": "2026-07-22T00:45:00+00:00",
+      "open_won": 273000,
+      "high_won": 273500,
+      "low_won": 271000,
+      "close_won": 272500,
+      "volume": 387134
+    },
+    {
+      "opened_at": "2026-07-22T00:50:00+00:00",
+      "open_won": 272500,
+      "high_won": 273500,
+      "low_won": 271500,
+      "close_won": 271500,
+      "volume": 264521
+    },
+    {
+      "opened_at": "2026-07-22T00:55:00+00:00",
+      "open_won": 271500,
+      "high_won": 273000,
+      "low_won": 271000,
+      "close_won": 272500,
+      "volume": 287198
+    },
+    {
+      "opened_at": "2026-07-22T01:00:00+00:00",
+      "open_won": 272500,
+      "high_won": 273000,
+      "low_won": 272000,
+      "close_won": 273000,
+      "volume": 227172
+    },
+    {
+      "opened_at": "2026-07-22T01:05:00+00:00",
+      "open_won": 272750,
+      "high_won": 274500,
+      "low_won": 272500,
+      "close_won": 273500,
+      "volume": 355704
+    },
+    {
+      "opened_at": "2026-07-22T01:10:00+00:00",
+      "open_won": 273500,
+      "high_won": 274500,
+      "low_won": 273000,
+      "close_won": 273750,
+      "volume": 207756
+    },
+    {
+      "opened_at": "2026-07-22T01:15:00+00:00",
+      "open_won": 273750,
+      "high_won": 275000,
+      "low_won": 273500,
+      "close_won": 274750,
+      "volume": 243319
+    },
+    {
+      "opened_at": "2026-07-22T01:20:00+00:00",
+      "open_won": 274750,
+      "high_won": 275500,
+      "low_won": 274000,
+      "close_won": 275250,
+      "volume": 417761
+    },
+    {
+      "opened_at": "2026-07-22T01:25:00+00:00",
+      "open_won": 275250,
+      "high_won": 275500,
+      "low_won": 273500,
+      "close_won": 274000,
+      "volume": 287122
+    },
+    {
+      "opened_at": "2026-07-22T01:30:00+00:00",
+      "open_won": 274000,
+      "high_won": 274500,
+      "low_won": 273000,
+      "close_won": 273250,
+      "volume": 179453
+    },
+    {
+      "opened_at": "2026-07-22T01:35:00+00:00",
+      "open_won": 273250,
+      "high_won": 274500,
+      "low_won": 272500,
+      "close_won": 273500,
+      "volume": 226676
+    },
+    {
+      "opened_at": "2026-07-22T01:40:00+00:00",
+      "open_won": 273500,
+      "high_won": 273500,
+      "low_won": 272000,
+      "close_won": 273000,
+      "volume": 267440
+    },
+    {
+      "opened_at": "2026-07-22T01:45:00+00:00",
+      "open_won": 273000,
+      "high_won": 275000,
+      "low_won": 273000,
+      "close_won": 275000,
+      "volume": 214485
+    },
+    {
+      "opened_at": "2026-07-22T01:50:00+00:00",
+      "open_won": 275000,
+      "high_won": 275500,
+      "low_won": 274500,
+      "close_won": 275000,
+      "volume": 299215
+    },
+    {
+      "opened_at": "2026-07-22T01:55:00+00:00",
+      "open_won": 274500,
+      "high_won": 275500,
+      "low_won": 274000,
+      "close_won": 274500,
+      "volume": 171230
+    },
+    {
+      "opened_at": "2026-07-22T02:00:00+00:00",
+      "open_won": 274500,
+      "high_won": 274500,
+      "low_won": 273500,
+      "close_won": 274500,
+      "volume": 138765
+    },
+    {
+      "opened_at": "2026-07-22T02:05:00+00:00",
+      "open_won": 274500,
+      "high_won": 275000,
+      "low_won": 273500,
+      "close_won": 274000,
+      "volume": 140169
+    },
+    {
+      "opened_at": "2026-07-22T02:10:00+00:00",
+      "open_won": 273500,
+      "high_won": 274500,
+      "low_won": 273500,
+      "close_won": 274500,
+      "volume": 77838
+    },
+    {
+      "opened_at": "2026-07-22T02:15:00+00:00",
+      "open_won": 274500,
+      "high_won": 274500,
+      "low_won": 273500,
+      "close_won": 273500,
+      "volume": 99192
+    },
+    {
+      "opened_at": "2026-07-22T02:20:00+00:00",
+      "open_won": 274000,
+      "high_won": 274500,
+      "low_won": 273500,
+      "close_won": 274250,
+      "volume": 88924
+    },
+    {
+      "opened_at": "2026-07-22T02:25:00+00:00",
+      "open_won": 274500,
+      "high_won": 274500,
+      "low_won": 273500,
+      "close_won": 274000,
+      "volume": 124813
+    },
+    {
+      "opened_at": "2026-07-22T02:30:00+00:00",
+      "open_won": 274000,
+      "high_won": 274000,
+      "low_won": 272500,
+      "close_won": 272750,
+      "volume": 137023
+    },
+    {
+      "opened_at": "2026-07-22T02:35:00+00:00",
+      "open_won": 272500,
+      "high_won": 273000,
+      "low_won": 272000,
+      "close_won": 272000,
+      "volume": 76947
+    },
+    {
+      "opened_at": "2026-07-22T02:40:00+00:00",
+      "open_won": 272000,
+      "high_won": 273000,
+      "low_won": 271500,
+      "close_won": 272000,
+      "volume": 162226
+    },
+    {
+      "opened_at": "2026-07-22T02:45:00+00:00",
+      "open_won": 272000,
+      "high_won": 273000,
+      "low_won": 271500,
+      "close_won": 272500,
+      "volume": 141056
+    },
+    {
+      "opened_at": "2026-07-22T02:50:00+00:00",
+      "open_won": 272500,
+      "high_won": 272500,
+      "low_won": 271500,
+      "close_won": 272250,
+      "volume": 88371
+    },
+    {
+      "opened_at": "2026-07-22T02:55:00+00:00",
+      "open_won": 272250,
+      "high_won": 272500,
+      "low_won": 271000,
+      "close_won": 271500,
+      "volume": 193639
+    },
+    {
+      "opened_at": "2026-07-22T03:00:00+00:00",
+      "open_won": 271500,
+      "high_won": 271500,
+      "low_won": 270500,
+      "close_won": 270750,
+      "volume": 152207
+    },
+    {
+      "opened_at": "2026-07-22T03:05:00+00:00",
+      "open_won": 271000,
+      "high_won": 272000,
+      "low_won": 270500,
+      "close_won": 271000,
+      "volume": 143471
+    },
+    {
+      "opened_at": "2026-07-22T03:10:00+00:00",
+      "open_won": 270500,
+      "high_won": 271000,
+      "low_won": 269500,
+      "close_won": 269500,
+      "volume": 245680
+    },
+    {
+      "opened_at": "2026-07-22T03:15:00+00:00",
+      "open_won": 269500,
+      "high_won": 271000,
+      "low_won": 269500,
+      "close_won": 270250,
+      "volume": 153585
+    },
+    {
+      "opened_at": "2026-07-22T03:20:00+00:00",
+      "open_won": 270000,
+      "high_won": 272500,
+      "low_won": 270000,
+      "close_won": 272250,
+      "volume": 191180
+    },
+    {
+      "opened_at": "2026-07-22T03:25:00+00:00",
+      "open_won": 272000,
+      "high_won": 273000,
+      "low_won": 272000,
+      "close_won": 273000,
+      "volume": 147930
+    },
+    {
+      "opened_at": "2026-07-22T03:30:00+00:00",
+      "open_won": 273000,
+      "high_won": 273000,
+      "low_won": 271000,
+      "close_won": 271000,
+      "volume": 101710
+    },
+    {
+      "opened_at": "2026-07-22T03:35:00+00:00",
+      "open_won": 271250,
+      "high_won": 272000,
+      "low_won": 271000,
+      "close_won": 271500,
+      "volume": 135610
+    },
+    {
+      "opened_at": "2026-07-22T03:40:00+00:00",
+      "open_won": 271500,
+      "high_won": 272000,
+      "low_won": 271000,
+      "close_won": 271750,
+      "volume": 96178
+    },
+    {
+      "opened_at": "2026-07-22T03:45:00+00:00",
+      "open_won": 271500,
+      "high_won": 273000,
+      "low_won": 271500,
+      "close_won": 273000,
+      "volume": 106380
+    },
+    {
+      "opened_at": "2026-07-22T03:50:00+00:00",
+      "open_won": 272750,
+      "high_won": 273000,
+      "low_won": 271000,
+      "close_won": 271250,
+      "volume": 148036
+    },
+    {
+      "opened_at": "2026-07-22T03:55:00+00:00",
+      "open_won": 271250,
+      "high_won": 272500,
+      "low_won": 271000,
+      "close_won": 272000,
+      "volume": 105726
+    },
+    {
+      "opened_at": "2026-07-22T04:00:00+00:00",
+      "open_won": 272250,
+      "high_won": 273000,
+      "low_won": 272000,
+      "close_won": 273000,
+      "volume": 130052
+    },
+    {
+      "opened_at": "2026-07-22T04:05:00+00:00",
+      "open_won": 272750,
+      "high_won": 273000,
+      "low_won": 272500,
+      "close_won": 273000,
+      "volume": 75703
+    },
+    {
+      "opened_at": "2026-07-22T04:10:00+00:00",
+      "open_won": 273000,
+      "high_won": 273000,
+      "low_won": 272000,
+      "close_won": 272500,
+      "volume": 124144
+    },
+    {
+      "opened_at": "2026-07-22T04:15:00+00:00",
+      "open_won": 272500,
+      "high_won": 273000,
+      "low_won": 272000,
+      "close_won": 272250,
+      "volume": 108272
+    },
+    {
+      "opened_at": "2026-07-22T04:20:00+00:00",
+      "open_won": 272500,
+      "high_won": 273500,
+      "low_won": 272250,
+      "close_won": 273000,
+      "volume": 143185
+    },
+    {
+      "opened_at": "2026-07-22T04:25:00+00:00",
+      "open_won": 273500,
+      "high_won": 273500,
+      "low_won": 272000,
+      "close_won": 272500,
+      "volume": 164074
+    },
+    {
+      "opened_at": "2026-07-22T04:30:00+00:00",
+      "open_won": 272500,
+      "high_won": 272500,
+      "low_won": 271000,
+      "close_won": 271500,
+      "volume": 144098
+    },
+    {
+      "opened_at": "2026-07-22T04:35:00+00:00",
+      "open_won": 271500,
+      "high_won": 271500,
+      "low_won": 270500,
+      "close_won": 271000,
+      "volume": 142416
+    },
+    {
+      "opened_at": "2026-07-22T04:40:00+00:00",
+      "open_won": 270750,
+      "high_won": 271500,
+      "low_won": 270500,
+      "close_won": 271000,
+      "volume": 135129
+    },
+    {
+      "opened_at": "2026-07-22T04:45:00+00:00",
+      "open_won": 270750,
+      "high_won": 271000,
+      "low_won": 270000,
+      "close_won": 270250,
+      "volume": 153454
+    },
+    {
+      "opened_at": "2026-07-22T04:50:00+00:00",
+      "open_won": 270250,
+      "high_won": 270500,
+      "low_won": 269500,
+      "close_won": 269500,
+      "volume": 209166
+    },
+    {
+      "opened_at": "2026-07-22T04:55:00+00:00",
+      "open_won": 269500,
+      "high_won": 270500,
+      "low_won": 268500,
+      "close_won": 270250,
+      "volume": 257187
+    },
+    {
+      "opened_at": "2026-07-22T05:00:00+00:00",
+      "open_won": 270500,
+      "high_won": 270500,
+      "low_won": 268500,
+      "close_won": 269000,
+      "volume": 216188
+    },
+    {
+      "opened_at": "2026-07-22T05:05:00+00:00",
+      "open_won": 269000,
+      "high_won": 269250,
+      "low_won": 267500,
+      "close_won": 268000,
+      "volume": 209093
+    },
+    {
+      "opened_at": "2026-07-22T05:10:00+00:00",
+      "open_won": 268000,
+      "high_won": 268500,
+      "low_won": 266000,
+      "close_won": 266750,
+      "volume": 324819
+    },
+    {
+      "opened_at": "2026-07-22T05:15:00+00:00",
+      "open_won": 266750,
+      "high_won": 267500,
+      "low_won": 265500,
+      "close_won": 266500,
+      "volume": 309244
+    },
+    {
+      "opened_at": "2026-07-22T05:20:00+00:00",
+      "open_won": 266000,
+      "high_won": 266500,
+      "low_won": 264500,
+      "close_won": 264500,
+      "volume": 291159
+    },
+    {
+      "opened_at": "2026-07-22T05:25:00+00:00",
+      "open_won": 264500,
+      "high_won": 266000,
+      "low_won": 264000,
+      "close_won": 264000,
+      "volume": 297050
+    },
+    {
+      "opened_at": "2026-07-22T05:30:00+00:00",
+      "open_won": 264000,
+      "high_won": 267000,
+      "low_won": 263500,
+      "close_won": 266500,
+      "volume": 327473
+    },
+    {
+      "opened_at": "2026-07-22T05:35:00+00:00",
+      "open_won": 266500,
+      "high_won": 266500,
+      "low_won": 263500,
+      "close_won": 264500,
+      "volume": 292212
+    },
+    {
+      "opened_at": "2026-07-22T05:40:00+00:00",
+      "open_won": 264500,
+      "high_won": 264500,
+      "low_won": 261500,
+      "close_won": 262750,
+      "volume": 459528
+    },
+    {
+      "opened_at": "2026-07-22T05:45:00+00:00",
+      "open_won": 262500,
+      "high_won": 263500,
+      "low_won": 261500,
+      "close_won": 263000,
+      "volume": 372316
+    },
+    {
+      "opened_at": "2026-07-22T05:50:00+00:00",
+      "open_won": 262500,
+      "high_won": 265500,
+      "low_won": 262500,
+      "close_won": 262500,
+      "volume": 411331
+    },
+    {
+      "opened_at": "2026-07-22T05:55:00+00:00",
+      "open_won": 262500,
+      "high_won": 265000,
+      "low_won": 262500,
+      "close_won": 264500,
+      "volume": 261438
+    },
+    {
+      "opened_at": "2026-07-23T00:00:00+00:00",
+      "open_won": 269000,
+      "high_won": 270500,
+      "low_won": 267000,
+      "close_won": 268500,
+      "volume": 1244491
+    },
+    {
+      "opened_at": "2026-07-23T00:05:00+00:00",
+      "open_won": 268500,
+      "high_won": 270000,
+      "low_won": 268000,
+      "close_won": 270000,
+      "volume": 350167
+    },
+    {
+      "opened_at": "2026-07-23T00:10:00+00:00",
+      "open_won": 270000,
+      "high_won": 273000,
+      "low_won": 269500,
+      "close_won": 272500,
+      "volume": 604731
+    },
+    {
+      "opened_at": "2026-07-23T00:15:00+00:00",
+      "open_won": 272500,
+      "high_won": 273000,
+      "low_won": 270500,
+      "close_won": 271250,
+      "volume": 367984
+    },
+    {
+      "opened_at": "2026-07-23T00:20:00+00:00",
+      "open_won": 271250,
+      "high_won": 272500,
+      "low_won": 269500,
+      "close_won": 269500,
+      "volume": 377199
+    },
+    {
+      "opened_at": "2026-07-23T00:25:00+00:00",
+      "open_won": 269500,
+      "high_won": 271500,
+      "low_won": 269000,
+      "close_won": 269250,
+      "volume": 301464
+    },
+    {
+      "opened_at": "2026-07-23T00:30:00+00:00",
+      "open_won": 269500,
+      "high_won": 270000,
+      "low_won": 268000,
+      "close_won": 269000,
+      "volume": 309731
+    },
+    {
+      "opened_at": "2026-07-23T00:35:00+00:00",
+      "open_won": 269500,
+      "high_won": 270000,
+      "low_won": 268500,
+      "close_won": 268750,
+      "volume": 191531
+    },
+    {
+      "opened_at": "2026-07-23T00:40:00+00:00",
+      "open_won": 268750,
+      "high_won": 270000,
+      "low_won": 268500,
+      "close_won": 269500,
+      "volume": 315719
+    },
+    {
+      "opened_at": "2026-07-23T00:45:00+00:00",
+      "open_won": 269500,
+      "high_won": 271000,
+      "low_won": 269000,
+      "close_won": 270750,
+      "volume": 217669
+    },
+    {
+      "opened_at": "2026-07-23T00:50:00+00:00",
+      "open_won": 270750,
+      "high_won": 270750,
+      "low_won": 269000,
+      "close_won": 269500,
+      "volume": 183897
+    },
+    {
+      "opened_at": "2026-07-23T00:55:00+00:00",
+      "open_won": 270000,
+      "high_won": 270500,
+      "low_won": 269500,
+      "close_won": 270250,
+      "volume": 78726
+    },
+    {
+      "opened_at": "2026-07-23T01:00:00+00:00",
+      "open_won": 270250,
+      "high_won": 271500,
+      "low_won": 269500,
+      "close_won": 271000,
+      "volume": 236955
+    },
+    {
+      "opened_at": "2026-07-23T01:05:00+00:00",
+      "open_won": 271000,
+      "high_won": 271500,
+      "low_won": 270500,
+      "close_won": 271000,
+      "volume": 146449
+    },
+    {
+      "opened_at": "2026-07-23T01:10:00+00:00",
+      "open_won": 271250,
+      "high_won": 272000,
+      "low_won": 271000,
+      "close_won": 271500,
+      "volume": 151722
+    },
+    {
+      "opened_at": "2026-07-23T01:15:00+00:00",
+      "open_won": 271500,
+      "high_won": 272000,
+      "low_won": 270000,
+      "close_won": 270500,
+      "volume": 150822
+    },
+    {
+      "opened_at": "2026-07-23T01:20:00+00:00",
+      "open_won": 270000,
+      "high_won": 270500,
+      "low_won": 269000,
+      "close_won": 269750,
+      "volume": 176807
+    },
+    {
+      "opened_at": "2026-07-23T01:25:00+00:00",
+      "open_won": 269500,
+      "high_won": 270000,
+      "low_won": 268500,
+      "close_won": 269750,
+      "volume": 189896
+    },
+    {
+      "opened_at": "2026-07-23T01:30:00+00:00",
+      "open_won": 269750,
+      "high_won": 270500,
+      "low_won": 268500,
+      "close_won": 270000,
+      "volume": 324701
+    },
+    {
+      "opened_at": "2026-07-23T01:35:00+00:00",
+      "open_won": 270500,
+      "high_won": 271000,
+      "low_won": 269500,
+      "close_won": 269750,
+      "volume": 182315
+    },
+    {
+      "opened_at": "2026-07-23T01:40:00+00:00",
+      "open_won": 269500,
+      "high_won": 270500,
+      "low_won": 269000,
+      "close_won": 269000,
+      "volume": 95472
+    },
+    {
+      "opened_at": "2026-07-23T01:45:00+00:00",
+      "open_won": 269000,
+      "high_won": 269500,
+      "low_won": 268000,
+      "close_won": 268500,
+      "volume": 182900
+    },
+    {
+      "opened_at": "2026-07-23T01:50:00+00:00",
+      "open_won": 268250,
+      "high_won": 269500,
+      "low_won": 268000,
+      "close_won": 269000,
+      "volume": 187719
+    },
+    {
+      "opened_at": "2026-07-23T01:55:00+00:00",
+      "open_won": 269000,
+      "high_won": 269500,
+      "low_won": 267000,
+      "close_won": 267250,
+      "volume": 213410
+    },
+    {
+      "opened_at": "2026-07-23T02:00:00+00:00",
+      "open_won": 267000,
+      "high_won": 269000,
+      "low_won": 267000,
+      "close_won": 269000,
+      "volume": 154671
+    },
+    {
+      "opened_at": "2026-07-23T02:05:00+00:00",
+      "open_won": 269000,
+      "high_won": 269000,
+      "low_won": 268000,
+      "close_won": 268250,
+      "volume": 67803
+    },
+    {
+      "opened_at": "2026-07-23T02:10:00+00:00",
+      "open_won": 268250,
+      "high_won": 268500,
+      "low_won": 266000,
+      "close_won": 266500,
+      "volume": 198759
+    },
+    {
+      "opened_at": "2026-07-23T02:15:00+00:00",
+      "open_won": 267000,
+      "high_won": 268000,
+      "low_won": 266500,
+      "close_won": 267000,
+      "volume": 117923
+    },
+    {
+      "opened_at": "2026-07-23T02:20:00+00:00",
+      "open_won": 266500,
+      "high_won": 267000,
+      "low_won": 265000,
+      "close_won": 265000,
+      "volume": 210577
+    },
+    {
+      "opened_at": "2026-07-23T02:25:00+00:00",
+      "open_won": 265250,
+      "high_won": 265500,
+      "low_won": 263000,
+      "close_won": 264500,
+      "volume": 290940
+    },
+    {
+      "opened_at": "2026-07-23T02:30:00+00:00",
+      "open_won": 264500,
+      "high_won": 266000,
+      "low_won": 264000,
+      "close_won": 266000,
+      "volume": 113179
+    },
+    {
+      "opened_at": "2026-07-23T02:35:00+00:00",
+      "open_won": 265750,
+      "high_won": 266000,
+      "low_won": 264000,
+      "close_won": 264500,
+      "volume": 118425
+    },
+    {
+      "opened_at": "2026-07-23T02:40:00+00:00",
+      "open_won": 264500,
+      "high_won": 266000,
+      "low_won": 264500,
+      "close_won": 265500,
+      "volume": 85360
+    },
+    {
+      "opened_at": "2026-07-23T02:45:00+00:00",
+      "open_won": 266000,
+      "high_won": 267500,
+      "low_won": 265500,
+      "close_won": 267000,
+      "volume": 116708
+    },
+    {
+      "opened_at": "2026-07-23T02:50:00+00:00",
+      "open_won": 267000,
+      "high_won": 268000,
+      "low_won": 266250,
+      "close_won": 267500,
+      "volume": 106196
+    },
+    {
+      "opened_at": "2026-07-23T02:55:00+00:00",
+      "open_won": 268000,
+      "high_won": 268500,
+      "low_won": 267500,
+      "close_won": 267500,
+      "volume": 62170
+    },
+    {
+      "opened_at": "2026-07-23T03:00:00+00:00",
+      "open_won": 267500,
+      "high_won": 268000,
+      "low_won": 266500,
+      "close_won": 266500,
+      "volume": 122127
+    },
+    {
+      "opened_at": "2026-07-23T03:05:00+00:00",
+      "open_won": 266500,
+      "high_won": 267500,
+      "low_won": 266000,
+      "close_won": 266250,
+      "volume": 135112
+    },
+    {
+      "opened_at": "2026-07-23T03:10:00+00:00",
+      "open_won": 266250,
+      "high_won": 267000,
+      "low_won": 265500,
+      "close_won": 267000,
+      "volume": 67000
+    },
+    {
+      "opened_at": "2026-07-23T03:15:00+00:00",
+      "open_won": 266750,
+      "high_won": 267000,
+      "low_won": 266000,
+      "close_won": 266250,
+      "volume": 59051
+    },
+    {
+      "opened_at": "2026-07-23T03:20:00+00:00",
+      "open_won": 266250,
+      "high_won": 267500,
+      "low_won": 266000,
+      "close_won": 266750,
+      "volume": 99952
+    },
+    {
+      "opened_at": "2026-07-23T03:25:00+00:00",
+      "open_won": 266500,
+      "high_won": 268000,
+      "low_won": 266500,
+      "close_won": 267500,
+      "volume": 111036
+    },
+    {
+      "opened_at": "2026-07-23T03:30:00+00:00",
+      "open_won": 268000,
+      "high_won": 268500,
+      "low_won": 267000,
+      "close_won": 267250,
+      "volume": 103475
+    },
+    {
+      "opened_at": "2026-07-23T03:35:00+00:00",
+      "open_won": 267000,
+      "high_won": 269000,
+      "low_won": 266500,
+      "close_won": 269000,
+      "volume": 111175
+    },
+    {
+      "opened_at": "2026-07-23T03:40:00+00:00",
+      "open_won": 269000,
+      "high_won": 269000,
+      "low_won": 268000,
+      "close_won": 269000,
+      "volume": 122550
+    },
+    {
+      "opened_at": "2026-07-23T03:45:00+00:00",
+      "open_won": 269000,
+      "high_won": 269000,
+      "low_won": 268000,
+      "close_won": 269000,
+      "volume": 66852
+    },
+    {
+      "opened_at": "2026-07-23T03:50:00+00:00",
+      "open_won": 269000,
+      "high_won": 269500,
+      "low_won": 268500,
+      "close_won": 269250,
+      "volume": 87230
+    },
+    {
+      "opened_at": "2026-07-23T03:55:00+00:00",
+      "open_won": 269000,
+      "high_won": 269500,
+      "low_won": 268500,
+      "close_won": 269000,
+      "volume": 107381
+    },
+    {
+      "opened_at": "2026-07-23T04:00:00+00:00",
+      "open_won": 269000,
+      "high_won": 269000,
+      "low_won": 268000,
+      "close_won": 268500,
+      "volume": 84980
+    },
+    {
+      "opened_at": "2026-07-23T04:05:00+00:00",
+      "open_won": 268500,
+      "high_won": 268500,
+      "low_won": 267000,
+      "close_won": 267500,
+      "volume": 104742
+    },
+    {
+      "opened_at": "2026-07-23T04:10:00+00:00",
+      "open_won": 268000,
+      "high_won": 269000,
+      "low_won": 267000,
+      "close_won": 268750,
+      "volume": 130773
+    },
+    {
+      "opened_at": "2026-07-23T04:15:00+00:00",
+      "open_won": 269000,
+      "high_won": 269000,
+      "low_won": 268000,
+      "close_won": 268500,
+      "volume": 98710
+    },
+    {
+      "opened_at": "2026-07-23T04:20:00+00:00",
+      "open_won": 268500,
+      "high_won": 270000,
+      "low_won": 268000,
+      "close_won": 269500,
+      "volume": 139636
+    },
+    {
+      "opened_at": "2026-07-23T04:25:00+00:00",
+      "open_won": 269500,
+      "high_won": 270500,
+      "low_won": 269000,
+      "close_won": 270000,
+      "volume": 255529
+    },
+    {
+      "opened_at": "2026-07-23T04:30:00+00:00",
+      "open_won": 270250,
+      "high_won": 270500,
+      "low_won": 269500,
+      "close_won": 270000,
+      "volume": 138325
+    },
+    {
+      "opened_at": "2026-07-23T04:35:00+00:00",
+      "open_won": 270250,
+      "high_won": 270250,
+      "low_won": 269500,
+      "close_won": 269750,
+      "volume": 112384
+    },
+    {
+      "opened_at": "2026-07-23T04:40:00+00:00",
+      "open_won": 270000,
+      "high_won": 270000,
+      "low_won": 268500,
+      "close_won": 269500,
+      "volume": 161479
+    },
+    {
+      "opened_at": "2026-07-23T04:45:00+00:00",
+      "open_won": 269750,
+      "high_won": 270000,
+      "low_won": 269000,
+      "close_won": 269500,
+      "volume": 130169
+    },
+    {
+      "opened_at": "2026-07-23T04:50:00+00:00",
+      "open_won": 269000,
+      "high_won": 269500,
+      "low_won": 268000,
+      "close_won": 269000,
+      "volume": 149411
+    },
+    {
+      "opened_at": "2026-07-23T04:55:00+00:00",
+      "open_won": 269500,
+      "high_won": 269500,
+      "low_won": 268500,
+      "close_won": 269000,
+      "volume": 128960
+    },
+    {
+      "opened_at": "2026-07-23T05:00:00+00:00",
+      "open_won": 269000,
+      "high_won": 269500,
+      "low_won": 267500,
+      "close_won": 268500,
+      "volume": 193314
+    },
+    {
+      "opened_at": "2026-07-23T05:05:00+00:00",
+      "open_won": 268000,
+      "high_won": 269000,
+      "low_won": 268000,
+      "close_won": 268750,
+      "volume": 133185
+    },
+    {
+      "opened_at": "2026-07-23T05:10:00+00:00",
+      "open_won": 268750,
+      "high_won": 269000,
+      "low_won": 267500,
+      "close_won": 268500,
+      "volume": 190594
+    },
+    {
+      "opened_at": "2026-07-23T05:15:00+00:00",
+      "open_won": 268500,
+      "high_won": 268500,
+      "low_won": 267000,
+      "close_won": 267750,
+      "volume": 139847
+    },
+    {
+      "opened_at": "2026-07-23T05:20:00+00:00",
+      "open_won": 267500,
+      "high_won": 269500,
+      "low_won": 267500,
+      "close_won": 268500,
+      "volume": 209597
+    },
+    {
+      "opened_at": "2026-07-23T05:25:00+00:00",
+      "open_won": 268500,
+      "high_won": 270500,
+      "low_won": 268000,
+      "close_won": 270500,
+      "volume": 205396
+    },
+    {
+      "opened_at": "2026-07-23T05:30:00+00:00",
+      "open_won": 270250,
+      "high_won": 271000,
+      "low_won": 269500,
+      "close_won": 270000,
+      "volume": 225299
+    },
+    {
+      "opened_at": "2026-07-23T05:35:00+00:00",
+      "open_won": 270000,
+      "high_won": 270500,
+      "low_won": 269000,
+      "close_won": 269500,
+      "volume": 148121
+    },
+    {
+      "opened_at": "2026-07-23T05:40:00+00:00",
+      "open_won": 269500,
+      "high_won": 270000,
+      "low_won": 269000,
+      "close_won": 270000,
+      "volume": 187946
+    },
+    {
+      "opened_at": "2026-07-23T05:45:00+00:00",
+      "open_won": 269500,
+      "high_won": 270000,
+      "low_won": 267500,
+      "close_won": 268000,
+      "volume": 221060
+    },
+    {
+      "opened_at": "2026-07-23T05:50:00+00:00",
+      "open_won": 268000,
+      "high_won": 268500,
+      "low_won": 267500,
+      "close_won": 267750,
+      "volume": 176992
+    },
+    {
+      "opened_at": "2026-07-23T05:55:00+00:00",
+      "open_won": 267500,
+      "high_won": 268500,
+      "low_won": 267500,
+      "close_won": 268000,
+      "volume": 197577
+    },
+    {
+      "opened_at": "2026-07-24T00:00:00+00:00",
+      "open_won": 266000,
+      "high_won": 266500,
+      "low_won": 263500,
+      "close_won": 264750,
+      "volume": 790127
+    },
+    {
+      "opened_at": "2026-07-24T00:05:00+00:00",
+      "open_won": 264750,
+      "high_won": 265000,
+      "low_won": 262500,
+      "close_won": 263500,
+      "volume": 381882
+    },
+    {
+      "opened_at": "2026-07-24T00:10:00+00:00",
+      "open_won": 263000,
+      "high_won": 263500,
+      "low_won": 261000,
+      "close_won": 261500,
+      "volume": 368849
+    },
+    {
+      "opened_at": "2026-07-24T00:15:00+00:00",
+      "open_won": 261500,
+      "high_won": 262000,
+      "low_won": 260000,
+      "close_won": 260000,
+      "volume": 575229
+    },
+    {
+      "opened_at": "2026-07-24T00:20:00+00:00",
+      "open_won": 260500,
+      "high_won": 262500,
+      "low_won": 260000,
+      "close_won": 261500,
+      "volume": 361048
+    },
+    {
+      "opened_at": "2026-07-24T00:25:00+00:00",
+      "open_won": 261500,
+      "high_won": 262000,
+      "low_won": 258500,
+      "close_won": 259000,
+      "volume": 460596
+    },
+    {
+      "opened_at": "2026-07-24T00:30:00+00:00",
+      "open_won": 258500,
+      "high_won": 259500,
+      "low_won": 258000,
+      "close_won": 258000,
+      "volume": 364309
+    },
+    {
+      "opened_at": "2026-07-24T00:35:00+00:00",
+      "open_won": 258250,
+      "high_won": 258500,
+      "low_won": 257000,
+      "close_won": 258500,
+      "volume": 332622
+    },
+    {
+      "opened_at": "2026-07-24T00:40:00+00:00",
+      "open_won": 258000,
+      "high_won": 259000,
+      "low_won": 257500,
+      "close_won": 259000,
+      "volume": 347489
+    },
+    {
+      "opened_at": "2026-07-24T00:45:00+00:00",
+      "open_won": 258500,
+      "high_won": 259500,
+      "low_won": 257500,
+      "close_won": 258000,
+      "volume": 242567
+    },
+    {
+      "opened_at": "2026-07-24T00:50:00+00:00",
+      "open_won": 258000,
+      "high_won": 259000,
+      "low_won": 257500,
+      "close_won": 258500,
+      "volume": 221860
+    },
+    {
+      "opened_at": "2026-07-24T00:55:00+00:00",
+      "open_won": 258250,
+      "high_won": 259500,
+      "low_won": 257500,
+      "close_won": 258500,
+      "volume": 303929
+    },
+    {
+      "opened_at": "2026-07-24T01:00:00+00:00",
+      "open_won": 258500,
+      "high_won": 260500,
+      "low_won": 258250,
+      "close_won": 260000,
+      "volume": 303844
+    },
+    {
+      "opened_at": "2026-07-24T01:05:00+00:00",
+      "open_won": 260000,
+      "high_won": 261000,
+      "low_won": 259000,
+      "close_won": 260500,
+      "volume": 284492
+    },
+    {
+      "opened_at": "2026-07-24T01:10:00+00:00",
+      "open_won": 260500,
+      "high_won": 260500,
+      "low_won": 258500,
+      "close_won": 259000,
+      "volume": 193205
+    },
+    {
+      "opened_at": "2026-07-24T01:15:00+00:00",
+      "open_won": 259000,
+      "high_won": 260000,
+      "low_won": 258000,
+      "close_won": 259750,
+      "volume": 179522
+    },
+    {
+      "opened_at": "2026-07-24T01:20:00+00:00",
+      "open_won": 260000,
+      "high_won": 260000,
+      "low_won": 258500,
+      "close_won": 259000,
+      "volume": 126724
+    },
+    {
+      "opened_at": "2026-07-24T01:25:00+00:00",
+      "open_won": 258500,
+      "high_won": 261500,
+      "low_won": 258500,
+      "close_won": 259500,
+      "volume": 241253
+    },
+    {
+      "opened_at": "2026-07-24T01:30:00+00:00",
+      "open_won": 259500,
+      "high_won": 260500,
+      "low_won": 258500,
+      "close_won": 259500,
+      "volume": 196154
+    },
+    {
+      "opened_at": "2026-07-24T01:35:00+00:00",
+      "open_won": 259500,
+      "high_won": 260500,
+      "low_won": 258500,
+      "close_won": 259000,
+      "volume": 205122
+    },
+    {
+      "opened_at": "2026-07-24T01:40:00+00:00",
+      "open_won": 258500,
+      "high_won": 260000,
+      "low_won": 258000,
+      "close_won": 259000,
+      "volume": 315150
+    },
+    {
+      "opened_at": "2026-07-24T01:45:00+00:00",
+      "open_won": 259000,
+      "high_won": 259000,
+      "low_won": 258000,
+      "close_won": 258250,
+      "volume": 210653
+    },
+    {
+      "opened_at": "2026-07-24T01:50:00+00:00",
+      "open_won": 258250,
+      "high_won": 258500,
+      "low_won": 257500,
+      "close_won": 257750,
+      "volume": 243936
+    },
+    {
+      "opened_at": "2026-07-24T01:55:00+00:00",
+      "open_won": 258000,
+      "high_won": 258000,
+      "low_won": 256500,
+      "close_won": 256500,
+      "volume": 343472
+    },
+    {
+      "opened_at": "2026-07-24T02:00:00+00:00",
+      "open_won": 256500,
+      "high_won": 257000,
+      "low_won": 255500,
+      "close_won": 255500,
+      "volume": 363175
+    },
+    {
+      "opened_at": "2026-07-24T02:05:00+00:00",
+      "open_won": 256000,
+      "high_won": 256500,
+      "low_won": 255500,
+      "close_won": 256000,
+      "volume": 144636
+    },
+    {
+      "opened_at": "2026-07-24T02:10:00+00:00",
+      "open_won": 255750,
+      "high_won": 256500,
+      "low_won": 255000,
+      "close_won": 255500,
+      "volume": 328128
+    },
+    {
+      "opened_at": "2026-07-24T02:15:00+00:00",
+      "open_won": 255500,
+      "high_won": 256000,
+      "low_won": 254000,
+      "close_won": 254500,
+      "volume": 540615
+    },
+    {
+      "opened_at": "2026-07-24T02:20:00+00:00",
+      "open_won": 254750,
+      "high_won": 254750,
+      "low_won": 253000,
+      "close_won": 254000,
+      "volume": 297484
+    },
+    {
+      "opened_at": "2026-07-24T02:25:00+00:00",
+      "open_won": 254000,
+      "high_won": 254500,
+      "low_won": 253000,
+      "close_won": 253750,
+      "volume": 316204
+    },
+    {
+      "opened_at": "2026-07-24T02:30:00+00:00",
+      "open_won": 253750,
+      "high_won": 254000,
+      "low_won": 253000,
+      "close_won": 253000,
+      "volume": 251654
+    },
+    {
+      "opened_at": "2026-07-24T02:35:00+00:00",
+      "open_won": 253250,
+      "high_won": 253500,
+      "low_won": 251500,
+      "close_won": 252000,
+      "volume": 348196
+    },
+    {
+      "opened_at": "2026-07-24T02:40:00+00:00",
+      "open_won": 252000,
+      "high_won": 253000,
+      "low_won": 250000,
+      "close_won": 250500,
+      "volume": 456688
+    },
+    {
+      "opened_at": "2026-07-24T02:45:00+00:00",
+      "open_won": 250250,
+      "high_won": 250750,
+      "low_won": 248500,
+      "close_won": 249500,
+      "volume": 791861
+    },
+    {
+      "opened_at": "2026-07-24T02:50:00+00:00",
+      "open_won": 249000,
+      "high_won": 250500,
+      "low_won": 248500,
+      "close_won": 249000,
+      "volume": 596295
+    },
+    {
+      "opened_at": "2026-07-24T02:55:00+00:00",
+      "open_won": 249000,
+      "high_won": 250000,
+      "low_won": 247000,
+      "close_won": 247500,
+      "volume": 702233
+    },
+    {
+      "opened_at": "2026-07-24T03:00:00+00:00",
+      "open_won": 247500,
+      "high_won": 249500,
+      "low_won": 247000,
+      "close_won": 248500,
+      "volume": 501537
+    },
+    {
+      "opened_at": "2026-07-24T03:05:00+00:00",
+      "open_won": 249000,
+      "high_won": 249500,
+      "low_won": 247500,
+      "close_won": 248000,
+      "volume": 346358
+    },
+    {
+      "opened_at": "2026-07-24T03:10:00+00:00",
+      "open_won": 248000,
+      "high_won": 249500,
+      "low_won": 247500,
+      "close_won": 248500,
+      "volume": 268228
+    },
+    {
+      "opened_at": "2026-07-24T03:15:00+00:00",
+      "open_won": 248500,
+      "high_won": 249500,
+      "low_won": 248250,
+      "close_won": 248500,
+      "volume": 255530
+    },
+    {
+      "opened_at": "2026-07-24T03:20:00+00:00",
+      "open_won": 249000,
+      "high_won": 250500,
+      "low_won": 248000,
+      "close_won": 249500,
+      "volume": 275245
+    },
+    {
+      "opened_at": "2026-07-24T03:25:00+00:00",
+      "open_won": 250000,
+      "high_won": 251500,
+      "low_won": 249500,
+      "close_won": 250500,
+      "volume": 377814
+    },
+    {
+      "opened_at": "2026-07-24T03:30:00+00:00",
+      "open_won": 250500,
+      "high_won": 251000,
+      "low_won": 249000,
+      "close_won": 249250,
+      "volume": 227910
+    },
+    {
+      "opened_at": "2026-07-24T03:35:00+00:00",
+      "open_won": 249500,
+      "high_won": 250500,
+      "low_won": 248500,
+      "close_won": 250500,
+      "volume": 168250
+    },
+    {
+      "opened_at": "2026-07-24T03:40:00+00:00",
+      "open_won": 250250,
+      "high_won": 250500,
+      "low_won": 249500,
+      "close_won": 250000,
+      "volume": 187323
+    },
+    {
+      "opened_at": "2026-07-24T03:45:00+00:00",
+      "open_won": 250500,
+      "high_won": 250500,
+      "low_won": 249000,
+      "close_won": 249250,
+      "volume": 243420
+    },
+    {
+      "opened_at": "2026-07-24T03:50:00+00:00",
+      "open_won": 249500,
+      "high_won": 249500,
+      "low_won": 248500,
+      "close_won": 248750,
+      "volume": 189600
+    },
+    {
+      "opened_at": "2026-07-24T03:55:00+00:00",
+      "open_won": 248500,
+      "high_won": 249000,
+      "low_won": 247500,
+      "close_won": 248250,
+      "volume": 297660
+    },
+    {
+      "opened_at": "2026-07-24T04:00:00+00:00",
+      "open_won": 248000,
+      "high_won": 248500,
+      "low_won": 247000,
+      "close_won": 247500,
+      "volume": 317399
+    },
+    {
+      "opened_at": "2026-07-24T04:05:00+00:00",
+      "open_won": 247500,
+      "high_won": 250000,
+      "low_won": 247500,
+      "close_won": 249750,
+      "volume": 317552
+    },
+    {
+      "opened_at": "2026-07-24T04:10:00+00:00",
+      "open_won": 249750,
+      "high_won": 250000,
+      "low_won": 247500,
+      "close_won": 247500,
+      "volume": 255140
+    },
+    {
+      "opened_at": "2026-07-24T04:15:00+00:00",
+      "open_won": 247500,
+      "high_won": 249000,
+      "low_won": 247500,
+      "close_won": 249000,
+      "volume": 137904
+    },
+    {
+      "opened_at": "2026-07-24T04:20:00+00:00",
+      "open_won": 249000,
+      "high_won": 250500,
+      "low_won": 248000,
+      "close_won": 250000,
+      "volume": 179736
+    },
+    {
+      "opened_at": "2026-07-24T04:25:00+00:00",
+      "open_won": 250000,
+      "high_won": 251500,
+      "low_won": 249500,
+      "close_won": 250500,
+      "volume": 271288
+    },
+    {
+      "opened_at": "2026-07-24T04:30:00+00:00",
+      "open_won": 250250,
+      "high_won": 250500,
+      "low_won": 249500,
+      "close_won": 250000,
+      "volume": 220910
+    },
+    {
+      "opened_at": "2026-07-24T04:35:00+00:00",
+      "open_won": 249500,
+      "high_won": 250500,
+      "low_won": 249000,
+      "close_won": 249500,
+      "volume": 178167
+    },
+    {
+      "opened_at": "2026-07-24T04:40:00+00:00",
+      "open_won": 249500,
+      "high_won": 249500,
+      "low_won": 248000,
+      "close_won": 248500,
+      "volume": 197323
+    },
+    {
+      "opened_at": "2026-07-24T04:45:00+00:00",
+      "open_won": 248500,
+      "high_won": 249000,
+      "low_won": 248000,
+      "close_won": 248500,
+      "volume": 222248
+    },
+    {
+      "opened_at": "2026-07-24T04:50:00+00:00",
+      "open_won": 248500,
+      "high_won": 250500,
+      "low_won": 248000,
+      "close_won": 250000,
+      "volume": 197149
+    },
+    {
+      "opened_at": "2026-07-24T04:55:00+00:00",
+      "open_won": 249500,
+      "high_won": 251000,
+      "low_won": 249000,
+      "close_won": 251000,
+      "volume": 170931
+    },
+    {
+      "opened_at": "2026-07-24T05:00:00+00:00",
+      "open_won": 250500,
+      "high_won": 251000,
+      "low_won": 249000,
+      "close_won": 250000,
+      "volume": 288672
+    },
+    {
+      "opened_at": "2026-07-24T05:05:00+00:00",
+      "open_won": 250000,
+      "high_won": 252500,
+      "low_won": 250000,
+      "close_won": 251500,
+      "volume": 316445
+    },
+    {
+      "opened_at": "2026-07-24T05:10:00+00:00",
+      "open_won": 251500,
+      "high_won": 252500,
+      "low_won": 251000,
+      "close_won": 252250,
+      "volume": 269401
+    },
+    {
+      "opened_at": "2026-07-24T05:15:00+00:00",
+      "open_won": 252000,
+      "high_won": 253000,
+      "low_won": 249500,
+      "close_won": 251000,
+      "volume": 364359
+    },
+    {
+      "opened_at": "2026-07-24T05:20:00+00:00",
+      "open_won": 251000,
+      "high_won": 253000,
+      "low_won": 250500,
+      "close_won": 251500,
+      "volume": 215526
+    },
+    {
+      "opened_at": "2026-07-24T05:25:00+00:00",
+      "open_won": 251250,
+      "high_won": 252000,
+      "low_won": 250500,
+      "close_won": 250500,
+      "volume": 242832
+    },
+    {
+      "opened_at": "2026-07-24T05:30:00+00:00",
+      "open_won": 250500,
+      "high_won": 252500,
+      "low_won": 250500,
+      "close_won": 252500,
+      "volume": 251071
+    },
+    {
+      "opened_at": "2026-07-24T05:35:00+00:00",
+      "open_won": 252000,
+      "high_won": 253000,
+      "low_won": 251000,
+      "close_won": 252500,
+      "volume": 222635
+    },
+    {
+      "opened_at": "2026-07-24T05:40:00+00:00",
+      "open_won": 253000,
+      "high_won": 253500,
+      "low_won": 252000,
+      "close_won": 253000,
+      "volume": 271246
+    },
+    {
+      "opened_at": "2026-07-24T05:45:00+00:00",
+      "open_won": 252500,
+      "high_won": 253500,
+      "low_won": 252500,
+      "close_won": 252500,
+      "volume": 235206
+    },
+    {
+      "opened_at": "2026-07-24T05:50:00+00:00",
+      "open_won": 252500,
+      "high_won": 252750,
+      "low_won": 251000,
+      "close_won": 251500,
+      "volume": 252698
+    },
+    {
+      "opened_at": "2026-07-24T05:55:00+00:00",
+      "open_won": 251000,
+      "high_won": 252000,
+      "low_won": 250500,
+      "close_won": 251000,
+      "volume": 232080
+    },
+    {
+      "opened_at": "2026-07-27T00:00:00+00:00",
+      "open_won": 257000,
+      "high_won": 258500,
+      "low_won": 254500,
+      "close_won": 255000,
+      "volume": 0
+    },
+    {
+      "opened_at": "2026-07-27T00:05:00+00:00",
+      "open_won": 255500,
+      "high_won": 255500,
+      "low_won": 252000,
+      "close_won": 252500,
+      "volume": 689515
+    },
+    {
+      "opened_at": "2026-07-27T00:10:00+00:00",
+      "open_won": 252500,
+      "high_won": 254500,
+      "low_won": 251000,
+      "close_won": 254000,
+      "volume": 527164
+    },
+    {
+      "opened_at": "2026-07-27T00:15:00+00:00",
+      "open_won": 254000,
+      "high_won": 254250,
+      "low_won": 250500,
+      "close_won": 250500,
+      "volume": 283743
+    },
+    {
+      "opened_at": "2026-07-27T00:20:00+00:00",
+      "open_won": 250500,
+      "high_won": 254500,
+      "low_won": 250500,
+      "close_won": 254250,
+      "volume": 381012
+    },
+    {
+      "opened_at": "2026-07-27T00:25:00+00:00",
+      "open_won": 254250,
+      "high_won": 256000,
+      "low_won": 253500,
+      "close_won": 254500,
+      "volume": 339432
+    },
+    {
+      "opened_at": "2026-07-27T00:30:00+00:00",
+      "open_won": 255000,
+      "high_won": 255500,
+      "low_won": 253500,
+      "close_won": 254000,
+      "volume": 186968
+    },
+    {
+      "opened_at": "2026-07-27T00:35:00+00:00",
+      "open_won": 254000,
+      "high_won": 254000,
+      "low_won": 252500,
+      "close_won": 253000,
+      "volume": 198870
+    },
+    {
+      "opened_at": "2026-07-27T00:40:00+00:00",
+      "open_won": 252500,
+      "high_won": 253000,
+      "low_won": 251500,
+      "close_won": 251750,
+      "volume": 252723
+    },
+    {
+      "opened_at": "2026-07-27T00:45:00+00:00",
+      "open_won": 251500,
+      "high_won": 253000,
+      "low_won": 251500,
+      "close_won": 252750,
+      "volume": 172979
+    },
+    {
+      "opened_at": "2026-07-27T00:50:00+00:00",
+      "open_won": 252750,
+      "high_won": 255500,
+      "low_won": 252500,
+      "close_won": 254250,
+      "volume": 279748
+    },
+    {
+      "opened_at": "2026-07-27T00:55:00+00:00",
+      "open_won": 254250,
+      "high_won": 254500,
+      "low_won": 251500,
+      "close_won": 252000,
+      "volume": 294506
+    },
+    {
+      "opened_at": "2026-07-27T01:00:00+00:00",
+      "open_won": 252000,
+      "high_won": 253000,
+      "low_won": 251000,
+      "close_won": 251250,
+      "volume": 196078
+    },
+    {
+      "opened_at": "2026-07-27T01:05:00+00:00",
+      "open_won": 251000,
+      "high_won": 252500,
+      "low_won": 250500,
+      "close_won": 251750,
+      "volume": 191083
+    },
+    {
+      "opened_at": "2026-07-27T01:10:00+00:00",
+      "open_won": 251750,
+      "high_won": 252000,
+      "low_won": 249000,
+      "close_won": 249500,
+      "volume": 476036
+    },
+    {
+      "opened_at": "2026-07-27T01:15:00+00:00",
+      "open_won": 249500,
+      "high_won": 250000,
+      "low_won": 247000,
+      "close_won": 247000,
+      "volume": 363798
+    },
+    {
+      "opened_at": "2026-07-27T01:20:00+00:00",
+      "open_won": 247000,
+      "high_won": 248000,
+      "low_won": 247000,
+      "close_won": 247000,
+      "volume": 238721
+    },
+    {
+      "opened_at": "2026-07-27T01:25:00+00:00",
+      "open_won": 247250,
+      "high_won": 247500,
+      "low_won": 246000,
+      "close_won": 246750,
+      "volume": 441716
+    },
+    {
+      "opened_at": "2026-07-27T01:30:00+00:00",
+      "open_won": 246500,
+      "high_won": 250000,
+      "low_won": 246000,
+      "close_won": 249000,
+      "volume": 509854
+    },
+    {
+      "opened_at": "2026-07-27T01:35:00+00:00",
+      "open_won": 249000,
+      "high_won": 250000,
+      "low_won": 247250,
+      "close_won": 250000,
+      "volume": 431652
+    },
+    {
+      "opened_at": "2026-07-27T01:40:00+00:00",
+      "open_won": 250000,
+      "high_won": 251000,
+      "low_won": 248500,
+      "close_won": 249250,
+      "volume": 285275
+    },
+    {
+      "opened_at": "2026-07-27T01:45:00+00:00",
+      "open_won": 249250,
+      "high_won": 249500,
+      "low_won": 247500,
+      "close_won": 249000,
+      "volume": 273610
+    },
+    {
+      "opened_at": "2026-07-27T01:50:00+00:00",
+      "open_won": 249250,
+      "high_won": 249250,
+      "low_won": 247500,
+      "close_won": 247750,
+      "volume": 187738
+    },
+    {
+      "opened_at": "2026-07-27T01:55:00+00:00",
+      "open_won": 247500,
+      "high_won": 250000,
+      "low_won": 247500,
+      "close_won": 249500,
+      "volume": 248050
+    },
+    {
+      "opened_at": "2026-07-27T02:00:00+00:00",
+      "open_won": 249750,
+      "high_won": 250000,
+      "low_won": 247000,
+      "close_won": 247250,
+      "volume": 265549
+    },
+    {
+      "opened_at": "2026-07-27T02:05:00+00:00",
+      "open_won": 247250,
+      "high_won": 248000,
+      "low_won": 247000,
+      "close_won": 247500,
+      "volume": 230681
+    },
+    {
+      "opened_at": "2026-07-27T02:10:00+00:00",
+      "open_won": 247500,
+      "high_won": 248000,
+      "low_won": 247000,
+      "close_won": 247000,
+      "volume": 206395
+    },
+    {
+      "opened_at": "2026-07-27T02:15:00+00:00",
+      "open_won": 247250,
+      "high_won": 248500,
+      "low_won": 247000,
+      "close_won": 248500,
+      "volume": 311715
+    },
+    {
+      "opened_at": "2026-07-27T02:20:00+00:00",
+      "open_won": 248500,
+      "high_won": 249000,
+      "low_won": 247000,
+      "close_won": 247500,
+      "volume": 237431
+    },
+    {
+      "opened_at": "2026-07-27T02:25:00+00:00",
+      "open_won": 247500,
+      "high_won": 249500,
+      "low_won": 247000,
+      "close_won": 248500,
+      "volume": 290753
+    },
+    {
+      "opened_at": "2026-07-27T02:30:00+00:00",
+      "open_won": 248500,
+      "high_won": 248500,
+      "low_won": 246500,
+      "close_won": 247250,
+      "volume": 329784
+    },
+    {
+      "opened_at": "2026-07-27T02:35:00+00:00",
+      "open_won": 247250,
+      "high_won": 249000,
+      "low_won": 247000,
+      "close_won": 248750,
+      "volume": 217294
+    },
+    {
+      "opened_at": "2026-07-27T02:40:00+00:00",
+      "open_won": 248750,
+      "high_won": 249500,
+      "low_won": 248500,
+      "close_won": 248750,
+      "volume": 141704
+    },
+    {
+      "opened_at": "2026-07-27T02:45:00+00:00",
+      "open_won": 249000,
+      "high_won": 249500,
+      "low_won": 247500,
+      "close_won": 247750,
+      "volume": 211681
+    },
+    {
+      "opened_at": "2026-07-27T02:50:00+00:00",
+      "open_won": 248000,
+      "high_won": 248000,
+      "low_won": 247000,
+      "close_won": 247500,
+      "volume": 112580
+    },
+    {
+      "opened_at": "2026-07-27T02:55:00+00:00",
+      "open_won": 247750,
+      "high_won": 248500,
+      "low_won": 247500,
+      "close_won": 247750,
+      "volume": 102327
+    },
+    {
+      "opened_at": "2026-07-27T03:00:00+00:00",
+      "open_won": 247500,
+      "high_won": 249000,
+      "low_won": 247500,
+      "close_won": 247750,
+      "volume": 161237
+    },
+    {
+      "opened_at": "2026-07-27T03:05:00+00:00",
+      "open_won": 247750,
+      "high_won": 249500,
+      "low_won": 247500,
+      "close_won": 247750,
+      "volume": 244235
+    },
+    {
+      "opened_at": "2026-07-27T03:10:00+00:00",
+      "open_won": 247750,
+      "high_won": 250000,
+      "low_won": 247500,
+      "close_won": 250000,
+      "volume": 275771
+    },
+    {
+      "opened_at": "2026-07-27T03:15:00+00:00",
+      "open_won": 250000,
+      "high_won": 251500,
+      "low_won": 249500,
+      "close_won": 251500,
+      "volume": 307053
+    },
+    {
+      "opened_at": "2026-07-27T03:20:00+00:00",
+      "open_won": 251500,
+      "high_won": 252000,
+      "low_won": 250500,
+      "close_won": 251250,
+      "volume": 184333
+    },
+    {
+      "opened_at": "2026-07-27T03:25:00+00:00",
+      "open_won": 251000,
+      "high_won": 252000,
+      "low_won": 250500,
+      "close_won": 250500,
+      "volume": 192144
+    },
+    {
+      "opened_at": "2026-07-27T03:30:00+00:00",
+      "open_won": 250750,
+      "high_won": 250750,
+      "low_won": 249500,
+      "close_won": 250000,
+      "volume": 161308
+    },
+    {
+      "opened_at": "2026-07-27T03:35:00+00:00",
+      "open_won": 249750,
+      "high_won": 250000,
+      "low_won": 248500,
+      "close_won": 248500,
+      "volume": 135766
+    },
+    {
+      "opened_at": "2026-07-27T03:40:00+00:00",
+      "open_won": 249000,
+      "high_won": 250000,
+      "low_won": 248500,
+      "close_won": 249250,
+      "volume": 183381
+    },
+    {
+      "opened_at": "2026-07-27T03:45:00+00:00",
+      "open_won": 249000,
+      "high_won": 249250,
+      "low_won": 248500,
+      "close_won": 248750,
+      "volume": 102103
+    },
+    {
+      "opened_at": "2026-07-27T03:50:00+00:00",
+      "open_won": 248500,
+      "high_won": 248750,
+      "low_won": 248000,
+      "close_won": 248250,
+      "volume": 105557
+    },
+    {
+      "opened_at": "2026-07-27T03:55:00+00:00",
+      "open_won": 248000,
+      "high_won": 249750,
+      "low_won": 247500,
+      "close_won": 248500,
+      "volume": 299974
+    },
+    {
+      "opened_at": "2026-07-27T04:00:00+00:00",
+      "open_won": 248500,
+      "high_won": 249500,
+      "low_won": 248250,
+      "close_won": 248500,
+      "volume": 196972
+    },
+    {
+      "opened_at": "2026-07-27T04:05:00+00:00",
+      "open_won": 248500,
+      "high_won": 249500,
+      "low_won": 248250,
+      "close_won": 249000,
+      "volume": 162409
+    },
+    {
+      "opened_at": "2026-07-27T04:10:00+00:00",
+      "open_won": 249000,
+      "high_won": 249500,
+      "low_won": 248500,
+      "close_won": 249250,
+      "volume": 126588
+    },
+    {
+      "opened_at": "2026-07-27T04:15:00+00:00",
+      "open_won": 249250,
+      "high_won": 251000,
+      "low_won": 249000,
+      "close_won": 250750,
+      "volume": 238744
+    },
+    {
+      "opened_at": "2026-07-27T04:20:00+00:00",
+      "open_won": 250750,
+      "high_won": 252000,
+      "low_won": 250000,
+      "close_won": 250250,
+      "volume": 226566
+    },
+    {
+      "opened_at": "2026-07-27T04:25:00+00:00",
+      "open_won": 250250,
+      "high_won": 251000,
+      "low_won": 249000,
+      "close_won": 250000,
+      "volume": 218719
+    },
+    {
+      "opened_at": "2026-07-27T04:30:00+00:00",
+      "open_won": 250000,
+      "high_won": 250500,
+      "low_won": 249000,
+      "close_won": 249750,
+      "volume": 162972
+    },
+    {
+      "opened_at": "2026-07-27T04:35:00+00:00",
+      "open_won": 250000,
+      "high_won": 250500,
+      "low_won": 249500,
+      "close_won": 249500,
+      "volume": 114752
+    },
+    {
+      "opened_at": "2026-07-27T04:40:00+00:00",
+      "open_won": 249500,
+      "high_won": 251500,
+      "low_won": 249500,
+      "close_won": 251000,
+      "volume": 185221
+    },
+    {
+      "opened_at": "2026-07-27T04:45:00+00:00",
+      "open_won": 251000,
+      "high_won": 251500,
+      "low_won": 250500,
+      "close_won": 251000,
+      "volume": 157630
+    },
+    {
+      "opened_at": "2026-07-27T04:50:00+00:00",
+      "open_won": 251000,
+      "high_won": 252000,
+      "low_won": 250500,
+      "close_won": 251500,
+      "volume": 258952
+    },
+    {
+      "opened_at": "2026-07-27T04:55:00+00:00",
+      "open_won": 252000,
+      "high_won": 252000,
+      "low_won": 251000,
+      "close_won": 251000,
+      "volume": 160781
+    },
+    {
+      "opened_at": "2026-07-27T05:00:00+00:00",
+      "open_won": 251000,
+      "high_won": 252000,
+      "low_won": 250500,
+      "close_won": 251000,
+      "volume": 201018
+    },
+    {
+      "opened_at": "2026-07-27T05:05:00+00:00",
+      "open_won": 251000,
+      "high_won": 252000,
+      "low_won": 251000,
+      "close_won": 251750,
+      "volume": 197956
+    },
+    {
+      "opened_at": "2026-07-27T05:10:00+00:00",
+      "open_won": 252000,
+      "high_won": 253000,
+      "low_won": 251750,
+      "close_won": 252500,
+      "volume": 293175
+    },
+    {
+      "opened_at": "2026-07-27T05:15:00+00:00",
+      "open_won": 252500,
+      "high_won": 252500,
+      "low_won": 251500,
+      "close_won": 252500,
+      "volume": 295786
+    },
+    {
+      "opened_at": "2026-07-27T05:20:00+00:00",
+      "open_won": 252500,
+      "high_won": 253500,
+      "low_won": 252000,
+      "close_won": 253000,
+      "volume": 438313
+    },
+    {
+      "opened_at": "2026-07-27T05:25:00+00:00",
+      "open_won": 253000,
+      "high_won": 253000,
+      "low_won": 252000,
+      "close_won": 253000,
+      "volume": 180360
+    },
+    {
+      "opened_at": "2026-07-27T05:30:00+00:00",
+      "open_won": 252750,
+      "high_won": 254000,
+      "low_won": 252000,
+      "close_won": 253500,
+      "volume": 395785
+    },
+    {
+      "opened_at": "2026-07-27T05:35:00+00:00",
+      "open_won": 253500,
+      "high_won": 254000,
+      "low_won": 252000,
+      "close_won": 253500,
+      "volume": 403771
+    },
+    {
+      "opened_at": "2026-07-27T05:40:00+00:00",
+      "open_won": 253250,
+      "high_won": 254000,
+      "low_won": 253000,
+      "close_won": 253500,
+      "volume": 157404
+    },
+    {
+      "opened_at": "2026-07-27T05:45:00+00:00",
+      "open_won": 253500,
+      "high_won": 253500,
+      "low_won": 252000,
+      "close_won": 252250,
+      "volume": 347837
+    },
+    {
+      "opened_at": "2026-07-27T05:50:00+00:00",
+      "open_won": 252250,
+      "high_won": 253000,
+      "low_won": 252000,
+      "close_won": 252500,
+      "volume": 175035
+    },
+    {
+      "opened_at": "2026-07-27T05:55:00+00:00",
+      "open_won": 252750,
+      "high_won": 253000,
+      "low_won": 252000,
+      "close_won": 252500,
+      "volume": 264946
+    },
+    {
+      "opened_at": "2026-07-28T00:00:00+00:00",
+      "open_won": 238500,
+      "high_won": 240000,
+      "low_won": 238000,
+      "close_won": 240000,
+      "volume": 1647319
+    },
+    {
+      "opened_at": "2026-07-28T00:05:00+00:00",
+      "open_won": 239500,
+      "high_won": 240000,
+      "low_won": 236000,
+      "close_won": 236500,
+      "volume": 782493
+    },
+    {
+      "opened_at": "2026-07-28T00:10:00+00:00",
+      "open_won": 236500,
+      "high_won": 236500,
+      "low_won": 233500,
+      "close_won": 233500,
+      "volume": 957119
+    },
+    {
+      "opened_at": "2026-07-28T00:15:00+00:00",
+      "open_won": 233500,
+      "high_won": 234500,
+      "low_won": 232000,
+      "close_won": 233000,
+      "volume": 808230
+    },
+    {
+      "opened_at": "2026-07-28T00:20:00+00:00",
+      "open_won": 233000,
+      "high_won": 233500,
+      "low_won": 230500,
+      "close_won": 231000,
+      "volume": 643877
+    },
+    {
+      "opened_at": "2026-07-28T00:25:00+00:00",
+      "open_won": 231000,
+      "high_won": 232500,
+      "low_won": 230000,
+      "close_won": 232500,
+      "volume": 575674
+    },
+    {
+      "opened_at": "2026-07-28T00:30:00+00:00",
+      "open_won": 232500,
+      "high_won": 233500,
+      "low_won": 231000,
+      "close_won": 233000,
+      "volume": 428222
+    },
+    {
+      "opened_at": "2026-07-28T00:35:00+00:00",
+      "open_won": 232500,
+      "high_won": 233500,
+      "low_won": 231500,
+      "close_won": 231750,
+      "volume": 322207
+    },
+    {
+      "opened_at": "2026-07-28T00:40:00+00:00",
+      "open_won": 231750,
+      "high_won": 233500,
+      "low_won": 231500,
+      "close_won": 232500,
+      "volume": 320626
+    },
+    {
+      "opened_at": "2026-07-28T00:45:00+00:00",
+      "open_won": 232500,
+      "high_won": 232500,
+      "low_won": 230500,
+      "close_won": 231500,
+      "volume": 490143
+    },
+    {
+      "opened_at": "2026-07-28T00:50:00+00:00",
+      "open_won": 231500,
+      "high_won": 231500,
+      "low_won": 230000,
+      "close_won": 231000,
+      "volume": 473578
+    },
+    {
+      "opened_at": "2026-07-28T00:55:00+00:00",
+      "open_won": 231000,
+      "high_won": 231500,
+      "low_won": 230000,
+      "close_won": 230500,
+      "volume": 548132
+    },
+    {
+      "opened_at": "2026-07-28T01:00:00+00:00",
+      "open_won": 230750,
+      "high_won": 232500,
+      "low_won": 230000,
+      "close_won": 231000,
+      "volume": 661995
+    },
+    {
+      "opened_at": "2026-07-28T01:05:00+00:00",
+      "open_won": 231000,
+      "high_won": 231000,
+      "low_won": 230000,
+      "close_won": 230000,
+      "volume": 228598
+    },
+    {
+      "opened_at": "2026-07-28T01:10:00+00:00",
+      "open_won": 230000,
+      "high_won": 231000,
+      "low_won": 230000,
+      "close_won": 230000,
+      "volume": 519565
+    },
+    {
+      "opened_at": "2026-07-28T01:40:00+00:00",
+      "open_won": 230500,
+      "high_won": 231500,
+      "low_won": 230000,
+      "close_won": 231500,
+      "volume": 834621
+    },
+    {
+      "opened_at": "2026-07-28T01:45:00+00:00",
+      "open_won": 231500,
+      "high_won": 233000,
+      "low_won": 229500,
+      "close_won": 232500,
+      "volume": 1018169
+    },
+    {
+      "opened_at": "2026-07-28T01:50:00+00:00",
+      "open_won": 232000,
+      "high_won": 232500,
+      "low_won": 229000,
+      "close_won": 229000,
+      "volume": 680526
+    },
+    {
+      "opened_at": "2026-07-28T01:55:00+00:00",
+      "open_won": 229000,
+      "high_won": 230000,
+      "low_won": 228000,
+      "close_won": 228500,
+      "volume": 648162
+    },
+    {
+      "opened_at": "2026-07-28T02:00:00+00:00",
+      "open_won": 228000,
+      "high_won": 229000,
+      "low_won": 225000,
+      "close_won": 225000,
+      "volume": 1027990
+    },
+    {
+      "opened_at": "2026-07-28T02:05:00+00:00",
+      "open_won": 225000,
+      "high_won": 228000,
+      "low_won": 225000,
+      "close_won": 227500,
+      "volume": 600018
+    },
+    {
+      "opened_at": "2026-07-28T02:10:00+00:00",
+      "open_won": 227500,
+      "high_won": 229000,
+      "low_won": 226500,
+      "close_won": 227250,
+      "volume": 368911
+    },
+    {
+      "opened_at": "2026-07-28T02:15:00+00:00",
+      "open_won": 227250,
+      "high_won": 229000,
+      "low_won": 226000,
+      "close_won": 229000,
+      "volume": 382001
+    },
+    {
+      "opened_at": "2026-07-28T02:20:00+00:00",
+      "open_won": 229000,
+      "high_won": 230000,
+      "low_won": 228500,
+      "close_won": 229500,
+      "volume": 376236
+    },
+    {
+      "opened_at": "2026-07-28T02:25:00+00:00",
+      "open_won": 229500,
+      "high_won": 229500,
+      "low_won": 227500,
+      "close_won": 228000,
+      "volume": 372883
+    },
+    {
+      "opened_at": "2026-07-28T02:30:00+00:00",
+      "open_won": 227500,
+      "high_won": 228000,
+      "low_won": 226000,
+      "close_won": 226500,
+      "volume": 339317
+    },
+    {
+      "opened_at": "2026-07-28T02:35:00+00:00",
+      "open_won": 226000,
+      "high_won": 227000,
+      "low_won": 225500,
+      "close_won": 226500,
+      "volume": 404524
+    },
+    {
+      "opened_at": "2026-07-28T02:40:00+00:00",
+      "open_won": 226250,
+      "high_won": 226500,
+      "low_won": 224500,
+      "close_won": 225250,
+      "volume": 617155
+    },
+    {
+      "opened_at": "2026-07-28T02:45:00+00:00",
+      "open_won": 225500,
+      "high_won": 225500,
+      "low_won": 223000,
+      "close_won": 224250,
+      "volume": 783036
+    },
+    {
+      "opened_at": "2026-07-28T02:50:00+00:00",
+      "open_won": 224250,
+      "high_won": 225000,
+      "low_won": 223500,
+      "close_won": 224250,
+      "volume": 403140
+    },
+    {
+      "opened_at": "2026-07-28T02:55:00+00:00",
+      "open_won": 224250,
+      "high_won": 224500,
+      "low_won": 223500,
+      "close_won": 224000,
+      "volume": 348282
+    },
+    {
+      "opened_at": "2026-07-28T03:00:00+00:00",
+      "open_won": 223500,
+      "high_won": 224000,
+      "low_won": 221500,
+      "close_won": 222500,
+      "volume": 465497
+    },
+    {
+      "opened_at": "2026-07-28T03:05:00+00:00",
+      "open_won": 222000,
+      "high_won": 222500,
+      "low_won": 221000,
+      "close_won": 221500,
+      "volume": 314698
+    },
+    {
+      "opened_at": "2026-07-28T03:10:00+00:00",
+      "open_won": 221000,
+      "high_won": 222000,
+      "low_won": 220000,
+      "close_won": 221250,
+      "volume": 616564
+    },
+    {
+      "opened_at": "2026-07-28T03:15:00+00:00",
+      "open_won": 221000,
+      "high_won": 223500,
+      "low_won": 221000,
+      "close_won": 223250,
+      "volume": 352797
+    },
+    {
+      "opened_at": "2026-07-28T03:20:00+00:00",
+      "open_won": 223250,
+      "high_won": 225500,
+      "low_won": 223000,
+      "close_won": 225000,
+      "volume": 329274
+    },
+    {
+      "opened_at": "2026-07-28T03:25:00+00:00",
+      "open_won": 225000,
+      "high_won": 225500,
+      "low_won": 221500,
+      "close_won": 221500,
+      "volume": 334195
+    },
+    {
+      "opened_at": "2026-07-28T03:30:00+00:00",
+      "open_won": 221500,
+      "high_won": 223000,
+      "low_won": 220500,
+      "close_won": 222750,
+      "volume": 335571
+    },
+    {
+      "opened_at": "2026-07-28T03:35:00+00:00",
+      "open_won": 222750,
+      "high_won": 225000,
+      "low_won": 222500,
+      "close_won": 224250,
+      "volume": 433573
+    },
+    {
+      "opened_at": "2026-07-28T03:40:00+00:00",
+      "open_won": 224250,
+      "high_won": 225500,
+      "low_won": 223000,
+      "close_won": 224000,
+      "volume": 431926
+    },
+    {
+      "opened_at": "2026-07-28T03:45:00+00:00",
+      "open_won": 224250,
+      "high_won": 225500,
+      "low_won": 224000,
+      "close_won": 224500,
+      "volume": 433690
+    },
+    {
+      "opened_at": "2026-07-28T03:50:00+00:00",
+      "open_won": 224500,
+      "high_won": 225500,
+      "low_won": 224000,
+      "close_won": 225250,
+      "volume": 338963
+    },
+    {
+      "opened_at": "2026-07-28T03:55:00+00:00",
+      "open_won": 225250,
+      "high_won": 225500,
+      "low_won": 224000,
+      "close_won": 224500,
+      "volume": 583062
+    },
+    {
+      "opened_at": "2026-07-28T04:00:00+00:00",
+      "open_won": 225000,
+      "high_won": 225000,
+      "low_won": 224000,
+      "close_won": 224500,
+      "volume": 307712
+    },
+    {
+      "opened_at": "2026-07-28T04:05:00+00:00",
+      "open_won": 224000,
+      "high_won": 224500,
+      "low_won": 222500,
+      "close_won": 222750,
+      "volume": 297782
+    },
+    {
+      "opened_at": "2026-07-28T04:10:00+00:00",
+      "open_won": 222750,
+      "high_won": 223500,
+      "low_won": 222500,
+      "close_won": 223250,
+      "volume": 240479
+    },
+    {
+      "opened_at": "2026-07-28T04:15:00+00:00",
+      "open_won": 223250,
+      "high_won": 224000,
+      "low_won": 222500,
+      "close_won": 223500,
+      "volume": 313314
+    },
+    {
+      "opened_at": "2026-07-28T04:20:00+00:00",
+      "open_won": 223500,
+      "high_won": 223500,
+      "low_won": 222000,
+      "close_won": 222250,
+      "volume": 255634
+    },
+    {
+      "opened_at": "2026-07-28T04:25:00+00:00",
+      "open_won": 222000,
+      "high_won": 222500,
+      "low_won": 221500,
+      "close_won": 222000,
+      "volume": 358247
+    },
+    {
+      "opened_at": "2026-07-28T04:30:00+00:00",
+      "open_won": 222000,
+      "high_won": 222000,
+      "low_won": 221000,
+      "close_won": 222000,
+      "volume": 355231
+    },
+    {
+      "opened_at": "2026-07-28T04:35:00+00:00",
+      "open_won": 221500,
+      "high_won": 223500,
+      "low_won": 221500,
+      "close_won": 223250,
+      "volume": 476857
+    },
+    {
+      "opened_at": "2026-07-28T04:40:00+00:00",
+      "open_won": 223250,
+      "high_won": 224000,
+      "low_won": 222500,
+      "close_won": 222500,
+      "volume": 384305
+    },
+    {
+      "opened_at": "2026-07-28T04:45:00+00:00",
+      "open_won": 222750,
+      "high_won": 225000,
+      "low_won": 222250,
+      "close_won": 224500,
+      "volume": 482223
+    },
+    {
+      "opened_at": "2026-07-28T04:50:00+00:00",
+      "open_won": 224500,
+      "high_won": 225000,
+      "low_won": 223500,
+      "close_won": 224000,
+      "volume": 210284
+    },
+    {
+      "opened_at": "2026-07-28T04:55:00+00:00",
+      "open_won": 224000,
+      "high_won": 225000,
+      "low_won": 223000,
+      "close_won": 224000,
+      "volume": 455283
+    },
+    {
+      "opened_at": "2026-07-28T05:00:00+00:00",
+      "open_won": 224000,
+      "high_won": 225000,
+      "low_won": 223500,
+      "close_won": 224500,
+      "volume": 314320
+    },
+    {
+      "opened_at": "2026-07-28T05:05:00+00:00",
+      "open_won": 224500,
+      "high_won": 225000,
+      "low_won": 223500,
+      "close_won": 225000,
+      "volume": 368668
+    },
+    {
+      "opened_at": "2026-07-28T05:10:00+00:00",
+      "open_won": 225000,
+      "high_won": 225500,
+      "low_won": 223000,
+      "close_won": 223500,
+      "volume": 466178
+    },
+    {
+      "opened_at": "2026-07-28T05:15:00+00:00",
+      "open_won": 223500,
+      "high_won": 223500,
+      "low_won": 221500,
+      "close_won": 221500,
+      "volume": 565782
+    },
+    {
+      "opened_at": "2026-07-28T05:20:00+00:00",
+      "open_won": 222000,
+      "high_won": 222500,
+      "low_won": 221000,
+      "close_won": 221750,
+      "volume": 362159
+    },
+    {
+      "opened_at": "2026-07-28T05:25:00+00:00",
+      "open_won": 221500,
+      "high_won": 222000,
+      "low_won": 220500,
+      "close_won": 221000,
+      "volume": 430641
+    },
+    {
+      "opened_at": "2026-07-28T05:30:00+00:00",
+      "open_won": 221500,
+      "high_won": 221500,
+      "low_won": 220500,
+      "close_won": 220500,
+      "volume": 322235
+    },
+    {
+      "opened_at": "2026-07-28T05:35:00+00:00",
+      "open_won": 220500,
+      "high_won": 221500,
+      "low_won": 220000,
+      "close_won": 221250,
+      "volume": 637709
+    },
+    {
+      "opened_at": "2026-07-28T05:40:00+00:00",
+      "open_won": 221250,
+      "high_won": 222500,
+      "low_won": 220500,
+      "close_won": 222000,
+      "volume": 440564
+    },
+    {
+      "opened_at": "2026-07-28T05:45:00+00:00",
+      "open_won": 221500,
+      "high_won": 223000,
+      "low_won": 221500,
+      "close_won": 223000,
+      "volume": 396243
+    },
+    {
+      "opened_at": "2026-07-28T05:50:00+00:00",
+      "open_won": 222500,
+      "high_won": 223500,
+      "low_won": 222000,
+      "close_won": 222500,
+      "volume": 371835
+    },
+    {
+      "opened_at": "2026-07-28T05:55:00+00:00",
+      "open_won": 222500,
+      "high_won": 222500,
+      "low_won": 220500,
+      "close_won": 221000,
+      "volume": 520021
+    },
+    {
+      "opened_at": "2026-07-29T00:00:00+00:00",
+      "open_won": 226500,
+      "high_won": 229500,
+      "low_won": 225000,
+      "close_won": 229500,
+      "volume": 2742640
+    },
+    {
+      "opened_at": "2026-07-29T00:05:00+00:00",
+      "open_won": 229500,
+      "high_won": 231500,
+      "low_won": 228000,
+      "close_won": 230500,
+      "volume": 1113962
+    },
+    {
+      "opened_at": "2026-07-29T00:10:00+00:00",
+      "open_won": 230500,
+      "high_won": 234000,
+      "low_won": 230000,
+      "close_won": 231500,
+      "volume": 1191837
+    },
+    {
+      "opened_at": "2026-07-29T00:15:00+00:00",
+      "open_won": 232000,
+      "high_won": 232000,
+      "low_won": 229000,
+      "close_won": 231500,
+      "volume": 941433
+    },
+    {
+      "opened_at": "2026-07-29T00:20:00+00:00",
+      "open_won": 231500,
+      "high_won": 232000,
+      "low_won": 228250,
+      "close_won": 228500,
+      "volume": 737251
+    },
+    {
+      "opened_at": "2026-07-29T00:25:00+00:00",
+      "open_won": 228500,
+      "high_won": 230000,
+      "low_won": 227500,
+      "close_won": 229000,
+      "volume": 954364
+    },
+    {
+      "opened_at": "2026-07-29T00:30:00+00:00",
+      "open_won": 229500,
+      "high_won": 229500,
+      "low_won": 224500,
+      "close_won": 224500,
+      "volume": 1172361
+    },
+    {
+      "opened_at": "2026-07-29T00:35:00+00:00",
+      "open_won": 225000,
+      "high_won": 228500,
+      "low_won": 224500,
+      "close_won": 228000,
+      "volume": 758964
+    },
+    {
+      "opened_at": "2026-07-29T00:40:00+00:00",
+      "open_won": 228500,
+      "high_won": 228500,
+      "low_won": 226000,
+      "close_won": 227500,
+      "volume": 338480
+    },
+    {
+      "opened_at": "2026-07-29T00:45:00+00:00",
+      "open_won": 228000,
+      "high_won": 230500,
+      "low_won": 227500,
+      "close_won": 228250,
+      "volume": 475749
+    },
+    {
+      "opened_at": "2026-07-29T00:50:00+00:00",
+      "open_won": 228250,
+      "high_won": 230000,
+      "low_won": 227000,
+      "close_won": 230000,
+      "volume": 300072
+    },
+    {
+      "opened_at": "2026-07-29T00:55:00+00:00",
+      "open_won": 230000,
+      "high_won": 230000,
+      "low_won": 227000,
+      "close_won": 228000,
+      "volume": 354335
+    },
+    {
+      "opened_at": "2026-07-29T01:00:00+00:00",
+      "open_won": 228000,
+      "high_won": 229500,
+      "low_won": 227000,
+      "close_won": 228000,
+      "volume": 432983
+    },
+    {
+      "opened_at": "2026-07-29T01:05:00+00:00",
+      "open_won": 228500,
+      "high_won": 229000,
+      "low_won": 226500,
+      "close_won": 227000,
+      "volume": 291985
+    },
+    {
+      "opened_at": "2026-07-29T01:10:00+00:00",
+      "open_won": 226500,
+      "high_won": 227000,
+      "low_won": 222000,
+      "close_won": 223000,
+      "volume": 681004
+    },
+    {
+      "opened_at": "2026-07-29T01:15:00+00:00",
+      "open_won": 222500,
+      "high_won": 223000,
+      "low_won": 219750,
+      "close_won": 221500,
+      "volume": 967465
+    },
+    {
+      "opened_at": "2026-07-29T01:20:00+00:00",
+      "open_won": 221500,
+      "high_won": 226000,
+      "low_won": 221500,
+      "close_won": 225250,
+      "volume": 658972
+    },
+    {
+      "opened_at": "2026-07-29T01:25:00+00:00",
+      "open_won": 225500,
+      "high_won": 228000,
+      "low_won": 225000,
+      "close_won": 225500,
+      "volume": 517534
+    },
+    {
+      "opened_at": "2026-07-29T01:30:00+00:00",
+      "open_won": 225500,
+      "high_won": 226500,
+      "low_won": 223000,
+      "close_won": 224000,
+      "volume": 494152
+    },
+    {
+      "opened_at": "2026-07-29T01:35:00+00:00",
+      "open_won": 224000,
+      "high_won": 224500,
+      "low_won": 222000,
+      "close_won": 222250,
+      "volume": 363560
+    },
+    {
+      "opened_at": "2026-07-29T01:40:00+00:00",
+      "open_won": 222250,
+      "high_won": 222250,
+      "low_won": 216000,
+      "close_won": 217000,
+      "volume": 933831
+    },
+    {
+      "opened_at": "2026-07-29T01:45:00+00:00",
+      "open_won": 217000,
+      "high_won": 217500,
+      "low_won": 214000,
+      "close_won": 215000,
+      "volume": 730602
+    },
+    {
+      "opened_at": "2026-07-29T01:50:00+00:00",
+      "open_won": 214500,
+      "high_won": 215500,
+      "low_won": 209500,
+      "close_won": 210500,
+      "volume": 1358735
+    },
+    {
+      "opened_at": "2026-07-29T01:55:00+00:00",
+      "open_won": 211000,
+      "high_won": 212500,
+      "low_won": 210000,
+      "close_won": 210750,
+      "volume": 511820
+    },
+    {
+      "opened_at": "2026-07-29T02:00:00+00:00",
+      "open_won": 210750,
+      "high_won": 213500,
+      "low_won": 208000,
+      "close_won": 209500,
+      "volume": 1280602
+    },
+    {
+      "opened_at": "2026-07-29T02:05:00+00:00",
+      "open_won": 209500,
+      "high_won": 213500,
+      "low_won": 208000,
+      "close_won": 211000,
+      "volume": 739964
+    },
+    {
+      "opened_at": "2026-07-29T02:10:00+00:00",
+      "open_won": 210750,
+      "high_won": 213250,
+      "low_won": 209500,
+      "close_won": 210000,
+      "volume": 722061
+    },
+    {
+      "opened_at": "2026-07-29T02:15:00+00:00",
+      "open_won": 210500,
+      "high_won": 210500,
+      "low_won": 207000,
+      "close_won": 207500,
+      "volume": 749877
+    },
+    {
+      "opened_at": "2026-07-29T02:20:00+00:00",
+      "open_won": 208500,
+      "high_won": 210500,
+      "low_won": 208000,
+      "close_won": 208500,
+      "volume": 839487
+    },
+    {
+      "opened_at": "2026-07-29T02:25:00+00:00",
+      "open_won": 208500,
+      "high_won": 212500,
+      "low_won": 208500,
+      "close_won": 211500,
+      "volume": 599725
+    },
+    {
+      "opened_at": "2026-07-29T02:30:00+00:00",
+      "open_won": 212000,
+      "high_won": 212000,
+      "low_won": 209000,
+      "close_won": 209500,
+      "volume": 518085
+    },
+    {
+      "opened_at": "2026-07-29T02:35:00+00:00",
+      "open_won": 209250,
+      "high_won": 210500,
+      "low_won": 207500,
+      "close_won": 208000,
+      "volume": 396101
+    },
+    {
+      "opened_at": "2026-07-29T02:40:00+00:00",
+      "open_won": 208000,
+      "high_won": 209000,
+      "low_won": 207000,
+      "close_won": 208500,
+      "volume": 358835
+    },
+    {
+      "opened_at": "2026-07-29T02:45:00+00:00",
+      "open_won": 208500,
+      "high_won": 208500,
+      "low_won": 206000,
+      "close_won": 206000,
+      "volume": 581863
+    },
+    {
+      "opened_at": "2026-07-29T02:50:00+00:00",
+      "open_won": 206500,
+      "high_won": 207500,
+      "low_won": 205000,
+      "close_won": 206000,
+      "volume": 493583
+    },
+    {
+      "opened_at": "2026-07-29T02:55:00+00:00",
+      "open_won": 206000,
+      "high_won": 206500,
+      "low_won": 204000,
+      "close_won": 204500,
+      "volume": 648658
+    },
+    {
+      "opened_at": "2026-07-29T03:00:00+00:00",
+      "open_won": 204500,
+      "high_won": 205000,
+      "low_won": 203000,
+      "close_won": 204000,
+      "volume": 333282
+    },
+    {
+      "opened_at": "2026-07-29T03:05:00+00:00",
+      "open_won": 204000,
+      "high_won": 209500,
+      "low_won": 203500,
+      "close_won": 209000,
+      "volume": 892896
+    },
+    {
+      "opened_at": "2026-07-29T03:10:00+00:00",
+      "open_won": 209000,
+      "high_won": 209500,
+      "low_won": 205000,
+      "close_won": 205500,
+      "volume": 465449
+    },
+    {
+      "opened_at": "2026-07-29T03:15:00+00:00",
+      "open_won": 205500,
+      "high_won": 205500,
+      "low_won": 203000,
+      "close_won": 203250,
+      "volume": 390130
+    },
+    {
+      "opened_at": "2026-07-29T03:20:00+00:00",
+      "open_won": 203250,
+      "high_won": 205500,
+      "low_won": 202000,
+      "close_won": 202000,
+      "volume": 476902
+    },
+    {
+      "opened_at": "2026-07-29T03:25:00+00:00",
+      "open_won": 202500,
+      "high_won": 203000,
+      "low_won": 202000,
+      "close_won": 202500,
+      "volume": 423450
+    },
+    {
+      "opened_at": "2026-07-29T03:30:00+00:00",
+      "open_won": 202500,
+      "high_won": 203500,
+      "low_won": 202000,
+      "close_won": 202500,
+      "volume": 195442
+    },
+    {
+      "opened_at": "2026-07-29T04:00:00+00:00",
+      "open_won": 201500,
+      "high_won": 203000,
+      "low_won": 200000,
+      "close_won": 201000,
+      "volume": 1524792
+    },
+    {
+      "opened_at": "2026-07-29T04:05:00+00:00",
+      "open_won": 201000,
+      "high_won": 201500,
+      "low_won": 197800,
+      "close_won": 198700,
+      "volume": 1541164
+    },
+    {
+      "opened_at": "2026-07-29T04:10:00+00:00",
+      "open_won": 198700,
+      "high_won": 199700,
+      "low_won": 197400,
+      "close_won": 198300,
+      "volume": 856602
+    },
+    {
+      "opened_at": "2026-07-29T04:15:00+00:00",
+      "open_won": 198400,
+      "high_won": 198800,
+      "low_won": 192800,
+      "close_won": 194300,
+      "volume": 1561916
+    },
+    {
+      "opened_at": "2026-07-29T04:20:00+00:00",
+      "open_won": 194300,
+      "high_won": 195800,
+      "low_won": 192000,
+      "close_won": 194800,
+      "volume": 1350574
+    },
+    {
+      "opened_at": "2026-07-29T04:25:00+00:00",
+      "open_won": 194800,
+      "high_won": 194900,
+      "low_won": 191500,
+      "close_won": 191800,
+      "volume": 1086022
+    },
+    {
+      "opened_at": "2026-07-29T04:30:00+00:00",
+      "open_won": 192000,
+      "high_won": 192000,
+      "low_won": 189200,
+      "close_won": 190900,
+      "volume": 1586868
+    },
+    {
+      "opened_at": "2026-07-29T04:35:00+00:00",
+      "open_won": 190800,
+      "high_won": 195000,
+      "low_won": 190800,
+      "close_won": 193300,
+      "volume": 983078
+    },
+    {
+      "opened_at": "2026-07-29T04:40:00+00:00",
+      "open_won": 193400,
+      "high_won": 194100,
+      "low_won": 191300,
+      "close_won": 191800,
+      "volume": 814649
+    },
+    {
+      "opened_at": "2026-07-29T04:45:00+00:00",
+      "open_won": 191800,
+      "high_won": 194700,
+      "low_won": 191500,
+      "close_won": 194500,
+      "volume": 825375
+    },
+    {
+      "opened_at": "2026-07-29T04:50:00+00:00",
+      "open_won": 194500,
+      "high_won": 199000,
+      "low_won": 194400,
+      "close_won": 198400,
+      "volume": 1599727
+    },
+    {
+      "opened_at": "2026-07-29T04:55:00+00:00",
+      "open_won": 198300,
+      "high_won": 201000,
+      "low_won": 197200,
+      "close_won": 200500,
+      "volume": 1353025
+    },
+    {
+      "opened_at": "2026-07-29T05:00:00+00:00",
+      "open_won": 200500,
+      "high_won": 203500,
+      "low_won": 199600,
+      "close_won": 202250,
+      "volume": 1447616
+    },
+    {
+      "opened_at": "2026-07-29T05:05:00+00:00",
+      "open_won": 202500,
+      "high_won": 204500,
+      "low_won": 200000,
+      "close_won": 203000,
+      "volume": 920268
+    },
+    {
+      "opened_at": "2026-07-29T05:10:00+00:00",
+      "open_won": 203000,
+      "high_won": 204500,
+      "low_won": 202000,
+      "close_won": 204500,
+      "volume": 757125
+    },
+    {
+      "opened_at": "2026-07-29T05:15:00+00:00",
+      "open_won": 204500,
+      "high_won": 204500,
+      "low_won": 200500,
+      "close_won": 201500,
+      "volume": 738382
+    },
+    {
+      "opened_at": "2026-07-29T05:20:00+00:00",
+      "open_won": 201500,
+      "high_won": 204500,
+      "low_won": 201000,
+      "close_won": 204000,
+      "volume": 587502
+    },
+    {
+      "opened_at": "2026-07-29T05:25:00+00:00",
+      "open_won": 204000,
+      "high_won": 206500,
+      "low_won": 203500,
+      "close_won": 205500,
+      "volume": 866974
+    },
+    {
+      "opened_at": "2026-07-29T05:30:00+00:00",
+      "open_won": 205500,
+      "high_won": 206000,
+      "low_won": 203500,
+      "close_won": 206000,
+      "volume": 591094
+    },
+    {
+      "opened_at": "2026-07-29T05:35:00+00:00",
+      "open_won": 206000,
+      "high_won": 208000,
+      "low_won": 205000,
+      "close_won": 208000,
+      "volume": 733006
+    },
+    {
+      "opened_at": "2026-07-29T05:40:00+00:00",
+      "open_won": 208000,
+      "high_won": 208500,
+      "low_won": 206000,
+      "close_won": 206500,
+      "volume": 735315
+    },
+    {
+      "opened_at": "2026-07-29T05:45:00+00:00",
+      "open_won": 206500,
+      "high_won": 208500,
+      "low_won": 205000,
+      "close_won": 207000,
+      "volume": 663610
+    },
+    {
+      "opened_at": "2026-07-29T05:50:00+00:00",
+      "open_won": 207500,
+      "high_won": 208000,
+      "low_won": 205000,
+      "close_won": 207000,
+      "volume": 531916
+    },
+    {
+      "opened_at": "2026-07-29T05:55:00+00:00",
+      "open_won": 207000,
+      "high_won": 207500,
+      "low_won": 206000,
+      "close_won": 207000,
+      "volume": 529021
+    }
+  ]
+}

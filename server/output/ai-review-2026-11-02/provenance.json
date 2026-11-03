@@ -1,0 +1,17 @@
+{
+  "archive": "app/data/historical/2026-10-20/yahoo-005930-5m.json.gz",
+  "sha256": "3a330900c168da6d38ddd84d1549a7137c11d41b879547c5aa9dec7276402b1d",
+  "parser_quality": {
+    "raw_sha256": "3a330900c168da6d38ddd84d1549a7137c11d41b879547c5aa9dec7276402b1d",
+    "exclusions": {
+      "after_cutoff": 37,
+      "non_regular": 0,
+      "null_ohlcv": 16
+    },
+    "rows": 4232,
+    "volume_zero_rows": 14,
+    "first_bar": "2026-07-22T00:00:00+00:00",
+    "last_bar": "2026-10-19T05:55:00+00:00"
+  },
+  "newly_downloaded": false
+}

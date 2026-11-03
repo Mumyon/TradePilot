@@ -30,6 +30,27 @@ class MemoryTokens implements TokenStore {
 }
 
 void main() {
+  test(
+    'expired session clears token and notifies the app to show login',
+    () async {
+      final tokens = MemoryTokens();
+      var notifications = 0;
+      final api = ApiClient(
+        Uri.parse('https://example.test'),
+        tokens,
+        client: MockClient((_) async => http.Response('{}', 401)),
+      );
+      api.onUnauthorized = () => notifications++;
+      addTearDown(api.close);
+      await expectLater(
+        api.request('GET', '/v1/settings'),
+        throwsA(isA<ApiException>()),
+      );
+      expect(await tokens.read(), isNull);
+      expect(notifications, 1);
+    },
+  );
+
   test('login replaces account identity and token together', () async {
     final tokens = MemoryTokens();
     final api = ApiClient(

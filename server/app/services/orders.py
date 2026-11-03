@@ -7,6 +7,8 @@ from sqlalchemy.orm import Session
 from ..config import Settings
 from ..models import Holding, Order, OrderCheck, Quote, Symbol, User, now
 from ..schemas import CheckResponse, Draft, Receipt, Submit
+from . import predictions, risk
+from .fees import reserve
 
 
 def receipt(order: Order) -> Receipt:
@@ -33,12 +35,13 @@ def reasons(db: Session, user: User, draft: Draft, settings: Settings) -> list[s
     quote = db.get(Quote, draft.symbol)
     if (
         quote is None
+        or (quote.source == "demo" and settings.market_data_mode != "demo")
         or not 0 <= (now() - quote.as_of).total_seconds() <= settings.quote_max_age_seconds
     ):
         issues.append("최신 시세를 확인할 수 없습니다.")
     if amount > user.order_limit_won:
         issues.append("1회 주문한도를 초과했습니다.")
-    if draft.side == "buy" and amount > user.cash_won - user.reserved_won:
+    if draft.side == "buy" and reserve(amount) > user.cash_won - user.reserved_won:
         issues.append("모의투자 주문 가능 잔액이 부족합니다.")
     if draft.side == "sell":
         holding = db.get(Holding, (user.id, draft.symbol))
@@ -47,18 +50,25 @@ def reasons(db: Session, user: User, draft: Draft, settings: Settings) -> list[s
     return issues
 
 
-def preflight(db: Session, user_id: str, draft: Draft, settings: Settings) -> CheckResponse:
+def preflight(
+    db: Session, user_id: str, draft: Draft, settings: Settings, *, origin="manual"
+) -> CheckResponse:
     user = lock_user(db, user_id)
     if db.get(Symbol, draft.symbol) is None:
         raise HTTPException(404, "등록되지 않은 종목입니다.")
-    issues = reasons(db, user, draft, settings)
-    messages = list(issues)
-    if draft.pilot_enabled:
-        messages.append("행동 분석 모듈 미연결: 뇌동매매 판단은 제공하지 않습니다.")
-    messages.append("모의주문 접수만 지원합니다. 실제 주문 전송·자동 체결은 없습니다.")
+    analysis = risk.evaluate(db, user, draft, settings)
+    analysis["prediction"] = predictions.get_prediction(db, draft.symbol, settings)
+    issues = reasons(db, user, draft, settings) + analysis["risk"]["reasons"]
+    messages = list(issues) + risk.messages(analysis)
+    messages.append(
+        "모의주문입니다. 접수 후 새 시세가 지정가 조건을 충족하면 전량 모의 체결됩니다. "
+        "수수료는 편도 0.015%입니다."
+    )
     check = OrderCheck(
         user_id=user.id,
+        origin=origin,
         draft=draft.model_dump(),
+        analysis=analysis,
         allowed=not issues,
         messages=messages,
         expires_at=now() + timedelta(seconds=settings.order_check_ttl_seconds),
@@ -70,6 +80,7 @@ def preflight(db: Session, user_id: str, draft: Draft, settings: Settings) -> Ch
         allowed=check.allowed,
         messages=check.messages,
         expires_at=check.expires_at,
+        analysis=check.analysis,
     )
 
 
@@ -80,29 +91,50 @@ def submit(db: Session, user_id: str, request: Submit, key: str, settings: Setti
         select(Order).where(Order.user_id == user_id, Order.idempotency_key == key)
     )
     if previous is not None:
-        if previous.request_body != body:
+        if Submit.model_validate(previous.request_body).model_dump() != body:
             raise HTTPException(409, "같은 주문 식별자에 다른 요청을 사용할 수 없습니다.")
         return receipt(previous)  # BEFORE checking current quote or check expiry.
     if db.get(Symbol, request.symbol) is None:
         raise HTTPException(404, "등록되지 않은 종목입니다.")
     check = db.get(OrderCheck, request.check_id)
     issues = []
+    assessment = None
     if (
         check is None
         or check.user_id != user_id
-        or check.draft != request.draft_dict()
+        or Draft.model_validate(check.draft).model_dump() != request.draft_dict()
         or check.consumed
         or not check.allowed
         or check.expires_at <= now()
     ):
         issues.append("주문 점검 결과가 유효하지 않습니다. 다시 점검하세요.")
     else:
+        assessment = risk.evaluate(db, user, request, settings)
         issues.extend(reasons(db, user, request, settings))
+        issues.extend(assessment["risk"]["reasons"])
+        original = check.analysis.get("behavior", {})
+        current = assessment["behavior"]
+        original_hits = {i["code"] for i in original.get("items", []) if i["status"] == "hit"}
+        current_hits = {i["code"] for i in current["items"] if i["status"] == "hit"}
+        if current["enabled"] and (
+            current_hits - original_hits or current["score"] > original.get("score", 0)
+        ):
+            issues.append("점검 이후 새로운 행동 경고가 발생했습니다. 다시 점검하세요.")
+        needs_ack = original.get("requires_ack", False) or current["requires_ack"]
+        needs_high = original.get("requires_high_ack", False) or current["requires_high_ack"]
+        if needs_ack and (
+            not request.warning_acknowledged or len(request.trade_reason.strip()) < 3
+        ):
+            issues.append("행동 경고 확인과 3자 이상의 거래 이유가 필요합니다.")
+        if needs_high and not request.high_risk_acknowledged:
+            issues.append("높음 단계: 계획과 주문 내용의 추가 확인이 필요합니다.")
         check.consumed = True
+        check.decision = "submitted"
+        check.decided_at = now()
     if not issues:
         amount = int(request.limit_price_won) * request.quantity
         if request.side == "buy":
-            user.reserved_won += amount
+            user.reserved_won += reserve(amount)
         else:
             holding = db.get(Holding, (user_id, request.symbol))
             holding.reserved += request.quantity
@@ -114,11 +146,28 @@ def submit(db: Session, user_id: str, request: Submit, key: str, settings: Setti
         side=request.side,
         quantity=request.quantity,
         limit_price_won=int(request.limit_price_won),
+        reserved_cash_won=reserve(int(request.limit_price_won) * request.quantity)
+        if not issues and request.side == "buy"
+        else 0,
+        plan_id=request.plan_id if assessment is not None else None,
+        plan_group_id=assessment["plan_group_id"]
+        if assessment is not None and not issues
+        else None,
+        analysis={
+            "preflight": check.analysis if check and check.user_id == user_id else {},
+            "submission": assessment,
+            "trade_reason": request.trade_reason,
+            "warning_acknowledged": request.warning_acknowledged,
+            "high_risk_acknowledged": request.high_risk_acknowledged,
+            "blocking_reasons": issues,
+        },
         status="rejected" if issues else "accepted",
-        reason=" ".join(issues) or None,
+        reason=" ".join(issues)[:500] or None,
     )
     db.add(order)
     db.flush()
+    if assessment is not None:
+        check.submitted_order_id = order.id
     return receipt(order)
 
 
@@ -129,7 +178,7 @@ def cancel(db: Session, user_id: str, order_id: str) -> Receipt:
         raise HTTPException(404, "주문을 찾을 수 없습니다.")
     if order.status == "accepted":
         if order.side == "buy":
-            user.reserved_won -= order.quantity * order.limit_price_won
+            user.reserved_won -= order.reserved_cash_won
         else:
             holding = db.get(Holding, (user_id, order.symbol))
             holding.reserved -= order.quantity

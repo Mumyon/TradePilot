@@ -6,3 +6,7 @@ __pycache__
 tests
 docs
 test-results
+
+.demo
+models
+training-data

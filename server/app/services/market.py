@@ -1,9 +1,12 @@
-from sqlalchemy import select
+from datetime import timedelta
+
+from sqlalchemy import delete, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
 from ..brokers.contracts import BrokerNotConfigured, MarketDataPort, MarketQuote
-from ..models import Quote, Symbol, Watchlist
+from ..brokers.demo import DemoMarketData
+from ..models import Quote, QuoteSample, Symbol, Watchlist, now
 from ..schemas import QuoteResponse
 
 
@@ -11,6 +14,15 @@ def publish_quote(db: Session, quote: MarketQuote) -> None:
     """Future broker stream/worker ingestion point; timestamps are market timestamps."""
     if quote.price_won <= 0 or quote.as_of.tzinfo is None:
         raise ValueError("Invalid market quote")
+    # Retain a bounded tick history for the 10-minute behavior comparison.
+    db.execute(
+        insert(QuoteSample)
+        .values(
+            symbol=quote.symbol, price_won=quote.price_won, as_of=quote.as_of, source=quote.source
+        )
+        .on_conflict_do_nothing()
+    )
+    db.execute(delete(QuoteSample).where(QuoteSample.as_of < now() - timedelta(hours=24)))
     statement = insert(Quote).values(
         symbol=quote.symbol,
         price_won=quote.price_won,
@@ -59,4 +71,5 @@ def snapshot(db: Session, user_id: str, provider: MarketDataPort) -> list[QuoteR
             source=q.source,
         )
         for q, name in rows
+        if q.source != "demo" or isinstance(provider, DemoMarketData)
     ]

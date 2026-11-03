@@ -10,4 +10,6 @@ class DemoMarketData:
         return MarketQuote(symbol, price, now(), "demo") if price else None
 
     def get_candles(self, symbol: str, interval: str) -> list[dict]:
-        return []
+        from ..services.candles import demo_candles
+
+        return demo_candles(symbol, interval)

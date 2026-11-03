@@ -58,9 +58,12 @@ def database(postgres_url, monkeypatch):
 @pytest.fixture
 def service(database):
     url, sessions = database
-    settings = Settings(database_url=url, market_data_mode="demo", _env_file=None)
+    settings = Settings(
+        database_url=url, market_data_mode="demo", paper_worker_enabled=False, _env_file=None
+    )
     with sessions.begin() as db:
         user = create_user(db, "test@example.com", "test-password-123", demo_holdings=True)
+        user.cooldown_seconds = 0  # Baseline tests isolate non-cooldown behavior.
         user_id = user.id
     app = create_app(settings, sessions)
     with TestClient(app) as client:

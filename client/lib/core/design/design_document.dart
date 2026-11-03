@@ -13,19 +13,21 @@ class DesignDocument {
   final Map<String, dynamic> colors;
   final List<DesignNode> screens;
 
-  static Future<DesignDocument> load() async {
-    final json = jsonDecode(
-      await rootBundle.loadString('assets/design/tradepilot.json'),
-    ) as Map<String, dynamic>;
+  static DesignDocument? _cached;
+  static Future<DesignDocument> load() async => _cached ??= await _read();
+
+  static Future<DesignDocument> _read() async {
+    final json =
+        jsonDecode(await rootBundle.loadString('assets/design/tradepilot.json'))
+            as Map<String, dynamic>;
     return DesignDocument(json['colors'], (json['screens'] as List).cast());
   }
 
   DesignNode screen(int index) =>
       jsonDecode(jsonEncode(screens[index])) as DesignNode;
 
-  Color color(String key) => Color(
-    int.parse('FF${(colors[key] as String).substring(1)}', radix: 16),
-  );
+  Color color(String key) =>
+      Color(int.parse('FF${(colors[key] as String).substring(1)}', radix: 16));
 }
 
 List<DesignNode> children(DesignNode node) =>
@@ -76,25 +78,33 @@ class DesignCanvas extends StatelessWidget {
           child = custom;
         } else if (node['type'] == 'text') {
           final fontSize = number(node, 'size');
-          child = Text(
-            node['value'] as String,
-            textAlign: centerText ? TextAlign.center : TextAlign.left,
-            style: TextStyle(
-              fontFamily: designFont,
-              fontFamilyFallback: const ['Noto Sans KR'],
-              fontSize: fontSize,
-              height: (fontSize * 1.5).ceil() / fontSize,
-              fontWeight: FontWeight.values[(node['weight'] as int) ~/ 100 - 1],
-              color: document.color(node['color']),
-              letterSpacing: 0,
-              decoration: TextDecoration.none,
+          child = Baseline(
+            baseline: fontSize * 1.12,
+            baselineType: TextBaseline.alphabetic,
+            child: SizedBox(
+              width: width,
+              child: Text(
+                node['value'] as String,
+                textAlign: centerText ? TextAlign.center : TextAlign.left,
+                style: TextStyle(
+                  fontFamily: designFont,
+                  fontFamilyFallback: const ['Noto Sans KR'],
+                  fontSize: fontSize,
+                  height: (fontSize * 1.5).ceil() / fontSize,
+                  fontWeight:
+                      FontWeight.values[(node['weight'] as int) ~/ 100 - 1],
+                  color: document.color(node['color']),
+                  letterSpacing: 0,
+                  decoration: TextDecoration.none,
+                ),
+              ),
             ),
           );
         } else if (node['type'] == 'rect') {
           child = ColoredBox(
-            color: document.color(node['color']).withValues(
-              alpha: (node['opacity'] as num? ?? 1).toDouble(),
-            ),
+            color: document
+                .color(node['color'])
+                .withValues(alpha: (node['opacity'] as num? ?? 1).toDouble()),
           );
         } else if (node['type'] == 'svg') {
           final w = number(node, 'w'), h = number(node, 'h');
