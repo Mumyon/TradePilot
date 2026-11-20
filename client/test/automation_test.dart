@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tradepilot_client/features/trading/domain/workspace_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/automation_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/paper_automation_screen.dart';
 
 class AutoFixture implements WorkspaceRepository {
   bool? enabled;
@@ -69,7 +69,7 @@ void main() {
     (tester) async {
       final repo = AutoFixture();
       await tester.pumpWidget(
-        MaterialApp(home: AutomationScreen(repository: repo)),
+        MaterialApp(home: PaperAutomationScreen(repository: repo)),
       );
       await tester.pumpAndSettle();
       await tester.tap(find.byType(DropdownButtonFormField<String>));

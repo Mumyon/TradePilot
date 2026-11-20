@@ -8,7 +8,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:tradepilot_client/app/tradepilot_app.dart';
 import 'package:tradepilot_client/core/network/api_client.dart';
 import 'package:tradepilot_client/features/trading/data/remote_trading_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/dataset_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/csv_dataset_screen.dart';
 import '../test/api_client_test.dart' show MemoryTokens;
 
 void main() {
@@ -37,7 +37,7 @@ void main() {
         key: key,
         child: MaterialApp(
           theme: theme,
-          home: DatasetScreen(
+          home: CsvDatasetScreen(
             repository: repo,
             pickFile: () async => XFile.fromData(
               utf8.encode(lines.join('\n')),

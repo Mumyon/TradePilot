@@ -118,13 +118,13 @@ def test_behavior_warning_is_not_auto_acknowledged(running, monkeypatch):
         assert "위험/행동" in db.scalar(select(AutomationEvent)).message
 
 
-def test_risk_limit_blocks_order(running):
+def test_cash_shortfall_blocks_order(running):
     with running[1].begin() as db:
-        db.get(User, running[2]).order_limit_won = 10000
+        db.get(User, running[2]).cash_won = 10000
     process(running)
     with running[1]() as db:
         assert db.scalar(select(func.count(Order.id))) == 0
-        assert "주문한도" in db.scalar(select(AutomationEvent)).message
+        assert "잔액" in db.scalar(select(AutomationEvent)).message
 
 
 def test_manual_intervention_stops(running):

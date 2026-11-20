@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tradepilot_client/features/trading/domain/models.dart';
+import 'package:tradepilot_client/features/trading/domain/trading_models.dart';
 import 'package:tradepilot_client/features/trading/domain/pending_order_store.dart';
 import 'package:tradepilot_client/features/trading/domain/workspace_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/risk_confirmation.dart';
-import 'package:tradepilot_client/features/trading/presentation/journal_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/order_risk_check_dialog.dart';
+import 'package:tradepilot_client/features/trading/presentation/trade_journal_screen.dart';
 
 OrderCheck check() => OrderCheck(
   id: 'check',
@@ -35,6 +35,13 @@ class EmptyJournal implements WorkspaceRepository {
       'prediction_evaluated': 0,
       'prediction_abstained': 0,
       'prediction_pending': 0,
+      'advice_comparison': {
+        'compared': 0,
+        'traded_after_wait': 0,
+        'excluded': 0,
+        'agreement_rate': null,
+        'difference_rate': null,
+      },
     },
     'items': [],
     'feedback': ['평가 대기'],
@@ -69,7 +76,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(body: RiskConfirmation(check: check())),
+        home: Scaffold(body: OrderRiskCheckDialog(check: check())),
       ),
     );
     FilledButton button() => tester.widget<FilledButton>(
@@ -91,15 +98,17 @@ void main() {
     await tester.pump();
     expect(button().onPressed, isNull);
   });
-  testWidgets('empty journal does not invent compliance or AI accuracy', (
+  testWidgets('empty journal shows comparison without inventing rates', (
     tester,
   ) async {
     await tester.pumpWidget(
-      MaterialApp(home: JournalScreen(repository: EmptyJournal())),
+      MaterialApp(home: TradeJournalScreen(repository: EmptyJournal())),
     );
     await tester.pumpAndSettle();
-    expect(find.text('계획 준수율 평가 기록 없음'), findsOneWidget);
-    expect(find.textContaining('AI 방향 일치율 평가 기록 없음'), findsOneWidget);
+    expect(find.text('일치율'), findsOneWidget);
+    expect(find.text('불일치율'), findsOneWidget);
+    expect(find.text('—'), findsNWidgets(2));
+    expect(find.textContaining('행동 점수'), findsNothing);
     expect(find.textContaining('100.0%'), findsNothing);
     expect(tester.takeException(), isNull);
   });

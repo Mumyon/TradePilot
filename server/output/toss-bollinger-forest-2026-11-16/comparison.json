@@ -1,0 +1,813 @@
+{
+  "test_start": "2026-09-01",
+  "evaluation": "Exploratory comparison on previously inspected test dates",
+  "label": "60 minutes, +/-0.5%; signal confidence >=65%",
+  "filter": "Current completed bar low <= prior 20 closes SMA minus 2 population SD",
+  "symbols": {
+    "005930": {
+      "windows": [
+        {
+          "start": "2026-09-01",
+          "end": "2026-09-14",
+          "samples": 300
+        },
+        {
+          "start": "2026-09-15",
+          "end": "2026-09-30",
+          "samples": 300
+        },
+        {
+          "start": "2026-10-01",
+          "end": "2026-10-16",
+          "samples": 300
+        },
+        {
+          "start": "2026-10-19",
+          "end": "2026-10-30",
+          "samples": 300
+        },
+        {
+          "start": "2026-11-02",
+          "end": "2026-11-13",
+          "samples": 300
+        }
+      ],
+      "results": {
+        "all": {
+          "eligible": 1500,
+          "coverage": 1.0,
+          "metrics": {
+            "samples": 1500,
+            "start": "2026-09-01T02:55:00+00:00",
+            "end": "2026-11-13T06:20:00+00:00",
+            "accuracy": 0.4073333333333333,
+            "macro_f1": 0.3478268464815309,
+            "classes": {
+              "up": {
+                "precision": 0.2018348623853211,
+                "recall": 0.2185430463576159,
+                "f1": 0.2098569157392687,
+                "support": 302
+              },
+              "neutral": {
+                "precision": 0.5274725274725275,
+                "recall": 0.5461441213653603,
+                "f1": 0.5366459627329192,
+                "support": 791
+              },
+              "down": {
+                "precision": 0.3192090395480226,
+                "recall": 0.27764127764127766,
+                "f1": 0.29697766097240474,
+                "support": 407
+              }
+            },
+            "confusion_matrix": [
+              [
+                66,
+                172,
+                64
+              ],
+              [
+                182,
+                432,
+                177
+              ],
+              [
+                79,
+                215,
+                113
+              ]
+            ],
+            "brier": 0.6458991652889767,
+            "log_loss": 1.0649815455556872,
+            "reliability": [
+              {
+                "count": 809,
+                "confidence": 0.3708197225202829,
+                "accuracy": 0.377008652657602
+              },
+              {
+                "count": 514,
+                "confidence": 0.4393187808511157,
+                "accuracy": 0.41245136186770426
+              },
+              {
+                "count": 137,
+                "confidence": 0.5372687555065176,
+                "accuracy": 0.5109489051094891
+              },
+              {
+                "count": 31,
+                "confidence": 0.6353450388153812,
+                "accuracy": 0.6129032258064516
+              },
+              {
+                "count": 9,
+                "confidence": 0.7225467231086963,
+                "accuracy": 0.5555555555555556
+              }
+            ],
+            "expected_calibration_error": 0.016414089369475075,
+            "abstention_rate": 0.988,
+            "covered_predictions": 18,
+            "directional_predictions": 1,
+            "covered_accuracy": 0.5555555555555556,
+            "directional_accuracy": 0.0
+          },
+          "baseline": {
+            "samples": 1500,
+            "start": "2026-09-01T02:55:00+00:00",
+            "end": "2026-11-13T06:20:00+00:00",
+            "accuracy": 0.43866666666666665,
+            "macro_f1": 0.2641088102496122,
+            "classes": {
+              "up": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 302
+              },
+              "neutral": {
+                "precision": 0.48833333333333334,
+                "recall": 0.7408343868520859,
+                "f1": 0.5886489201406329,
+                "support": 791
+              },
+              "down": {
+                "precision": 0.24,
+                "recall": 0.1769041769041769,
+                "f1": 0.20367751060820363,
+                "support": 407
+              }
+            },
+            "confusion_matrix": [
+              [
+                0,
+                279,
+                23
+              ],
+              [
+                0,
+                586,
+                205
+              ],
+              [
+                0,
+                335,
+                72
+              ]
+            ],
+            "brier": 0.6707176857330674,
+            "log_loss": 1.1032529151780772,
+            "reliability": [
+              {
+                "count": 900,
+                "confidence": 0.3572649572649573,
+                "accuracy": 0.42777777777777776
+              },
+              {
+                "count": 300,
+                "confidence": 0.44743589743589746,
+                "accuracy": 0.5033333333333333
+              },
+              {
+                "count": 300,
+                "confidence": 0.6166666666666667,
+                "accuracy": 0.4066666666666667
+              }
+            ],
+            "expected_calibration_error": 0.09548717948717947,
+            "abstention_rate": 1.0,
+            "covered_predictions": 0,
+            "directional_predictions": 0,
+            "covered_accuracy": null,
+            "directional_accuracy": null
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "macro_f1_improves": true,
+              "brier_not_worse": true,
+              "up_supported_and_recalled": true,
+              "down_supported_and_recalled": true,
+              "directional_predictions_available": true
+            },
+            "failed_checks": []
+          },
+          "directional": {
+            "signals": 1,
+            "hits": 0,
+            "signal_days": 1,
+            "accuracy": 0.0,
+            "day_bootstrap_lower_95": null,
+            "reliable": false
+          },
+          "passed": false
+        },
+        "lower_band_touch": {
+          "eligible": 325,
+          "coverage": 0.21666666666666667,
+          "metrics": {
+            "samples": 325,
+            "start": "2026-09-01T05:15:00+00:00",
+            "end": "2026-11-13T04:55:00+00:00",
+            "accuracy": 0.4276923076923077,
+            "macro_f1": 0.3138373311993719,
+            "classes": {
+              "up": {
+                "precision": 0.03571428571428571,
+                "recall": 0.024390243902439025,
+                "f1": 0.028985507246376812,
+                "support": 41
+              },
+              "neutral": {
+                "precision": 0.5393258426966292,
+                "recall": 0.5423728813559322,
+                "f1": 0.5408450704225353,
+                "support": 177
+              },
+              "down": {
+                "precision": 0.35294117647058826,
+                "recall": 0.3925233644859813,
+                "f1": 0.37168141592920356,
+                "support": 107
+              }
+            },
+            "confusion_matrix": [
+              [
+                1,
+                26,
+                14
+              ],
+              [
+                18,
+                96,
+                63
+              ],
+              [
+                9,
+                56,
+                42
+              ]
+            ],
+            "brier": 0.6497455679018617,
+            "log_loss": 1.0683717540807842,
+            "reliability": [
+              {
+                "count": 151,
+                "confidence": 0.37271767545455436,
+                "accuracy": 0.4370860927152318
+              },
+              {
+                "count": 141,
+                "confidence": 0.43673197683940884,
+                "accuracy": 0.41843971631205673
+              },
+              {
+                "count": 30,
+                "confidence": 0.5308852021924639,
+                "accuracy": 0.4666666666666667
+              },
+              {
+                "count": 3,
+                "confidence": 0.63734970402786,
+                "accuracy": 0
+              }
+            ],
+            "expected_calibration_error": 0.04965367667254289,
+            "abstention_rate": 0.9969230769230769,
+            "covered_predictions": 1,
+            "directional_predictions": 1,
+            "covered_accuracy": 0.0,
+            "directional_accuracy": 0.0
+          },
+          "baseline": {
+            "samples": 325,
+            "start": "2026-09-01T05:15:00+00:00",
+            "end": "2026-11-13T04:55:00+00:00",
+            "accuracy": 0.4553846153846154,
+            "macro_f1": 0.2550927194665205,
+            "classes": {
+              "up": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "support": 41
+              },
+              "neutral": {
+                "precision": 0.503731343283582,
+                "recall": 0.7627118644067796,
+                "f1": 0.6067415730337079,
+                "support": 177
+              },
+              "down": {
+                "precision": 0.22807017543859648,
+                "recall": 0.12149532710280374,
+                "f1": 0.15853658536585363,
+                "support": 107
+              }
+            },
+            "confusion_matrix": [
+              [
+                0,
+                39,
+                2
+              ],
+              [
+                0,
+                135,
+                42
+              ],
+              [
+                0,
+                94,
+                13
+              ]
+            ],
+            "brier": 0.6648176402164591,
+            "log_loss": 1.0939001580627357,
+            "reliability": [
+              {
+                "count": 197,
+                "confidence": 0.35736040609137054,
+                "accuracy": 0.43147208121827413
+              },
+              {
+                "count": 42,
+                "confidence": 0.44743589743589746,
+                "accuracy": 0.5238095238095238
+              },
+              {
+                "count": 86,
+                "confidence": 0.6166666666666667,
+                "accuracy": 0.47674418604651164
+              }
+            ],
+            "expected_calibration_error": 0.09181854043392507,
+            "abstention_rate": 1.0,
+            "covered_predictions": 0,
+            "directional_predictions": 0,
+            "covered_accuracy": null,
+            "directional_accuracy": null
+          },
+          "gate": {
+            "passed": true,
+            "checks": {
+              "macro_f1_improves": true,
+              "brier_not_worse": true,
+              "up_supported_and_recalled": true,
+              "down_supported_and_recalled": true,
+              "directional_predictions_available": true
+            },
+            "failed_checks": []
+          },
+          "directional": {
+            "signals": 1,
+            "hits": 0,
+            "signal_days": 1,
+            "accuracy": 0.0,
+            "day_bootstrap_lower_95": null,
+            "reliable": false
+          },
+          "passed": false
+        }
+      },
+      "input_sha256": {
+        "005930-2025-01-02.csv": "c4e680cbf798ad71d48c4820f6ee3e48ac185dd1713a71162c2cce40731a01e6",
+        "005930-2025-01-23.csv": "c851a0b1abd941853cb0ce5a25ab7aca93462a3225b4a006a33454a87102a1b5",
+        "005930-2025-02-13.csv": "d3166939dbe5e988a43ec876b6cd6d1a06d78eccbae5a23cf03eaf9272efdc22",
+        "005930-2025-03-06.csv": "3eb16b8d41297c0547ceeb6b84ae1c122abe7204959549b33c6ae649c8fe1073",
+        "005930-2025-03-27.csv": "b10ebb304fb46afa08248fef1c652c6b6a6f69fdef07b707136f5fe7644ea2b0",
+        "005930-2025-04-17.csv": "0abe39895d8375429a25f11e19186bd11a1e3868976312352a1dd6a6ecb12d98",
+        "005930-2025-05-08.csv": "ab197b073078fece7983802c398201e6d63ca7d124b2d0dc0b1608cf745bab77",
+        "005930-2026-02-02.csv": "6b2031bc96b46b6af14a9d648755cf77d53333f5dfec59f11dda0a2bb2ef1945",
+        "005930-2026-02-23.csv": "76745260e8c2a04a0f4ce68e47f83fe19ed1e9d26d28247faf485d9128f5a2ef",
+        "005930-2026-03-16.csv": "653900d1df40a0393b0138d69c23ef2208f606d10ec9bef12bd96c1beed1018e",
+        "005930-2026-04-06.csv": "3decfc746c8daa6cb06157b0910b02ba6348b3bd1c2f858976f9c540bded5a14",
+        "005930-2026-04-27.csv": "a1188588db6a12bd44cb23861e95c0e71c24c605e043ee6e0731b22f41b96c40",
+        "005930-2026-05-18.csv": "350a9cee5433f2a5208b17e8d0449ca70d55e8d9e8c1729a594e324f00c4fcf6",
+        "005930-2026-06-08.csv": "effbb9ec5a30292d22022a840b1d0adc2a5163f5e58df75122e6dd92d46530c0",
+        "005930-2026-06-29.csv": "56d502095413e648bc08d352ed7ba1c61e08de22c3a337b417fdfad17dff8e23",
+        "005930-2026-07-20.csv": "cd278eb24e8d28e1dab380054d85d9aba745bef5fc0168f79859a0c08809e86f",
+        "005930-2025-09-01.csv": "e9b4161d9a3906df728741fe3325f7e22bff2a7bfc0907fac73e854551a3c7cd",
+        "005930-2025-09-22.csv": "2b193ac88b0fe6ec880cec645f0a5a670e8c4b073173c6705ee8859360ef2b95",
+        "005930-2025-10-13.csv": "e460eb17d995437cae5bd000c7f7b1bb8a7042246fc288f9e8b84ee91a80a73d",
+        "005930-2025-11-03.csv": "1ddc6b8384315637ecd3e1148d0a0cf455148b13dbb62cd2c0e8ddece9a68f42",
+        "005930-2025-11-24.csv": "c8809c722f978804d29b33639f5a6fb2e5fac6189a4918895ca3d3a082e40316",
+        "005930-2025-12-15.csv": "878026ce5f1a06c10375fb113d777131573b4949c034051f10cf65c40e44b15f",
+        "005930-2026-01-05.csv": "a0df99b18b6ceaa209f620ee6ffd0164150fdfcca0e06836a80b9d666e3daee9",
+        "005930-2026-01-26.csv": "8828bc5d4e899da3334c666a150cbeb0d3de05b0c64dfa2f8b355907665fb6d3",
+        "005930-2026-09-01.csv": "c2fbfaa02b4289eb55ce4b4191b6c0922459cefbdeae278c06b9a583d619d13d",
+        "005930-2026-09-08.csv": "7e8efe3d70e8f2dcf7e4201b1548c483dd6cc137f9f951af3178b4201f0e2592",
+        "005930-2026-09-15.csv": "cd761e7c240c3e2048153e780c55f186fc86eb1ed0df88816397bb2d9f9f03e9",
+        "005930-2026-09-22.csv": "7387de6cd56bb6734e174b2afe7c4e1ac10341e65aa355bea059e9b1d113688b",
+        "005930-2026-09-29.csv": "e6c2b6016c9b7f6f0e15b1ebc1ca3122170b4ae3d55dd1f48904c52ed3bb6e9a",
+        "005930-2026-10-06.csv": "37e57199b39cf78dedfcc9731ed30411bd74f8015d916b20c6ae8d2450ba6cc6",
+        "005930-2026-10-13.csv": "92631d1dff0f404654d956326e314feaa5413c4e802fda26d2e495a43d47899f",
+        "005930-2026-10-20.csv": "1401d1f5258fdca0a2e6b79d233c839d76f7a0478d6bb761c2949db24c225364",
+        "005930-2026-10-27.csv": "c7c5e8be9dff9e3f7c6a23c434bc1bcf4b549639c90e7b0ef64d2dc66d0e872a",
+        "005930-2026-11-03.csv": "d4d2cc7ad502c850f7037255798661d9dfd4da89e5b9d8d4d39d32e7a192204d",
+        "005930-2026-11-10.csv": "68dfbc4eab3ffead0e429dd739395d14f307f123df572890e7a604222f4d8593",
+        "005930-2025-05-12.csv": "103c077bfc15af31fe023e5a568782e1d89c9106b5cc8f7aa1fcec1116270755",
+        "005930-2025-06-02.csv": "c083b85c3ecf2bafd8f72519914f2bbf2aaa2cb4c631116f6552451e95bd8369",
+        "005930-2025-06-23.csv": "0268fd32db786257b98bf2527035491b9c7a89add2399a58cc1a92e7e2d564c8",
+        "005930-2025-07-14.csv": "884f6a424df948c0d0a42e5b7a6b5302244a3983f88a67702db8a11ece63581a",
+        "005930-2025-08-04.csv": "0a48fd6577a53a835faed2b10d6b61e349f8861d5ac2c57c57fb4dce0628b458",
+        "005930-2025-08-25.csv": "935badbd28073c3f32ba1983a975340b0dc9037d0283ca26c3013dc926f88732"
+      }
+    },
+    "000660": {
+      "windows": [
+        {
+          "start": "2026-09-01",
+          "end": "2026-09-14",
+          "samples": 300
+        },
+        {
+          "start": "2026-09-15",
+          "end": "2026-09-30",
+          "samples": 300
+        },
+        {
+          "start": "2026-10-01",
+          "end": "2026-10-16",
+          "samples": 300
+        },
+        {
+          "start": "2026-10-19",
+          "end": "2026-10-30",
+          "samples": 300
+        },
+        {
+          "start": "2026-11-02",
+          "end": "2026-11-13",
+          "samples": 300
+        }
+      ],
+      "results": {
+        "all": {
+          "eligible": 1500,
+          "coverage": 1.0,
+          "metrics": {
+            "samples": 1500,
+            "start": "2026-09-01T02:55:00+00:00",
+            "end": "2026-11-13T06:20:00+00:00",
+            "accuracy": 0.394,
+            "macro_f1": 0.3698142961100969,
+            "classes": {
+              "up": {
+                "precision": 0.339041095890411,
+                "recall": 0.24146341463414633,
+                "f1": 0.28205128205128205,
+                "support": 410
+              },
+              "neutral": {
+                "precision": 0.4224464060529634,
+                "recall": 0.5877192982456141,
+                "f1": 0.49156272927366107,
+                "support": 570
+              },
+              "down": {
+                "precision": 0.3783132530120482,
+                "recall": 0.3019230769230769,
+                "f1": 0.33582887700534764,
+                "support": 520
+              }
+            },
+            "confusion_matrix": [
+              [
+                99,
+                195,
+                116
+              ],
+              [
+                93,
+                335,
+                142
+              ],
+              [
+                100,
+                263,
+                157
+              ]
+            ],
+            "brier": 0.6614876290879869,
+            "log_loss": 1.0916128213617506,
+            "reliability": [
+              {
+                "count": 946,
+                "confidence": 0.37036388623382654,
+                "accuracy": 0.3784355179704017
+              },
+              {
+                "count": 504,
+                "confidence": 0.4305838760067959,
+                "accuracy": 0.4246031746031746
+              },
+              {
+                "count": 50,
+                "confidence": 0.5232980886550976,
+                "accuracy": 0.38
+              }
+            ],
+            "expected_calibration_error": 0.011876627708653404,
+            "abstention_rate": 1.0,
+            "covered_predictions": 0,
+            "directional_predictions": 0,
+            "covered_accuracy": null,
+            "directional_accuracy": null
+          },
+          "baseline": {
+            "samples": 1500,
+            "start": "2026-09-01T02:55:00+00:00",
+            "end": "2026-11-13T06:20:00+00:00",
+            "accuracy": 0.33466666666666667,
+            "macro_f1": 0.3297701189756249,
+            "classes": {
+              "up": {
+                "precision": 0.3,
+                "recall": 0.43902439024390244,
+                "f1": 0.3564356435643565,
+                "support": 410
+              },
+              "neutral": {
+                "precision": 0.34833333333333333,
+                "recall": 0.36666666666666664,
+                "f1": 0.3572649572649572,
+                "support": 570
+              },
+              "down": {
+                "precision": 0.37666666666666665,
+                "recall": 0.2173076923076923,
+                "f1": 0.275609756097561,
+                "support": 520
+              }
+            },
+            "confusion_matrix": [
+              [
+                180,
+                166,
+                64
+              ],
+              [
+                238,
+                209,
+                123
+              ],
+              [
+                182,
+                225,
+                113
+              ]
+            ],
+            "brier": 0.6938516765286005,
+            "log_loss": 1.1396016363692638,
+            "reliability": [
+              {
+                "count": 1200,
+                "confidence": 0.37596153846153846,
+                "accuracy": 0.34833333333333333
+              },
+              {
+                "count": 300,
+                "confidence": 0.4935897435897436,
+                "accuracy": 0.28
+              }
+            ],
+            "expected_calibration_error": 0.06482051282051282,
+            "abstention_rate": 1.0,
+            "covered_predictions": 0,
+            "directional_predictions": 0,
+            "covered_accuracy": null,
+            "directional_accuracy": null
+          },
+          "gate": {
+            "passed": false,
+            "checks": {
+              "macro_f1_improves": true,
+              "brier_not_worse": true,
+              "up_supported_and_recalled": true,
+              "down_supported_and_recalled": true,
+              "directional_predictions_available": false
+            },
+            "failed_checks": [
+              "directional_predictions_available"
+            ]
+          },
+          "directional": {
+            "signals": 0,
+            "hits": 0,
+            "signal_days": 0,
+            "accuracy": null,
+            "day_bootstrap_lower_95": null,
+            "reliable": false
+          },
+          "passed": false
+        },
+        "lower_band_touch": {
+          "eligible": 256,
+          "coverage": 0.17066666666666666,
+          "metrics": {
+            "samples": 256,
+            "start": "2026-09-01T05:20:00+00:00",
+            "end": "2026-11-13T06:20:00+00:00",
+            "accuracy": 0.33984375,
+            "macro_f1": 0.31094322344322345,
+            "classes": {
+              "up": {
+                "precision": 0.32,
+                "recall": 0.14545454545454545,
+                "f1": 0.19999999999999998,
+                "support": 55
+              },
+              "neutral": {
+                "precision": 0.3225806451612903,
+                "recall": 0.47619047619047616,
+                "f1": 0.3846153846153846,
+                "support": 84
+              },
+              "down": {
+                "precision": 0.3644859813084112,
+                "recall": 0.3333333333333333,
+                "f1": 0.3482142857142857,
+                "support": 117
+              }
+            },
+            "confusion_matrix": [
+              [
+                8,
+                19,
+                28
+              ],
+              [
+                4,
+                40,
+                40
+              ],
+              [
+                13,
+                65,
+                39
+              ]
+            ],
+            "brier": 0.6735210767776056,
+            "log_loss": 1.1076754372638298,
+            "reliability": [
+              {
+                "count": 210,
+                "confidence": 0.364723694208883,
+                "accuracy": 0.36666666666666664
+              },
+              {
+                "count": 45,
+                "confidence": 0.44459755824955105,
+                "accuracy": 0.2222222222222222
+              },
+              {
+                "count": 1,
+                "confidence": 0.5104655799109501,
+                "accuracy": 0
+              }
+            ],
+            "expected_calibration_error": 0.042677265301856684,
+            "abstention_rate": 1.0,
+            "covered_predictions": 0,
+            "directional_predictions": 0,
+            "covered_accuracy": null,
+            "directional_accuracy": null
+          },
+          "baseline": {
+            "samples": 256,
+            "start": "2026-09-01T05:20:00+00:00",
+            "end": "2026-11-13T06:20:00+00:00",
+            "accuracy": 0.24609375,
+            "macro_f1": 0.23306181445716329,
+            "classes": {
+              "up": {
+                "precision": 0.12162162162162163,
+                "recall": 0.16363636363636364,
+                "f1": 0.13953488372093023,
+                "support": 55
+              },
+              "neutral": {
+                "precision": 0.2982456140350877,
+                "recall": 0.40476190476190477,
+                "f1": 0.3434343434343434,
+                "support": 84
+              },
+              "down": {
+                "precision": 0.29411764705882354,
+                "recall": 0.17094017094017094,
+                "f1": 0.21621621621621623,
+                "support": 117
+              }
+            },
+            "confusion_matrix": [
+              [
+                9,
+                23,
+                23
+              ],
+              [
+                25,
+                34,
+                25
+              ],
+              [
+                40,
+                57,
+                20
+              ]
+            ],
+            "brier": 0.6879116843359612,
+            "log_loss": 1.128039574225594,
+            "reliability": [
+              {
+                "count": 190,
+                "confidence": 0.378502024291498,
+                "accuracy": 0.22105263157894736
+              },
+              {
+                "count": 66,
+                "confidence": 0.4935897435897436,
+                "accuracy": 0.3181818181818182
+              }
+            ],
+            "expected_calibration_error": 0.16207932692307694,
+            "abstention_rate": 1.0,
+            "covered_predictions": 0,
+            "directional_predictions": 0,
+            "covered_accuracy": null,
+            "directional_accuracy": null
+          },
+          "gate": {
+            "passed": false,
+            "checks": {
+              "macro_f1_improves": true,
+              "brier_not_worse": true,
+              "up_supported_and_recalled": true,
+              "down_supported_and_recalled": true,
+              "directional_predictions_available": false
+            },
+            "failed_checks": [
+              "directional_predictions_available"
+            ]
+          },
+          "directional": {
+            "signals": 0,
+            "hits": 0,
+            "signal_days": 0,
+            "accuracy": null,
+            "day_bootstrap_lower_95": null,
+            "reliable": false
+          },
+          "passed": false
+        }
+      },
+      "input_sha256": {
+        "000660-2025-01-02.csv": "97bdab608d4177214b4e30b74cd1f1b086e01ff352292b27ffc7ed16969d850d",
+        "000660-2025-01-23.csv": "f6ac50ee79dd77356bc63485f27d0c5f2348cc873f79cba89c7b55f1894412e5",
+        "000660-2025-02-13.csv": "65a79c7a6197be2bf30100e2e5f90975de4f7ef1bfbb16fe76224f80fd7afa85",
+        "000660-2025-03-06.csv": "41c6bab302bf64d1fb2c7945d24e4c6af649aac8e7e0c09eb44f8c16bac02c60",
+        "000660-2025-03-27.csv": "ee73277e8ef2bb2ae821ed9a7cf24b855e43c14adf571d0a5d4cc5fd14e56059",
+        "000660-2025-04-17.csv": "6831b369c7bdbedfa9138c68d641a6162488f093e31d0f02758b4c152f08d418",
+        "000660-2025-05-08.csv": "e434fab9f74fb5f760551c202cf4b79fcc6e89df1d8e59b9e142fca61e84d164",
+        "000660-2026-02-02.csv": "af772d89386ead3b2ff4a4f4be3da843da7f6def9cb934ab24e771a66f12eaad",
+        "000660-2026-02-23.csv": "ec45b6cee4b1c59cd11936ab0541687f85b899f30397138d984abd9648c373f2",
+        "000660-2026-03-16.csv": "b842de899e6a0e9b6f0af454cb523b4a93868bfad4d4b727f7eb511cb33e169c",
+        "000660-2026-04-06.csv": "72050df723449850eebacc24da997ed507dd7e080c51a9a8f067e89ebc0a143f",
+        "000660-2026-04-27.csv": "b4b711215a0192496110ce6f750302a8448e5ae0773189b4c082c8ff20196363",
+        "000660-2026-05-18.csv": "1c707a1695ab7127fad15bc56fcb1e09c3e1df9c5bd0210ccb0e73779d3a0cbf",
+        "000660-2026-06-08.csv": "a273b3f0f559458583e181d13c089a7977ec46f28755e342e887118e1f8d789f",
+        "000660-2026-06-29.csv": "0ba61cd74819153f867bf9fab77e735c5efbf68fa5d4b75894c1a637aa6f9c0a",
+        "000660-2026-07-20.csv": "3efea5c69900edbdc182a6a28001f80d700bc82ce2ff569c2bbf168af7c75b90",
+        "000660-2025-09-01.csv": "490df253f39b9d772cef07f29078c424ae8bb01804548169bba6ba6e8d4fe209",
+        "000660-2025-09-22.csv": "eb3f860caf85cb2daf31319d63a0de90316305a096fe98a1240ef1b390e9f770",
+        "000660-2025-10-13.csv": "4c0526f348f66b4f802b125461fd4d3e615ebefdf08bec6e888f712ab6638f75",
+        "000660-2025-11-03.csv": "a7d99e7fc16cc75a9182db2b6a7c5aac88c78f1b6e4b4fd6f4e2354aea2d4529",
+        "000660-2025-11-24.csv": "71c896cbbae32c43517956690e8bc4f265b8997601ca53fba92e73ac3ded6f59",
+        "000660-2025-12-15.csv": "c9acc09a1ceae3e0137b1de88dbbfb921a4a83d4d0abfbbc46a4a1e5d457dda1",
+        "000660-2026-01-05.csv": "e5ded3e6e368b667ced1cbbc498393f80742fe76c1b585d84c49a9a8bb378190",
+        "000660-2026-01-26.csv": "cbf89f8b49a11f0d163b7ac3910737cb72bedb914fd98db41fcd8ed0d6759956",
+        "000660-2026-09-01.csv": "028b6a50aaccfc6f9103fc7fd0dcd7f33c36a526d3dfa89fb13a601ce660d82a",
+        "000660-2026-09-08.csv": "a02d21424fc5f0b61372b7c3984dc9bea642a5c13c99d9160a4d136747ce35de",
+        "000660-2026-09-15.csv": "2e8fb9284d2425b1375230d9c71aeb285194474b83a52b6fd75675505431e954",
+        "000660-2026-09-22.csv": "c3082fec4f732bf0677bd56ad1a62853e6d5668f414a0a45f2cfc691bfc5497d",
+        "000660-2026-09-29.csv": "e8886deb1a3f2b31cbb2863a042d3b29f2484f3f4aeadf9687f2efc472c65f33",
+        "000660-2026-10-06.csv": "9bc362b9a7f1d58205efac39362adbcfaca4e32044f621e23b802783d1c0d081",
+        "000660-2026-10-13.csv": "6c9fbccdff44a0a6f96133a841610faa4f43171b62f66ea47f3936052916e5a2",
+        "000660-2026-10-20.csv": "f07da71b67cb055495ea4ad5f6dcd21848e9d71be5d561b9c375517bc0cea654",
+        "000660-2026-10-27.csv": "f23065dd23f0c8854e749b17cb7176c552a206e8cd5cde5536627feedfa2082a",
+        "000660-2026-11-03.csv": "60138b8d133241e68ab3987723d1ea8dcb2e78f7d07892ca58a8b44de7718ff3",
+        "000660-2026-11-10.csv": "1c3ad3c672e7ac1c81ba3274ecad12eed2afc8be33dd28a7da167ee60ab3439d",
+        "000660-2025-05-12.csv": "5c6d43290ae7016620ebac7be395742b9bdc0574fc292281b98f535cb7c82b8c",
+        "000660-2025-06-02.csv": "f5400b2b418cd4de47d6c019194075da373e5f9aef700d398b4d62a8eaf48668",
+        "000660-2025-06-23.csv": "03c83659a0f17d7966bc33dbd1cdb8f83dbd4adf2d9856dffbdd947402b42f8a",
+        "000660-2025-07-14.csv": "9a3f1b01240efb46e189828e38cd4cfa3f6f8c7d7fc06635c8386f7af9b058b0",
+        "000660-2025-08-04.csv": "34120eefd67734a6c992432315f2886ac5ae0f46eeeba78da5848ec6e05f597c",
+        "000660-2025-08-25.csv": "3a54c066ec3f076a1b6989df5cd65e7e1f026407e336651b38c369b2107e01b4"
+      }
+    }
+  }
+}

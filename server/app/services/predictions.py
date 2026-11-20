@@ -1,11 +1,16 @@
-from datetime import timedelta
+import re
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
 
+from ..brokers.contracts import configured_source
+from ..brokers.toss import SOURCE as TOSS_SOURCE
+from ..brokers.toss import TossUnavailable, complete_five_minute_candles
 from ..ml.pipeline import BAR, KST, LABELS, Bar, feature_rows, label, load_artifact, predict, scale
-from ..models import Candle, PredictionRecord, new_id, now
+from ..models import Candle, PredictionRecord, Symbol, new_id, now
+from . import candles, market_hours
 
 REASONS = {
     "model_not_configured": "모델 학습 대기: 과거 OHLCV CSV로 학습한 모델을 연결하세요.",
@@ -17,6 +22,8 @@ REASONS = {
     "stale_data": "최신 완성 5분봉이 지연되었습니다.",
     "market_close": "장 마감까지 1시간이 남지 않았거나 정규장 시간이 아닙니다.",
     "training_overlap": "모델 평가 데이터 이후의 새로운 시세가 필요합니다.",
+    "source_mismatch": "모델과 현재 시세의 제공처가 다릅니다.",
+    "market_hours_unavailable": "정규장 시간을 확인하는 중입니다.",
 }
 
 
@@ -25,19 +32,76 @@ def unavailable(reason):
 
 
 def get_prediction(db, symbol, settings):
-    if not settings.prediction_model_path:
+    path = settings.prediction_model_path
+    if settings.prediction_model_directory and re.fullmatch(r"[A-Z0-9.]{1,16}", symbol):
+        per_symbol = settings.prediction_model_directory / f"{symbol}.json"
+        if per_symbol.is_file():
+            path = per_symbol
+    if not path:
         return unavailable("model_not_configured")
     try:
-        artifact = load_artifact(Path(settings.prediction_model_path))
+        artifact = load_artifact(Path(path))
         if artifact["data_kind"] != "historical":
             return unavailable("synthetic_model")
         if not artifact["quality_gate_passed"]:
             return unavailable("quality_gate")
         if artifact["symbol"] != symbol:
             return unavailable("symbol_mismatch")
+        source = configured_source(settings)
+        if source and source != artifact["source"]:
+            return unavailable("source_mismatch")
+        if source == TOSS_SOURCE:
+            at = now()
+            session = market_hours.status(db, settings, at)
+            if session["state"] == "unavailable":
+                return unavailable("market_hours_unavailable")
+            if not session["can_trade"] or at + timedelta(hours=1) > session["closes_at"]:
+                return unavailable("market_close")
         return infer(db, symbol, artifact)
     except (OSError, ValueError, KeyError, TypeError, OverflowError):
         return unavailable("model_invalid")
+
+
+def collect_toss_candles(sessions, provider, settings):
+    at = now()
+    with sessions() as db:
+        session = market_hours.status(db, settings, at)
+    opening, closing = session.get("opens_at"), session.get("closes_at")
+    if opening is None or closing is None or not opening <= at <= closing + BAR:
+        return
+    paths = (
+        sorted(settings.prediction_model_directory.glob("*.json"))
+        if settings.prediction_model_directory
+        else []
+    )
+    if settings.prediction_model_path:
+        paths.append(Path(settings.prediction_model_path))
+    symbols = set()
+    for path in paths:
+        try:
+            artifact = load_artifact(path)
+            if (
+                artifact["source"] == TOSS_SOURCE
+                and artifact["data_kind"] == "historical"
+                and artifact["quality_gate_passed"]
+            ):
+                symbols.add(artifact["symbol"])
+        except (OSError, ValueError, KeyError, TypeError, OverflowError):
+            continue
+    for symbol in sorted(symbols):
+        try:
+            minutes = provider.get_candles(symbol, "1m")
+        except TossUnavailable:
+            continue
+        rows = [
+            row
+            for row in complete_five_minute_candles(minutes)
+            if opening <= row["opened_at"] and row["opened_at"] + BAR <= min(at, closing)
+        ]
+        if rows:
+            with sessions.begin() as db:
+                if db.get(Symbol, symbol) is not None:
+                    candles.ingest(db, symbol, "5m", rows)
 
 
 def infer(db, symbol, artifact):
@@ -78,8 +142,6 @@ def infer(db, symbol, artifact):
         or stamp + timedelta(hours=1) > end
     ):
         return unavailable("market_close")
-    from datetime import datetime
-
     if datetime.fromisoformat(artifact["data_end"]) >= stamp:
         return unavailable("training_overlap")
     previous = db.scalar(

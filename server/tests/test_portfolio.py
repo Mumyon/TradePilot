@@ -1,10 +1,12 @@
 from concurrent.futures import ThreadPoolExecutor
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
+from decimal import ROUND_HALF_UP, Decimal
 
 from sqlalchemy import func, select
 from test_api import checked
 
 from app.brokers.contracts import MarketQuote
+from app.brokers.stream import StreamingMarketData
 from app.models import Candle, Fill, Holding, Order, Quote, User, now
 from app.services import portfolio
 from app.services.fees import fee, reserve
@@ -35,16 +37,8 @@ def test_account_settings_plans_watchlist(service):
     account = client.get("/v1/account").json()
     assert account["cash_won"] == "10000000"
     assert len(account["holdings"]) == 2
-    prefs = dict(
-        order_limit_won=500000,
-        daily_loss_limit_won=100000,
-        cooldown_seconds=120,
-        trading_rules="분할 매수",
-        trading_paused=False,
-    )
-    assert client.put("/v1/settings", json=prefs).json() == prefs
-    assert client.get("/v1/settings").json() == prefs
-    assert client.put("/v1/settings", json={**prefs, "order_limit_won": -1}).status_code == 422
+    assert client.get("/v1/settings").status_code == 404
+    assert client.put("/v1/settings", json={}).status_code == 404
     plan = dict(
         symbol="005930",
         side="buy",
@@ -73,6 +67,10 @@ def test_buy_sell_cost_and_pnl(service):
     fills = client.get("/v1/fills").json()["items"]
     assert fills[0]["price_won"] == "72000"
     assert fills[0]["fee_won"] == str(fee(360000))
+    for group in ("date", "symbol"):
+        profit = client.get(f"/v1/account/trade-profit?group_by={group}").json()
+        assert profit["items"] == [] and profit["symbols"] == []
+        assert profit["summary"]["fees_won"] == "0"
     assert client.post(f"/v1/orders/{accepted['order_id']}/cancel").json()["status"] == "filled"
     replay = client.post("/v1/orders", json=body, headers={"Idempotency-Key": "one"}).json()
     assert replay["status"] == "filled"
@@ -86,6 +84,44 @@ def test_buy_sell_cost_and_pnl(service):
     settle(service, 74000)
     fills = client.get("/v1/fills").json()["items"]
     assert fills[0]["realized_pnl_won"] == str(370000 - fee(370000) - basis)
+    profit = client.get("/v1/account/trade-profit?group_by=symbol").json()
+    assert profit["items"][0]["name"] == "삼성전자"
+    assert profit["summary"] == dict(
+        sell_amount_won="370000",
+        sell_quantity=5,
+        fees_won=str(fee(370000)),
+        realized_pnl_won=str(370000 - fee(370000) - basis),
+        sell_cost_won=str(basis),
+        realized_return_percent=str(
+            (Decimal(370000 - fee(370000) - basis) * 100 / basis).quantize(
+                Decimal("0.01"), rounding=ROUND_HALF_UP
+            )
+        ),
+    )
+    with sessions.begin() as db:
+        for fill in db.scalars(select(Fill).where(Fill.user_id == user_id)):
+            fill.created_at = datetime(2026, 10, 18, 15 if fill.side == "sell" else 14, tzinfo=UTC)
+        db.get(Quote, "005930").as_of = now() - timedelta(hours=3)
+    daily = client.get("/v1/account/trade-profit?start_date=2026-10-19&end_date=2026-10-19").json()
+    assert [row["start_date"] for row in daily["items"]] == ["2026-10-19"]
+    assert daily["summary"]["sell_cost_won"] == str(basis)
+    assert client.get("/v1/account/trade-profit").json()["items"] == daily["items"]
+    assert client.get("/v1/account/trade-profit?symbol=000660").json()["items"] == []
+    account = client.get("/v1/account").json()
+    samsung = next(h for h in account["holdings"] if h["symbol"] == "005930")
+    assert samsung["price_won"] == "74000"
+    assert samsung["valuation_won"] == "7400000"
+    assert samsung["market_value_won"] is None
+    assert account["stock_balance"]["stale"]
+    holdings = account["holdings"]
+    assert samsung["valuation_pnl_won"] == str(7400000 - fee(7400000) - int(samsung["cost_won"]))
+    balance = account["stock_balance"]
+    total_pnl = sum(int(h["valuation_pnl_won"]) for h in holdings)
+    total_cost = sum(int(h["cost_won"]) for h in holdings)
+    assert balance["unrealized_pnl_won"] == str(total_pnl)
+    assert balance["return_percent"] == str(
+        (Decimal(total_pnl) * 100 / total_cost).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+    )
     with sessions() as db:
         assert db.get(User, user_id).cash_won == 10000000 - 360000 - fee(360000) + 370000 - fee(
             370000
@@ -113,6 +149,24 @@ def test_limit_stale_cancel_and_fees(service):
         client.post("/v1/orders", json=body, headers={"Idempotency-Key": "fee"}).json()["status"]
         == "rejected"
     )
+
+
+def test_display_quote_values_holdings_without_enabling_execution(service):
+    _, sessions, user_id, settings = service
+    settings.market_data_mode = "toss"
+    provider = StreamingMarketData(["005930"], "toss_kr")
+    provider.quotes["005930"] = MarketQuote(
+        "005930", 74000, now() - timedelta(hours=3), "toss_kr", executable=False
+    )
+    with sessions.begin() as db:
+        account = portfolio.account(db, user_id, settings, provider)
+        samsung = next(h for h in account["holdings"] if h["symbol"] == "005930")
+        assert samsung["price_won"] == "74000"
+        assert samsung["valuation_return_percent"] == "1.63"
+        assert samsung["stale"]
+        assert samsung["market_value_won"] is None
+        assert db.get(Quote, "005930") is None
+        assert account["stock_balance"]["return_percent"] is None
 
 
 def test_concurrent_settlement_exactly_once(service):
@@ -154,6 +208,11 @@ def test_candles_and_missing_cost(service):
     settle(service)
     assert client.get("/v1/fills").json()["items"][0]["realized_pnl_won"] is None
     assert not client.get("/v1/account").json()["realized_pnl_complete"]
+    profit = client.get("/v1/account/trade-profit").json()
+    assert profit["items"] == [] and profit["symbols"] == []
+    assert profit["summary"]["sell_quantity"] == 0
+    assert profit["summary"]["realized_return_percent"] is None
+    assert client.get("/v1/account").json()["stock_balance"]["return_percent"] is None
 
 
 def test_cancel_fill_race(service):

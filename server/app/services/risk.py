@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 from fastapi import HTTPException
 from sqlalchemy import select
 
+from ..brokers.contracts import accepts_source
 from ..models import Candle, Fill, Holding, Order, Quote, QuoteSample, TradePlan, now
 
 VERSION = "behavior-2026-10-20-v2"
@@ -110,7 +111,7 @@ def evaluate(db, user, draft, settings):
     fresh = (
         quote is not None
         and 0 <= (at - quote.as_of).total_seconds() <= settings.quote_max_age_seconds
-        and (quote.source != "demo" or settings.market_data_mode == "demo")
+        and accepts_source(quote.source, settings)
     )
     quote = quote if fresh else None
     plan, plan_state, plan_message, stop = plan_context(db, user, draft, quote)
@@ -193,7 +194,6 @@ def evaluate(db, user, draft, settings):
         known=known,
         pnl=pnl,
         last=last,
-        user=user,
         settings=settings,
     )
 
@@ -218,8 +218,8 @@ def assess(
     known,
     pnl,
     last,
-    user,
     settings,
+    replay_limits=None,
 ):
     """Shared policy; callers supply live or isolated replay facts and their clock."""
     plan_matches = plan_state == "clear"
@@ -361,19 +361,22 @@ def assess(
         )
 
     issues = []
-    if settings.orders_halted or user.trading_paused:
+    if settings.orders_halted:
         issues.append("신규 모의주문이 정지되어 있습니다. 기존 주문 취소는 가능합니다.")
-    if draft.side == "buy":
+    if draft.side == "buy" and replay_limits is not None:
         if not known:
             issues.append("당일 실현손익을 확인할 수 없어 신규·추가 매수를 차단합니다.")
-        elif pnl <= -user.daily_loss_limit_won:
+        elif pnl <= -replay_limits.daily_loss_limit_won:
             issues.append(
-                f"일일 손실한도 도달: 순실현손익 {pnl:,}원 / 한도 {user.daily_loss_limit_won:,}원. "
+                f"일일 손실한도 도달: 순실현손익 {pnl:,}원 / "
+                f"한도 {replay_limits.daily_loss_limit_won:,}원. "
                 "매도는 허용됩니다."
             )
     remaining = 0
-    if last and user.cooldown_seconds > 0:
-        remaining = max(0, user.cooldown_seconds - int((at - last.created_at).total_seconds()))
+    if replay_limits is not None and last and replay_limits.cooldown_seconds > 0:
+        remaining = max(
+            0, replay_limits.cooldown_seconds - int((at - last.created_at).total_seconds())
+        )
         exempt = (
             draft.side == "sell" and stop and plan_matches and plan.created_at < last.created_at
         )
@@ -397,7 +400,7 @@ def assess(
             daily_pnl_won=str(pnl) if known else None,
             day_start=day_start.isoformat(),
             cooldown_remaining_seconds=remaining,
-            trading_paused=user.trading_paused or settings.orders_halted,
+            trading_paused=settings.orders_halted,
         ),
         plan_id=draft.plan_id,
         plan_group_id=group,
@@ -420,7 +423,7 @@ def assess(
 def messages(analysis):
     behavior = analysis["behavior"]
     if not behavior["enabled"]:
-        return ["행동 경고 OFF · 주문한도·손실한도·쿨다운·거래 정지는 계속 적용됩니다."]
+        return ["행동 경고 OFF · 잔액·보유수량·시세 유효성 등 주문 가능 여부는 계속 확인합니다."]
     level = {"low": "낮음", "caution": "주의", "high": "높음"}[behavior["level"]]
     result = [
         f"행동 점수 {behavior['score']}/100 · {level}"

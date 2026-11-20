@@ -271,14 +271,19 @@ def prediction(c, s):
     )
 
 
-def start(db, uid, cid, body):
+def start(db, uid, cid, body, *, training=None):
     lock_user(db, uid)
     c = case_owned(db, uid, cid, lock=True)
     runs = db.scalars(select(ReplayRun).where(ReplayRun.user_id == uid)).all()
     request = dict(case_id=cid, **body.model_dump(mode="json"))
+    if training is not None:
+        request["training_source"] = training["source_run_id"]
     for r in runs:
-        if r.state["start_request"]["request_id"] == body.request_id:
-            if r.state["start_request"] != request:
+        if (
+            r.state["start_request"]["request_id"] == body.request_id
+            and bool(r.state.get("training")) == bool(training)
+        ):
+            if {"experiment": "pilot", **r.state["start_request"]} != request:
                 raise HTTPException(409, "동일 요청 키의 내용이 다릅니다.")
             return view(c, r)
     if len(runs) >= 100:
@@ -293,9 +298,10 @@ def start(db, uid, cid, body):
             pair.case_id != cid
             or not pair.state["finished"]
             or pair.state["pilot_enabled"] == pilot_enabled
+            or pair.state.get("experiment", "pilot") != body.experiment
         ):
-            raise HTTPException(409, "완료한 동일 사례의 반대 Pilot 조건으로 시작하세요.")
-        if pair.state["sequence"] != 1 or any(
+            raise HTTPException(409, "완료한 동일 사례와 실험 유형의 반대 조건으로 시작하세요.")
+        if pair.state.get("training") or pair.state["sequence"] != 1 or any(
             r.id != pair.id and r.state["pair_id"] == pair.state["pair_id"] for r in runs
         ):
             raise HTTPException(409, "실험 쌍은 ON/OFF 각 1회입니다. 기존 실행을 이어가세요.")
@@ -314,6 +320,11 @@ def start(db, uid, cid, body):
             config=CONFIG,
             plan=plan,
             behavior_policy=behavior_policy,
+            **(
+                {"experiment": "ai_feedback", "protocol": "decision-ai-v1"}
+                if body.experiment == "ai_feedback"
+                else {}
+            ),
         )
     )
     if pair and comparison != pair.state["comparison_key"]:
@@ -323,9 +334,11 @@ def start(db, uid, cid, body):
         case_id=cid,
         state=dict(
             start_request=request,
+            **({"training": training} if training else {}),
             revision=0,
             cursor=c.config["start"],
             pilot_enabled=pilot_enabled,
+            experiment=body.experiment,
             plan=plan,
             config=CONFIG,
             behavior_policy=behavior_policy,
@@ -390,7 +403,7 @@ def analysis(c, s, action, *, shadow=False):
         plan.created_at = stamp(plan.created_at)
     draft = NS(
         side=action.side,
-        pilot_enabled=True if shadow else s["pilot_enabled"],
+        pilot_enabled=shadow or rule_feedback_enabled(s),
         plan_id=plan.id if plan else None,
     )
     ps, pm, stop = "unregistered", "계획 미등록", False
@@ -437,7 +450,6 @@ def analysis(c, s, action, *, shadow=False):
     position = price * s["quantity"] - s["cost"]
     user = NS(
         **{k: s["config"][k] for k in ["cooldown_seconds", "daily_loss_limit_won"]},
-        trading_paused=False,
     )
     result = risk.assess(
         at=at,
@@ -458,7 +470,7 @@ def analysis(c, s, action, *, shadow=False):
         known=True,
         pnl=daily,
         last=last,
-        user=user,
+        replay_limits=user,
         settings=NS(orders_halted=False),
     )
     pending = [o for o in orders if o["status"] == "accepted"]
@@ -474,12 +486,70 @@ def analysis(c, s, action, *, shadow=False):
         reasons.append("주문 가능 보유 수량 부족")
     if s["cursor"] >= len(c.rows) - 1:
         reasons.append("마지막 봉입니다. 실험을 종료하세요.")
-    result["prediction"] = prediction(c, s)
+    result["prediction"] = experiment_prediction(c, s)
     return result
+
+
+def rule_feedback_enabled(state):
+    return state.get("experiment", "pilot") == "pilot" and state["pilot_enabled"]
+
+
+def experiment_prediction(c, state):
+    if state.get("experiment") == "ai_feedback":
+        return {"status": "unavailable", "message": "ChatGPT 피드백 비교 조건입니다."}
+    return prediction(c, state)
 
 
 def check_public(check):
     return {k: v for k, v in check.items() if k != "shadow"}
+
+
+def record_order_display(db, uid, rid, check_id):
+    from .decision_ai import order_review
+
+    run = run_owned(db, uid, rid, lock=True)
+    state = copy.deepcopy(run.state)
+    check = next((item for item in state["checks"] if item["check_id"] == check_id), None)
+    if check is None:
+        raise HTTPException(404, "점검을 찾을 수 없습니다.")
+    if state.get("experiment") != "ai_feedback" or not check["allowed"]:
+        raise HTTPException(409, "표시 기록을 남길 수 없는 점검입니다.")
+    if check.get("order_displayed_at"):
+        return {"order_displayed_at": check["order_displayed_at"]}
+    if (
+        state["finished"]
+        or check["cursor"] != state["cursor"]
+        or check["decision"] != "pending"
+        or stamp(check["expires_at"]) <= now()
+    ):
+        raise HTTPException(409, "현재 봉의 유효한 주문 점검이 필요합니다.")
+    if state["pilot_enabled"]:
+        review = order_review(db, rid, check_id)
+        if review is None or review.status != "available":
+            raise HTTPException(409, "완료된 AI 조언만 표시를 기록할 수 있습니다.")
+    check["order_displayed_at"] = now().isoformat()
+    run.state = state
+    return {"order_displayed_at": check["order_displayed_at"]}
+
+
+def freeze_order_feedback(db, rid, state, check):
+    if state.get("experiment") != "ai_feedback" or not check["allowed"]:
+        return
+    if not state["pilot_enabled"]:
+        check["order_feedback"] = {"status": "off"}
+        return
+    from .decision_ai import order_review
+
+    record = order_review(db, rid, check["check_id"])
+    if record is None:
+        check["order_feedback"] = {"status": "not_requested"}
+    else:
+        check["order_feedback"] = dict(
+            status=record.status,
+            requested_at=record.created_at.isoformat(),
+            completed_at=record.completed_at.isoformat() if record.completed_at else None,
+            attempts=record.attempts,
+        )
 
 
 def apply(db, uid, rid, body):
@@ -557,6 +627,7 @@ def apply(db, uid, rid, body):
         for check in s["checks"]:
             if check["decision"] == "pending":
                 check["decision"] = "expired"
+                freeze_order_feedback(db, rid, s, check)
         s["equity"].append(equity(c, s))
     elif body.action == "check":
         assessed = analysis(c, s, body)
@@ -566,7 +637,9 @@ def apply(db, uid, rid, body):
             analysis=assessed,
             shadow=analysis(c, s, body, shadow=True),
             messages=assessed["risk"]["reasons"] + risk.messages(assessed),
-            expires_at=(now() + timedelta(seconds=60)).isoformat(),
+            expires_at=(
+                now() + timedelta(seconds=300 if s.get("experiment") == "ai_feedback" else 60)
+            ).isoformat(),
             cursor=s["cursor"],
             decision="pending",
             created_at=now().isoformat(),
@@ -586,6 +659,7 @@ def apply(db, uid, rid, body):
         if body.action == "presented":
             check["presented_at"] = check["presented_at"] or now().isoformat()
         elif body.action in ("defer", "close"):
+            freeze_order_feedback(db, rid, s, check)
             check.update(
                 decision="deferred" if body.action == "defer" else "closed",
                 decided_at=now().isoformat(),
@@ -594,6 +668,11 @@ def apply(db, uid, rid, body):
         else:
             if stamp(check["expires_at"]) < now():
                 raise HTTPException(409, "점검 유효시간이 지났습니다. 다시 점검하세요.")
+            if s.get("experiment") == "ai_feedback" and s["pilot_enabled"]:
+                from .decision_ai import order_key
+
+                if order_key(rid, check["check_id"]) not in s.get("ai_exposures", {}):
+                    raise HTTPException(409, "AI 주문 검토를 확인한 뒤 결정하세요.")
             if check["draft"] != dict(
                 side=body.side, quantity=body.quantity, price=body.limit_price_won
             ):
@@ -624,6 +703,7 @@ def apply(db, uid, rid, body):
                 submitted_at=now().isoformat(),
             )
             s["orders"].append(order)
+            freeze_order_feedback(db, rid, s, check)
             check.update(
                 decision="submitted",
                 decided_at=now().isoformat(),
@@ -643,6 +723,7 @@ def apply(db, uid, rid, body):
         for check in s["checks"]:
             if check["decision"] == "pending":
                 check["decision"] = "unresolved_at_finish"
+                freeze_order_feedback(db, rid, s, check)
         s.update(finished=True, finished_at=now().isoformat())
     s["revision"] += 1
     s["requests"][body.request_id] = dict(hash=digest(payload), result=result)
@@ -657,7 +738,7 @@ def summary(c, s):
     compliant = sum(o["analysis"]["context"]["plan_status"] == "clear" for o in evaluated)
     # Same rule applies retrospectively in both conditions; never exposed during OFF.
     qualified = [x for x in s["checks"] if x["shadow"]["behavior"]["requires_ack"] and x["allowed"]]
-    presented = [x for x in qualified if x["presented_at"] and s["pilot_enabled"]]
+    presented = [x for x in qualified if x["presented_at"] and rule_feedback_enabled(s)]
     times = [
         (stamp(x["decided_at"]) - stamp(x["presented_at"])).total_seconds()
         for x in s["checks"]
@@ -690,12 +771,75 @@ def summary(c, s):
         final_equity_won=equity(c, s)["value"],
         return_percent=(equity(c, s)["value"] / s["config"]["initial_cash_won"] - 1) * 100,
         max_drawdown_percent=drawdown * 100,
+        **ai_comparison_metrics(c, s, qualified),
         prediction_review=replay_predictions.review(c, s)["summary"],
         warning_types=replay_feedback.breakdown(s),
         warning=(
             "반복 점검은 독립 표본이 아닙니다. "
             "관찰 지표만으로 뇌동매매 감소의 인과 효과를 결론낼 수 없습니다."
         ),
+    )
+
+
+def ai_comparison_metrics(c, state, qualified):
+    if state.get("experiment") != "ai_feedback":
+        return {}
+    exposures = state.get("ai_exposures", {}).values()
+    submissions = sum(check["decision"] == "submitted" for check in qualified)
+    allowed = sum(check["allowed"] for check in state["checks"])
+    seen = sum(item["stage"] == "order" for item in exposures)
+    measurements = [order_measurement(check) for check in state["checks"] if check["allowed"]]
+    waits = [row["ai_wait_seconds"] for row in measurements if row["ai_wait_seconds"] is not None]
+    decisions = [
+        row["post_display_seconds"]
+        for row in measurements
+        if row["post_display_seconds"] is not None
+    ]
+    statuses = [row["ai_order_status"] for row in measurements]
+    return dict(
+        ai_feedback_enabled=state["pilot_enabled"],
+        market_feedback_seen=sum(item["stage"] == "market" for item in exposures),
+        order_feedback_seen=seen,
+        allowed_checks=allowed,
+        advice_unconfirmed_checks=allowed - seen if state["pilot_enabled"] else None,
+        advice_failed_checks=statuses.count("failed"),
+        advice_waiting_at_end_checks=sum(
+            status in ("pending", "generating") for status in statuses
+        ),
+        advice_not_requested_checks=statuses.count("not_requested"),
+        feedback_unrecorded_checks=statuses.count("unrecorded"),
+        ai_wait_seconds_mean=sum(waits) / len(waits) if waits else None,
+        ai_wait_timed_count=len(waits),
+        post_display_seconds_mean=sum(decisions) / len(decisions) if decisions else None,
+        post_display_timed_count=len(decisions),
+        post_display_missing_count=sum(
+            check["decision"] in ("submitted", "deferred") for check in state["checks"]
+        )
+        - len(decisions),
+        flagged_submission_rate=submissions / len(qualified) if qualified else None,
+        full_horizon=state["cursor"] == len(c.rows) - 1,
+    )
+
+
+def order_measurement(check):
+    feedback = check.get("order_feedback", {})
+    displayed = check.get("order_displayed_at")
+
+    def elapsed(start, end):
+        if start and end and stamp(end) >= stamp(start):
+            return (stamp(end) - stamp(start)).total_seconds()
+        return None
+
+    return dict(
+        order_displayed_at=displayed,
+        ai_order_status=feedback.get("status", "unrecorded") if check["allowed"] else "blocked",
+        ai_order_requested_at=feedback.get("requested_at"),
+        ai_order_completed_at=feedback.get("completed_at"),
+        ai_order_attempts=feedback.get("attempts"),
+        ai_wait_seconds=elapsed(feedback.get("requested_at"), displayed),
+        post_display_seconds=elapsed(displayed, check.get("decided_at"))
+        if check["decision"] in ("submitted", "deferred")
+        else None,
     )
 
 
@@ -715,8 +859,19 @@ def decision_log(s):
 def view(c, r):
     s = r.state
     pending = [o for o in s["orders"] if o["status"] == "accepted"]
+    training = s.get("training")
+    result = summary(c, s) if s["finished"] else None
+    if training and result is not None:
+        rule = next(item for item in result["warning_types"] if item["code"] == training["code"])
+        training = {
+            **training,
+            "submitted": rule["submitted"],
+            "detected": rule["detected"],
+            "evaluated": len(s["checks"]) - rule["unavailable"],
+        }
     return dict(
         id=r.id,
+        training=training,
         case_id=c.id,
         case_name=c.config["name"],
         symbol=c.config["symbol"],
@@ -732,6 +887,11 @@ def view(c, r):
         total_steps=len(c.rows) - c.config["start"] - 1,
         virtual_at=virtual_at(c, s).isoformat(),
         pilot_enabled=s["pilot_enabled"],
+        experiment=s.get("experiment", "pilot"),
+        market_feedback_seen_current=any(
+            item["stage"] == "market" and item["cursor"] == s["cursor"]
+            for item in s.get("ai_exposures", {}).values()
+        ),
         finished=s["finished"],
         plan=s["plan"],
         config=s["config"],
@@ -748,19 +908,22 @@ def view(c, r):
         - sum(reserve(o["price"] * o["quantity"]) for o in pending if o["side"] == "buy"),
         equity_won=equity(c, s)["value"],
         visible_bars=c.rows[max(0, c.config["start"] - 34) : s["cursor"] + 1],
-        prediction=prediction(c, s),
+        prediction=experiment_prediction(c, s),
         orders=s["orders"],
-        summary=summary(c, s) if s["finished"] else None,
+        summary=result,
         prediction_review=replay_predictions.review(c, s) if s["finished"] else None,
         decisions=decision_log(s) if s["finished"] else None,
     )
 
 
 def export(db, uid, rid):
-    from .ai_review import exported
+    from ..models import AIReview
+    from .ai_review import exported, status_view
 
     r = run_owned(db, uid, rid)
     c = case_owned(db, uid, r.case_id)
+    if r.state.get("training"):
+        raise HTTPException(409, "개인 훈련은 연구 자료 내보내기 대상이 아닙니다.")
     if not r.state["finished"]:
         raise HTTPException(409, "실험 종료 후 연구 자료를 내보낼 수 있습니다.")
     s = r.state
@@ -783,6 +946,26 @@ def export(db, uid, rid):
         prediction_review=prediction_review,
         ai_review=exported(db, r.id),
     )
+    if s.get("experiment") == "ai_feedback":
+        evidence["order_measurements"] = [
+            dict(check_id=check["check_id"], **order_measurement(check)) for check in s["checks"]
+        ]
+        reviews = db.scalars(
+            select(AIReview).where(
+                AIReview.user_id == uid,
+                AIReview.data["experiment_run_id"].as_string() == r.id,
+            )
+        ).all()
+        evidence["decision_ai"] = [
+            dict(
+                id=review.id,
+                stage=review.data["feedback_stage"],
+                cursor=review.data["cursor"],
+                check_id=review.data["order_check_id"],
+                **status_view(review),
+            )
+            for review in reviews
+        ]
     fields = [
         "participant_id",
         "pair_id",
@@ -794,6 +977,17 @@ def export(db, uid, rid):
         "data_kind",
         "case_sha256",
         "pilot_enabled",
+        "experiment",
+        "ai_feedback_enabled",
+        "ai_order_seen_at",
+        "order_displayed_at",
+        "ai_order_status",
+        "ai_order_requested_at",
+        "ai_order_completed_at",
+        "ai_order_attempts",
+        "ai_wait_seconds",
+        "post_display_seconds",
+        "full_horizon",
         "check_id",
         "virtual_at",
         "presented_at",
@@ -843,6 +1037,20 @@ def export(db, uid, rid):
             data_kind=c.config["data_kind"],
             case_sha256=c.config["data_sha256"],
             pilot_enabled=s["pilot_enabled"],
+            experiment=s.get("experiment", "pilot"),
+            ai_feedback_enabled=s["pilot_enabled"]
+            if s.get("experiment") == "ai_feedback"
+            else None,
+            ai_order_seen_at=next(
+                (
+                    item["seen_at"]
+                    for item in s.get("ai_exposures", {}).values()
+                    if item["stage"] == "order" and item["check_id"] == check["check_id"]
+                ),
+                None,
+            ),
+            **(order_measurement(check) if s.get("experiment") == "ai_feedback" else {}),
+            full_horizon=s["cursor"] == len(c.rows) - 1,
             **{
                 k: check.get(k)
                 for k in ["check_id", "virtual_at", "presented_at", "decided_at", "decision"]
@@ -852,7 +1060,7 @@ def export(db, uid, rid):
             rule_version=check["shadow"].get("version"),
             shadow_score=check["shadow"]["behavior"]["score"],
             warning_shown=bool(
-                s["pilot_enabled"]
+                rule_feedback_enabled(s)
                 and check["presented_at"]
                 and check["shadow"]["behavior"]["requires_ack"]
             ),

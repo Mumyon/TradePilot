@@ -5,7 +5,9 @@ class AppConfig {
 
   factory AppConfig.fromEnvironment() {
     const demo = bool.fromEnvironment('DEMO_MODE', defaultValue: true);
-    const url = String.fromEnvironment('API_BASE_URL');
+    const configuredUrl = String.fromEnvironment('API_BASE_URL');
+    const sameOrigin = bool.fromEnvironment('WEB_SAME_ORIGIN');
+    final url = kIsWeb && sameOrigin ? Uri.base.origin : configuredUrl;
     if (!demo && url.isEmpty) {
       throw StateError('실서버 모드에는 API_BASE_URL이 필요합니다.');
     }

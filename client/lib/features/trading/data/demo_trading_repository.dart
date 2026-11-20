@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../domain/models.dart';
+import '../domain/trading_models.dart';
 import '../domain/trading_repository.dart';
 
 /// UI fixtures only. Does not implement a matching engine or risk engine.

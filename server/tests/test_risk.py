@@ -6,7 +6,7 @@ from sqlalchemy import select
 from test_api import draft
 
 from app.brokers.contracts import MarketQuote
-from app.models import Fill, Holding, Order, TradePlan, User, now
+from app.models import Fill, Holding, Order, TradePlan, now
 from app.services.market import publish_quote
 
 
@@ -264,11 +264,11 @@ def test_high_confirmation_and_new_warning_recheck(service):
     assert "새로운 행동 경고" in response.json()["reason"]
 
 
-def test_daily_loss_blocks_only_buys_and_cannot_pilot_off_bypass(service):
+def test_removed_daily_loss_limit_does_not_block_live_account(service):
     client = quotes(service, current=100000)
     history(service, [-1000000])
     _, result = check(client, pilot_enabled=False)
-    assert not result["allowed"]
+    assert result["allowed"]
     assert result["analysis"]["behavior"]["level"] == "disabled"
     _, result = check(client, side="sell")
     assert result["allowed"]
@@ -294,24 +294,16 @@ def test_loss_day_boundary_korea(service, monkeypatch):
     assert result["analysis"]["risk"]["daily_pnl_won"] == "-1000000"
 
 
-def test_final_risk_recheck_and_pause(service):
+def test_final_risk_rechecks_server_halt(service):
     client = quotes(service, current=100000)
     body, result = check(client)
-    _, sessions, uid, _ = service
-    with sessions.begin() as db:
-        db.get(User, uid).trading_paused = True
+    service[3].orders_halted = True
     assert send(client, body, result).json()["status"] == "rejected"
-    # A legacy client omitting the new flag must not silently resume trading.
-    prefs = client.get("/v1/settings").json()
-    prefs.pop("trading_paused")
-    assert client.put("/v1/settings", json=prefs).json()["trading_paused"]
 
 
-def test_concurrent_cooldown_and_cancel_do_not_bypass(service):
+def test_removed_cooldown_allows_independent_orders(service):
     client = quotes(service, current=100000)
     _, sessions, uid, _ = service
-    with sessions.begin() as db:
-        db.get(User, uid).cooldown_seconds = 300
     pending = [check(client), check(client)]
 
     def submit(i):
@@ -319,22 +311,20 @@ def test_concurrent_cooldown_and_cancel_do_not_bypass(service):
 
     with ThreadPoolExecutor(max_workers=2) as pool:
         results = list(pool.map(submit, [0, 1]))
-    assert sorted(r["status"] for r in results) == ["accepted", "rejected"]
+    assert [r["status"] for r in results] == ["accepted", "accepted"]
     accepted = next(r for r in results if r["status"] == "accepted")
     client.post(f"/v1/orders/{accepted['order_id']}/cancel")
     _, result = check(client, pilot_enabled=False)
-    assert not result["allowed"]
+    assert result["allowed"]
 
 
-def test_planned_stop_sell_cooldown_exception(service):
+def test_stop_sell_and_unplanned_sell_have_no_removed_cooldown(service):
     client = quotes(service, current=97000)
     p = plan(service, side="sell", stop_loss_won=98000)
     _, sessions, uid, _ = service
-    with sessions.begin() as db:
-        db.get(User, uid).cooldown_seconds = 300
     body, result = check(client, side="sell", plan_id=p)
     assert send(client, body, result).json()["status"] == "accepted"
     _, result = check(client, side="sell", plan_id=p)
     assert result["allowed"]
     _, result = check(client, side="sell")
-    assert not result["allowed"]
+    assert result["allowed"]

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:tradepilot_client/core/network/api_client.dart';
-import 'package:tradepilot_client/core/network/market_socket.dart';
+import 'package:tradepilot_client/core/network/market_websocket.dart';
 import 'package:tradepilot_client/features/trading/domain/trading_repository.dart';
 
 import 'api_client_test.dart' show MemoryTokens;
@@ -48,7 +48,7 @@ void main() {
           );
         }),
       );
-      final socket = MarketSocket(
+      final socket = MarketWebSocket(
         api,
         connect: (uri) => WebSocketChannel.connect(uri.replace(scheme: 'ws')),
       );

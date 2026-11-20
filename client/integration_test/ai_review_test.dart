@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:tradepilot_client/core/network/api_client.dart';
 import 'package:tradepilot_client/features/trading/data/remote_trading_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/ai_replay_review.dart';
+import 'package:tradepilot_client/features/trading/presentation/chatgpt_analysis_panel.dart';
 import '../test/api_client_test.dart' show MemoryTokens;
 
 void main() {
@@ -80,7 +80,7 @@ void main() {
             home: Scaffold(
               appBar: AppBar(title: const Text('자동검증 · 합성 · AI 응답 대역')),
               body: SingleChildScrollView(
-                child: AIReplayReview(
+                child: ChatGPTAnalysisPanel(
                   repository: RemoteTradingRepository(api),
                   runId: first['id'] as String,
                 ),

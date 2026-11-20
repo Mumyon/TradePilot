@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tradepilot_client/features/trading/data/demo_trading_repository.dart';
-import 'package:tradepilot_client/features/trading/domain/models.dart';
+import 'package:tradepilot_client/features/trading/domain/trading_models.dart';
 import 'package:tradepilot_client/features/trading/domain/pending_order_store.dart';
 import 'package:tradepilot_client/features/trading/presentation/trading_controller.dart';
 

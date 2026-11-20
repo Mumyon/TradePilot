@@ -1,3 +1,7 @@
+> 현재 선택한 시세 제공처는 나무 PLUG입니다. [나무 실제 시세 모의투자 안내](namuh-market-paper.md)를 참고하세요. 실주문은 후속 단계입니다.
+
+> 2026-11-08 업데이트: KIS **시세 전용** 연결이 추가되었습니다. 실제 시세 모의투자 실행은 [최신 안내](live-market-paper.md)를 따르세요. 아래 실주문 관련 내용은 후속 확장 설명이며 현재 ExecutionPort는 미설정입니다.
+
 > 2026-10-18 갱신: 모의 체결은 `services/portfolio.py`와 `services/paper_worker.py`에 구현했습니다. 증권사 실제 주문/체결과는 별도입니다. OHLCV 저장은 `services/candles.py::ingest`, 조회는 `history`를 사용합니다. 아래의 "모의 접수만" 설명은 이전 상태입니다. 현재 정책·검증은 루트 개발 결과 보고서를 참고하세요.
 
 # 나중에 증권사 API를 붙일 위치

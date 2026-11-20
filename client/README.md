@@ -5,6 +5,8 @@ Android·iOS용 **초기 클라이언트 구성**입니다. 서버·DB 구현은
 
 ## 실행
 
+브라우저용 빌드와 시연 방법은 [웹 시연 안내](docs/web-demo.md)를 참고하세요.
+
 Flutter stable SDK와 각 플랫폼 개발 도구가 필요합니다. 생성된 플랫폼 코드는 `android/`, `ios/`에 있습니다.
 구성 검증에는 Flutter 3.47.6 / Dart 3.13.5를 사용했습니다. 모든 명령은 `client/`에서 실행합니다.
 
@@ -34,16 +36,19 @@ HTTPS/WSS를 사용하고 인증서 검증을 해제하지 않습니다. 로컬 
 
 ## 구성
 
+[Dart 파일별 수정 안내](docs/dart-file-guide.md)에서 화면과 기능에 해당하는 파일을 찾을 수 있습니다.
+
 ```text
 lib/
   main.dart                        # 구성 읽기, 의존성 주입
-  app/tradepilot_app.dart           # 테마, 로그인, 세션 복원
+  app/tradepilot_app.dart           # 공통 테마, 로그인 여부에 따른 화면 전환, 세션 복원
+  app/login_screen.dart            # 로그인·회원가입 화면, 배경 사진, 전환 애니메이션
   core/
     config/app_config.dart         # 데모/서버 환경 분리
     auth/token_store.dart          # 플랫폼 보안 토큰 저장
     auth/secure_pending_order_store.dart # 계정별 미확인 주문 보존
     network/api_client.dart        # 인증 REST, timeout, 명시적 주문 키
-    network/market_socket.dart     # 티켓 인증, heartbeat, 재연결
+    network/market_websocket.dart  # 티켓 인증, heartbeat, 재연결
   features/trading/
     domain/                        # 모델, 저장소 인터페이스
     data/                          # 데모 / FastAPI 저장소

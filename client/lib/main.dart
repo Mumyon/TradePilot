@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'app/tradepilot_app.dart';
 import 'core/auth/token_store.dart';
@@ -17,6 +18,7 @@ void main() {
   runApp(
     TradePilotApp(
       api: api,
+      preferences: const FlutterSecureStorage(),
       pendingOrders: config.demo
           ? null
           : const SecurePendingOrderStore(SecureTokenStore()),

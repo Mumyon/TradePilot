@@ -6,6 +6,21 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 Money = Annotated[str, Field(pattern=r"^[1-9][0-9]{0,11}$")]
 SymbolCode = Annotated[str, Field(pattern=r"^[A-Z0-9.]{1,16}$")]
+PromptTarget = Literal["chart", "order"]
+
+
+class PromptOptionUpdate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    text: str | None = Field(max_length=12000)
+
+    @field_validator("text")
+    @classmethod
+    def validate_text(cls, value):
+        if value is None:
+            return None
+        if not value.strip() or "\0" in value:
+            raise ValueError("프롬프트를 입력해 주세요.")
+        return value.strip()
 
 
 class CheckDismiss(BaseModel):
@@ -29,6 +44,7 @@ class Draft(BaseModel):
     side: Literal["buy", "sell"]
     quantity: int = Field(gt=0, le=1_000_000, strict=True)
     limit_price_won: Money
+    test_mode: bool = Field(default=False, strict=True)
     order_type: Literal["limit"] = "limit"
     pilot_enabled: bool = Field(strict=True)
     plan_id: str | None = Field(default=None, min_length=1, max_length=36)
@@ -79,6 +95,7 @@ class QuoteResponse(BaseModel):
 
 class WatchlistResponse(BaseModel):
     items: list[QuoteResponse]
+    instruments: dict[str, str] = Field(default_factory=dict)
     market_data_mode: str
 
 
@@ -88,15 +105,6 @@ class OrderList(BaseModel):
 
 class TicketResponse(BaseModel):
     ticket: str
-
-
-class Preferences(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    order_limit_won: int = Field(gt=0, le=1_000_000_000, strict=True)
-    daily_loss_limit_won: int = Field(gt=0, le=1_000_000_000, strict=True)
-    cooldown_seconds: int = Field(ge=0, le=86400, strict=True)
-    trading_rules: str = Field(max_length=2000)
-    trading_paused: bool = Field(default=False, strict=True)
 
 
 class PlanInput(BaseModel):

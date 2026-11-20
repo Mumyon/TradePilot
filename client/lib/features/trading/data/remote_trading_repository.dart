@@ -1,20 +1,29 @@
 import '../../../core/network/api_client.dart';
-import '../../../core/network/market_socket.dart';
-import '../domain/models.dart';
+import '../../../core/network/market_websocket.dart';
+import '../domain/trading_models.dart';
 import '../domain/workspace_repository.dart';
 import '../domain/trading_repository.dart';
 
 class RemoteTradingRepository
-    implements TradingRepository, WorkspaceRepository {
+    implements
+        TradingRepository,
+        WorkspaceRepository,
+        ChartQuoteRepository,
+        WatchlistInstrumentRepository {
+  Map<String, String> _watchlistInstruments = {};
+
+  @override
+  Map<String, String> get watchlistInstruments => _watchlistInstruments;
+
   @override
   Future<Map<String, dynamic>> workspaceRequest(
     String method,
     String path, {
     Map<String, dynamic>? body,
   }) => api.request(method, path, body: body);
-  RemoteTradingRepository(this.api) : socket = MarketSocket(api);
+  RemoteTradingRepository(this.api) : socket = MarketWebSocket(api);
   final ApiClient api;
-  final MarketSocket socket;
+  final MarketWebSocket socket;
   @override
   bool get isDemo => false;
   @override
@@ -22,10 +31,19 @@ class RemoteTradingRepository
       .where((event) => event['type'] == 'quote')
       .map((event) => Quote.fromJson(event['data'] as Map<String, dynamic>));
   @override
+  Stream<Quote> get chartQuotes => socket.events
+      .where((event) => event['type'] == 'chart_quote')
+      .map((event) => Quote.fromJson(event['data'] as Map<String, dynamic>));
+  @override
+  void setChartSymbol(String? symbol) => socket.setChartSymbol(symbol);
+  @override
   Stream<ConnectionState> get connections => socket.states;
   @override
   Future<List<Quote>> snapshot() async {
     final json = await api.request('GET', '/v1/watchlist');
+    _watchlistInstruments = Map<String, String>.from(
+      json['instruments'] as Map? ?? const {},
+    );
     return (json['items'] as List)
         .map((item) => Quote.fromJson(item as Map<String, dynamic>))
         .toList();

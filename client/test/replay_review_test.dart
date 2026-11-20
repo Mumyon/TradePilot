@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tradepilot_client/features/trading/presentation/replay_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/historical_market_replay_screen.dart';
 import 'replay_test.dart' show ReplayFixture;
 
 class FinishedFixture extends ReplayFixture {
@@ -89,7 +89,7 @@ void main() {
     'finished replay separates abstention, outcomes and behavior feedback',
     (tester) async {
       await tester.pumpWidget(
-        MaterialApp(home: ReplayScreen(repository: FinishedFixture())),
+        MaterialApp(home: HistoricalMarketReplayScreen(repository: FinishedFixture())),
       );
       await tester.pumpAndSettle();
       await tester.scrollUntilVisible(find.text('이어서 실험'), 250);

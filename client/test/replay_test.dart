@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tradepilot_client/features/trading/domain/workspace_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/replay_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/historical_market_replay_screen.dart';
 
 class ReplayFixture implements WorkspaceRepository {
   final actions = <Map<String, dynamic>>[];
@@ -89,12 +89,14 @@ class ReplayFixture implements WorkspaceRepository {
 }
 
 void main() {
+  testAiComparisonFlow(true);
+  testAiComparisonFlow(false);
   testWidgets(
     'synthetic data and untrained model are explicit; resume loads private run',
     (tester) async {
       final repo = ReplayFixture();
       await tester.pumpWidget(
-        MaterialApp(home: ReplayScreen(repository: repo)),
+        MaterialApp(home: HistoricalMarketReplayScreen(repository: repo)),
       );
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('replay-show-synthetic')));
@@ -120,7 +122,7 @@ void main() {
     tester,
   ) async {
     final repo = ReplayFixture();
-    await tester.pumpWidget(MaterialApp(home: ReplayScreen(repository: repo)));
+    await tester.pumpWidget(MaterialApp(home: HistoricalMarketReplayScreen(repository: repo)));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('replay-show-synthetic')));
     await tester.pumpAndSettle();
@@ -142,7 +144,7 @@ void main() {
     tester,
   ) async {
     final repo = ReplayFixture();
-    await tester.pumpWidget(MaterialApp(home: ReplayScreen(repository: repo)));
+    await tester.pumpWidget(MaterialApp(home: HistoricalMarketReplayScreen(repository: repo)));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('replay-show-synthetic')));
     await tester.pumpAndSettle();
@@ -176,7 +178,7 @@ void main() {
     tester,
   ) async {
     final repo = ReplayFixture();
-    await tester.pumpWidget(MaterialApp(home: ReplayScreen(repository: repo)));
+    await tester.pumpWidget(MaterialApp(home: HistoricalMarketReplayScreen(repository: repo)));
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(find.text('이어서 실험'), 250);
     await tester.tap(find.text('이어서 실험'));
@@ -195,5 +197,99 @@ void main() {
     expect(repo.actions.length, 2);
     expect(repo.actions[0], repo.actions[1]);
     expect(tester.takeException(), isNull);
+  });
+}
+
+class AiComparisonFixture extends ReplayFixture {
+  AiComparisonFixture(this.on) {
+    failNext = false;
+  }
+
+  final bool on;
+  bool marketSeen = false;
+  final aiCalls = <String>[];
+  final timeline = <String>[];
+
+  @override
+  Map<String, dynamic> run() => {
+    ...super.run(),
+    'experiment': 'ai_feedback',
+    'pilot_enabled': on,
+    'market_feedback_seen_current': marketSeen,
+  };
+
+  @override
+  Future<Map<String, dynamic>> workspaceRequest(
+    String method,
+    String path, {
+    Map<String, dynamic>? body,
+  }) async {
+    if (path.contains('/order-display/')) {
+      timeline.add('display');
+      return {'order_displayed_at': '2026-11-12T10:00:00Z'};
+    }
+    if (body?['action'] == 'defer') timeline.add('defer');
+    if (path.contains('/decision-ai/')) {
+      aiCalls.add('$method ${Uri.parse(path).pathSegments.last}');
+      if (method == 'PUT' && path.endsWith('/market')) marketSeen = true;
+      return {
+        'status': 'available',
+        'result': {'kind': 'decision_feedback', 'body': '공개 시세를 확인했습니다.'},
+      };
+    }
+    final response = await super.workspaceRequest(method, path, body: body);
+    if (body?['action'] == 'check') {
+      response['action_result'] = {
+        'check_id': 'check1',
+        'allowed': true,
+        'messages': <String>[],
+        'expires_at': DateTime.now()
+            .toUtc()
+            .add(const Duration(minutes: 5))
+            .toIso8601String(),
+      };
+    }
+    return response;
+  }
+}
+
+void testAiComparisonFlow(bool enabled) {
+  testWidgets('ChatGPT ${enabled ? 'ON' : 'OFF'} decision route', (
+    tester,
+  ) async {
+    final repo = AiComparisonFixture(enabled);
+    await tester.pumpWidget(MaterialApp(home: HistoricalMarketReplayScreen(repository: repo)));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('이어서 실험'), 180);
+    await tester.tap(find.text('이어서 실험'));
+    await tester.pumpAndSettle();
+    final order = find.byKey(const ValueKey('replay-order'));
+    await tester.scrollUntilVisible(
+      order.hitTestable(),
+      180,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(order);
+    await tester.pumpAndSettle();
+    if (enabled) {
+      expect(find.text('1단계 · 시세 분석'), findsOneWidget);
+      await tester.tap(find.text('시세 분석 확인'));
+      await tester.pumpAndSettle();
+      expect(find.text('2단계 · 주문 조언'), findsOneWidget);
+    } else {
+      expect(find.text('주문을 확인해 주세요'), findsOneWidget);
+      expect(find.text('ChatGPT 주문 검토'), findsNothing);
+    }
+    await tester.tap(find.text('보류'));
+    await tester.pumpAndSettle();
+    expect(repo.actions.last['action'], 'defer');
+    expect(repo.timeline, ['display', 'defer']);
+    expect(
+      repo.aiCalls,
+      enabled
+          ? ['POST market', 'PUT market', 'POST order', 'PUT order']
+          : isEmpty,
+    );
   });
 }

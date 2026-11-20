@@ -91,3 +91,23 @@ uv sync --frozen --extra model-comparison
 ```
 
 보고서는 새 파일 경로로만 저장됩니다. 같은 경로로 재실행하면 기존 결과를 보존하고 거절합니다.
+
+## 토스증권 5분봉 학습과 차트 연결
+
+토스 키를 설정한 상태에서 `server` 디렉터리에서 실행합니다. 시작일과 종료일은 한국 날짜입니다.
+
+```sh
+PYTHONPATH=. .venv/bin/python tool/train_toss_prediction.py \
+  --symbol 005930 --start 2026-08-17 --end 2026-11-12 \
+  --output output/toss-predictions/005930.json
+```
+
+토스의 1분봉 다섯 개가 모두 존재하는 구간만 5분봉으로 묶습니다. 학습에는 09:00~15:20
+시간대를 사용하며 원본 분봉은 파일에 저장하지 않습니다. 시험 구간에서 기준선보다 Macro F1이
+높고 Brier 점수가 나빠지지 않아야 합니다. 상승·하락 재현율이 모두 양수이고 신뢰도 65%
+이상의 방향 예측이 하나 이상 있어야 합니다.
+
+`quality_gate_passed`가 true인 종목의 파일을 `models/toss/<종목코드>.json`에 놓으면
+`./tool/start_market_paper.sh --provider toss`의 차트에 연결됩니다. 다른 서버에서는
+`PREDICTION_MODEL_DIRECTORY`를 지정하세요. 서버는 해당 종목의 완료 5분봉을 수집하고,
+연속 35개 이상이며 1시간 뒤 목표 시각이 정규장 안에 있을 때 확률을 제공합니다.

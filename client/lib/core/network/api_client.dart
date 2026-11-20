@@ -45,7 +45,7 @@ class ApiClient {
       final streamed = await _client.send(request);
       return http.Response.fromStream(streamed);
     })().timeout(const Duration(seconds: 12));
-    if (response.statusCode == 401) {
+    if (response.statusCode == 401 && authenticated) {
       await tokens.clear();
       onUnauthorized?.call();
       throw const ApiException('세션이 만료되었습니다. 다시 로그인하세요.', statusCode: 401);

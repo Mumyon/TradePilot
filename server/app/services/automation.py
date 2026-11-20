@@ -65,7 +65,7 @@ def stop(db, item, message):
 
 
 def configure(db, user_id, strategy_id, body, settings):
-    user = orders.lock_user(db, user_id)
+    orders.lock_user(db, user_id)
     strategy = backtests.owned(db, user_id, strategy_id)
     item = db.scalar(select(Automation).where(Automation.strategy_id == strategy_id))
     if not body.enabled:
@@ -75,12 +75,10 @@ def configure(db, user_id, strategy_id, body, settings):
         return serialize(item)
     if settings.market_data_mode != "demo" or not settings.paper_worker_enabled:
         raise HTTPException(409, "모의 워커가 실행 중인 합성 시연 서버에서만 지원합니다.")
-    if settings.orders_halted or user.trading_paused:
+    if settings.orders_halted:
         raise HTTPException(409, "거래 정지 설정을 먼저 확인하세요.")
     if not strategy.config["enabled"]:
         raise HTTPException(409, "비활성 전략입니다.")
-    if body.budget_won > user.order_limit_won:
-        raise HTTPException(422, "예산이 계좌의 1회 주문한도를 초과합니다.")
     others = db.scalars(
         select(Automation).where(
             Automation.user_id == user_id,
@@ -132,11 +130,11 @@ def process(db, automation_id, provider, settings):
     item = db.get(Automation, automation_id)
     if item is None:
         return
-    user = orders.lock_user(db, item.user_id)
+    orders.lock_user(db, item.user_id)
     db.refresh(item)  # Re-read after user lock to serialize stop and multiple workers.
     if not item.enabled:
         return
-    if settings.market_data_mode != "demo" or settings.orders_halted or user.trading_paused:
+    if settings.market_data_mode != "demo" or settings.orders_halted:
         stop(db, item, "거래 정지/서버 설정으로 자동 중지 · 미체결 취소")
         return
     strategy = db.get(Strategy, item.strategy_id)

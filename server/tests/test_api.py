@@ -294,3 +294,19 @@ def test_commit_failure_never_returns_accepted(service):
     with sessions() as db:
         assert db.scalar(select(func.count()).select_from(Order)) == 0
         assert db.get(User, user_id).reserved_won == 0
+
+
+def test_browsed_quote_does_not_require_or_modify_watchlist(service):
+    client, _, _, _ = service
+    client.delete("/v1/watchlist/005930")
+    before = client.get("/v1/watchlist").json()
+    response = client.get("/v1/market/005930/quote")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["symbol"] == "005930"
+    assert data["name"] == "삼성전자"
+    assert int(data["quote"]["price_won"]) > 0
+    assert all(item["symbol"] != "005930" for item in before["items"])
+    assert [item["symbol"] for item in client.get("/v1/watchlist").json()["items"]] == [
+        item["symbol"] for item in before["items"]
+    ]

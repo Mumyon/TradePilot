@@ -1,4 +1,4 @@
-import 'models.dart';
+import 'trading_models.dart';
 
 class PendingOrder {
   const PendingOrder(this.draft, this.check, this.key);
@@ -28,6 +28,7 @@ class PendingOrder {
         limitPriceWon: int.parse(draft['limit_price_won'] as String),
         pilotEnabled: draft['pilot_enabled'] as bool,
         planId: draft['plan_id'] as String?,
+        testMode: draft['test_mode'] == true,
       ),
       OrderCheck.fromJson(json['check'] as Map<String, dynamic>),
       json['key'] as String,

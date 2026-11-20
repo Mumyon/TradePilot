@@ -19,7 +19,14 @@ def breakdown(state):
                 hits.append(check)
             elif item["status"] == "exempt":
                 exempt += 1
-        shown = [c for c in hits if state["pilot_enabled"] and c["presented_at"] and c["allowed"]]
+        shown = [
+            c
+            for c in hits
+            if state.get("experiment", "pilot") == "pilot"
+            and state["pilot_enabled"]
+            and c["presented_at"]
+            and c["allowed"]
+        ]
         deferred = sum(c["decision"] == "deferred" for c in shown)
         submitted = sum(c["decision"] == "submitted" for c in shown)
         result.append(

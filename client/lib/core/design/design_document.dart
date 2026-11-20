@@ -85,7 +85,15 @@ class DesignCanvas extends StatelessWidget {
               width: width,
               child: Text(
                 node['value'] as String,
-                textAlign: centerText ? TextAlign.center : TextAlign.left,
+                maxLines: node['maxLines'] as int?,
+                overflow: node['maxLines'] == null
+                    ? null
+                    : TextOverflow.ellipsis,
+                textAlign: node['align'] == 'right'
+                    ? TextAlign.right
+                    : centerText
+                    ? TextAlign.center
+                    : TextAlign.left,
                 style: TextStyle(
                   fontFamily: designFont,
                   fontFamilyFallback: const ['Noto Sans KR'],
@@ -101,11 +109,18 @@ class DesignCanvas extends StatelessWidget {
             ),
           );
         } else if (node['type'] == 'rect') {
-          child = ColoredBox(
-            color: document
-                .color(node['color'])
-                .withValues(alpha: (node['opacity'] as num? ?? 1).toDouble()),
-          );
+          final fill = document
+              .color(node['color'])
+              .withValues(alpha: (node['opacity'] as num? ?? 1).toDouble());
+          final borderColor = node['borderColor'] as String?;
+          child = borderColor == null
+              ? ColoredBox(color: fill)
+              : DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: fill,
+                    border: Border.all(color: document.color(borderColor)),
+                  ),
+                );
         } else if (node['type'] == 'svg') {
           final w = number(node, 'w'), h = number(node, 'h');
           // Same viewport convention as the supplied Figma generator.

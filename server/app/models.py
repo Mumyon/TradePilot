@@ -9,6 +9,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     String,
+    Text,
     UniqueConstraint,
 )
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -30,7 +31,6 @@ class User(Base):
     __tablename__ = "users"
     __table_args__ = (
         CheckConstraint("cash_won >= 0 AND reserved_won >= 0 AND reserved_won <= cash_won"),
-        CheckConstraint("order_limit_won > 0 AND daily_loss_limit_won > 0"),
     )
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     email: Mapped[str] = mapped_column(String(254), unique=True)
@@ -38,11 +38,8 @@ class User(Base):
     enabled: Mapped[bool] = mapped_column(Boolean, default=True)
     cash_won: Mapped[int] = mapped_column(BigInteger, default=10_000_000)
     reserved_won: Mapped[int] = mapped_column(BigInteger, default=0)
-    order_limit_won: Mapped[int] = mapped_column(BigInteger, default=1_000_000)
-    cooldown_seconds: Mapped[int] = mapped_column(BigInteger, default=300)
-    trading_paused: Mapped[bool] = mapped_column(Boolean, default=False)
-    trading_rules: Mapped[str] = mapped_column(String(2000), default="")
-    daily_loss_limit_won: Mapped[int] = mapped_column(BigInteger, default=1_000_000)
+    chart_prompt: Mapped[str | None] = mapped_column(Text, deferred=True)
+    order_prompt: Mapped[str | None] = mapped_column(Text, deferred=True)
 
 
 class AuthSession(Base):
@@ -79,6 +76,13 @@ class Quote(Base):
     as_of: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     sequence: Mapped[int] = mapped_column(BigInteger)
     source: Mapped[str] = mapped_column(String(32))
+
+
+class MarketCalendar(Base):
+    __tablename__ = "market_calendars"
+    source: Mapped[str] = mapped_column(String(32), primary_key=True)
+    payload: Mapped[dict] = mapped_column(JSON)
+    checked_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 
 class Holding(Base):
@@ -281,8 +285,22 @@ class ReplayRun(Base):
 
 class AIReview(Base):
     __tablename__ = "ai_reviews"
+    __table_args__ = (
+        CheckConstraint(
+            "num_nonnulls(run_id, order_id, check_id, context_key) = 1", name="ck_review_target"
+        ),
+    )
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
-    run_id: Mapped[str] = mapped_column(ForeignKey("replay_runs.id"), unique=True)
+    run_id: Mapped[str | None] = mapped_column(
+        ForeignKey("replay_runs.id"), unique=True, nullable=True
+    )
+    order_id: Mapped[str | None] = mapped_column(
+        ForeignKey("orders.id"), unique=True, nullable=True
+    )
+    check_id: Mapped[str | None] = mapped_column(
+        ForeignKey("order_checks.id"), unique=True, nullable=True
+    )
+    context_key: Mapped[str | None] = mapped_column(String(64), unique=True, nullable=True)
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     status: Mapped[str] = mapped_column(String(16), default="pending", index=True)
     attempts: Mapped[int] = mapped_column(BigInteger, default=1)

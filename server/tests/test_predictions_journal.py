@@ -2,6 +2,7 @@ import json
 import math
 from dataclasses import replace
 from datetime import UTC, datetime, timedelta
+from types import SimpleNamespace
 
 import pytest
 from test_risk import check, quotes, send
@@ -152,6 +153,55 @@ def test_prediction_persistence_outcome_and_staleness(service, trained, monkeypa
         assert predictions.infer(db, "005930", artifact)["status"] == "unavailable"
 
 
+def test_toss_completed_minutes_feed_the_chart_prediction(service, trained, tmp_path, monkeypatch):
+    client, sessions, _, settings = service
+    _, artifact = trained
+    (tmp_path / "005930.json").write_text(
+        json.dumps(
+            {
+                **artifact,
+                "source": "toss_kr",
+                "data_kind": "historical",
+                "quality_gate_passed": True,
+            }
+        )
+    )
+    settings.prediction_model_directory = tmp_path
+    settings.market_data_mode = "toss"
+    opening = datetime(2026, 10, 16, 9, tzinfo=KST)
+    at = opening + timedelta(minutes=177)
+    monkeypatch.setattr(predictions, "now", lambda: at)
+    monkeypatch.setattr(
+        predictions.market_hours,
+        "status",
+        lambda *args: dict(
+            state="open",
+            can_trade=True,
+            opens_at=opening,
+            closes_at=opening.replace(hour=15, minute=20),
+        ),
+    )
+    minutes = [
+        dict(
+            opened_at=opening + timedelta(minutes=i),
+            open_won=100000 + i,
+            high_won=100050 + i,
+            low_won=99950 + i,
+            close_won=100000 + i,
+            volume=100,
+        )
+        for i in range(180)
+    ]
+    provider = SimpleNamespace(get_candles=lambda symbol, interval: minutes)
+    predictions.collect_toss_candles(sessions, provider, settings)
+    result = client.get("/v1/predictions/005930").json()
+    assert result["status"] == "available"
+    assert datetime.fromisoformat(result["as_of"]) == opening + timedelta(minutes=175)
+    assert datetime.fromisoformat(result["target_at"]) == opening + timedelta(minutes=235)
+    assert result["up"] + result["neutral"] + result["down"] == pytest.approx(1)
+    assert client.get("/v1/predictions/000660").json()["reason"] == "model_not_configured"
+
+
 def test_journal_preserves_warnings_and_declines(service):
     client = quotes(service)
     body, result = check(client)
@@ -173,6 +223,93 @@ def test_journal_preserves_warnings_and_declines(service):
     assert report["summary"]["plan_compliance"] is None
     assert report["items"][0]["prediction"]["status"] == "unavailable"
     assert report["summary"]["prediction_accuracy"] is None
+
+
+def test_journal_links_only_ai_completed_before_order_or_deferral(service):
+    from test_portfolio import settle
+
+    from app.models import AIReview, now
+    from app.services.pretrade_ai import VERSION
+
+    client = quotes(service, current=100000)
+    _, sessions, uid, settings = service
+    settings.ai_review_local_only = False
+
+    def review(check_id, judgment="매수"):
+        with sessions.begin() as db:
+            db.add(
+                AIReview(
+                    user_id=uid,
+                    check_id=check_id,
+                    status="available",
+                    completed_at=now(),
+                    data={
+                        "input": {
+                            "facts": [],
+                            "current_price": 100000,
+                            "quote_as_of": now().isoformat(),
+                            "quote_fresh": True,
+                        },
+                        "input_sha256": "fixture",
+                        "requested_model": "test",
+                        "prompt_version": VERSION,
+                        "result": {
+                            "kind": "decision_feedback",
+                            "body": "가격 범위 확인",
+                            "judgment": judgment,
+                        },
+                    },
+                )
+            )
+
+    body, first = check(client)
+    review(first["check_id"])
+    details = client.get(f"/v1/orders/check/{first['check_id']}/ai-feedback").json()
+    assert details["quote_context"]["current_price"] == 100000
+    order = send(client, body, first, key="pretrade-first").json()
+    assert order["status"] == "accepted"
+    assert client.post(f"/v1/orders/{order['order_id']}/cancel").is_success
+    body, later = check(client)
+    late_order = send(client, body, later, key="pretrade-late").json()
+    assert late_order["status"] == "accepted"
+    review(later["check_id"])
+    _, deferred = check(client)
+    review(deferred["check_id"])
+    assert client.post(
+        f"/v1/orders/check/{deferred['check_id']}/dismiss", json={"reason": "가격을 더 확인"}
+    ).is_success
+    for index, judgment in enumerate(("매수", "관망")):
+        body, item = check(client)
+        review(item["check_id"], judgment)
+        assert send(client, body, item, key=f"pretrade-fill-{index}").json()["status"] == "accepted"
+    settle(service, 100000)
+
+    full = client.get("/v1/journal?include_pretrade=true").json()
+    records = {row["order_id"]: row for row in full["items"]}
+    original = records[order["order_id"]]
+    assert original["pretrade_ai"]["result"]["body"] == "가격 범위 확인"
+    assert original["status"] == "cancelled" and original["cancelled_at"]
+    assert records[late_order["order_id"]]["pretrade_ai"] is None
+    [saved] = full["deferred_checks"]
+    assert saved["reason"] == "가격을 더 확인"
+    assert saved["pretrade_ai"]["quote_context"]["current_price"] == 100000
+    assert full["summary"]["deferred_advice_comparison"] == {"different": 1}
+    assert full["summary"]["advice_comparison"] == {
+        "compared": 2,
+        "matched": 1,
+        "different": 1,
+        "traded_after_wait": 1,
+        "excluded": 1,
+        "agreement_rate": 0.5,
+        "difference_rate": 0.5,
+    }
+    summary = client.get("/v1/journal").json()
+    assert "pretrade_ai" not in summary["items"][0]
+    assert summary["deferred_checks"] == []
+    settings.ai_review_local_only = True
+    remote = client.get("/v1/journal?include_pretrade=true").json()
+    assert all(row["pretrade_ai"] is None for row in remote["items"])
+    assert remote["deferred_checks"][0]["pretrade_ai"] is None
 
 
 def test_journal_fill_plan_and_account_isolation(service):

@@ -112,3 +112,16 @@ def test_historical_and_practice_cohorts_never_pool():
     docs = pair(pair_id="practice") + pair(pair_id="historical", kind="historical")
     result = summarize_exports(docs, include_synthetic=True)
     assert {g["data_kind"] for g in result["cohorts"]} == {"synthetic", "historical"}
+
+
+def test_chatgpt_cohorts_stay_separate_and_exclude_early_finish():
+    complete = pair(pair_id="chatgpt")
+    early = pair(pair_id="early")
+    for doc in complete + early:
+        doc["state"]["experiment"] = "ai_feedback"
+    for doc in early:
+        doc["state"]["cursor"] = 0
+    result = summarize_exports(pair() + complete + early, include_synthetic=True)
+    assert {g["experiment"] for g in result["cohorts"]} == {"pilot", "ai_feedback"}
+    assert len(result["pairs"]) == 2
+    assert "마지막 봉" in result["excluded"][0]["reason"]

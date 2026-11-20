@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:tradepilot_client/features/trading/domain/models.dart';
+import 'package:tradepilot_client/features/trading/domain/trading_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tradepilot_client/app/tradepilot_app.dart';
 import 'package:tradepilot_client/core/design/design_document.dart';
@@ -38,15 +38,22 @@ Future<void> finish(WidgetTester tester) async {
 }
 
 void main() {
-  testWidgets('five original tabs, search, checked order and actual journal', (
+  testWidgets('six tabs, search, checked order and actual journal', (
     tester,
   ) async {
     await launch(tester);
-    for (final tab in ['관심종목', '차트', '자동매매', '매매일지', '전체 메뉴']) {
+    for (final tab in ['메인', '차트', '발견', '매매일지', '주식 잔고', '더보기']) {
       expect(find.byKey(ValueKey('action:Tab / $tab')), findsOneWidget);
     }
-    expect(find.text('MARKET / 시장을 읽다'), findsOneWidget);
-    expect(tester.getSize(find.text('관심종목')).width, 78);
+    expect(find.text('MARKET / 시장을 읽다'), findsNothing);
+    expect(find.text('코스피'), findsOneWidget);
+    await tapAction(tester, 'Tab / 더보기');
+    expect(find.text('모의계좌 관리'), findsOneWidget);
+    expect(find.text('ChatGPT 연결'), findsOneWidget);
+    expect(find.text('차트 분석 프롬프트'), findsOneWidget);
+    expect(find.text('주문 전 분석 프롬프트'), findsOneWidget);
+    expect(find.text('코스피'), findsNothing);
+    await tapAction(tester, 'Tab / 메인');
     await tapAction(tester, '관심종목 검색');
     await tester.enterText(
       find.byKey(const ValueKey('stock-search')),
@@ -76,10 +83,8 @@ void main() {
     expect(find.text('모의주문을 접수했어요'), findsOneWidget);
     await tapAction(tester, '매매일지 보기');
     expect(find.text('주문 demo-1'), findsOneWidget);
-    await tapAction(tester, 'Tab / 자동매매');
-    expect(find.text('나의 자동매매'), findsOneWidget);
-    await tapAction(tester, 'Tab / 전체 메뉴');
-    expect(find.text('나의 모의투자 계좌'), findsOneWidget);
+    await tapAction(tester, 'Tab / 주식 잔고');
+    expect(find.text('매매 손익'), findsOneWidget);
     await finish(tester);
   });
 
@@ -126,8 +131,9 @@ void main() {
     expect(find.text('모의주문을 접수했어요'), findsNothing);
     await tester.tap(find.text('닫기').last);
     await tester.pumpAndSettle();
-    await tapAction(tester, 'Tab / 전체 메뉴');
-    await tapAction(tester, 'Paper account');
+    await tapAction(tester, 'Tab / 주식 잔고');
+    await tester.tap(find.byTooltip('계좌 관리'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('미확인 주문 복구'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('동일 주문 결과 재확인'));
@@ -150,9 +156,9 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('검색 결과가 없습니다.'), findsOneWidget);
       await tapAction(tester, '닫기');
-      await tapAction(tester, 'Tab / 자동매매');
+      await tapAction(tester, 'Tab / 주식 잔고');
       expect(find.text('10,248,600'), findsNothing);
-      expect(find.text('순실현손익 —원'), findsOneWidget);
+      expect(find.text('매매 손익'), findsOneWidget);
       await tapAction(tester, 'Tab / 매매일지');
       expect(find.text('86%'), findsNothing);
       expect(find.text('아직 주문 내역이 없습니다.'), findsOneWidget);

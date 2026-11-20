@@ -38,6 +38,7 @@ class Start(Strict):
     randomize_order: bool = Field(default=False, strict=True)
     plan: ReplayPlan | None = None
     paired_run_id: str | None = Field(default=None, max_length=36)
+    experiment: Literal["pilot", "ai_feedback"] = "pilot"
 
     @model_validator(mode="after")
     def allocation(self):

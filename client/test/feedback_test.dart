@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tradepilot_client/features/trading/domain/models.dart';
+import 'package:tradepilot_client/features/trading/domain/trading_models.dart';
 import 'package:tradepilot_client/features/trading/domain/workspace_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/feedback_screen.dart';
-import 'package:tradepilot_client/features/trading/presentation/risk_confirmation.dart';
+import 'package:tradepilot_client/features/trading/presentation/pilot_feedback_history_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/order_risk_check_dialog.dart';
 
 class FeedbackFixture implements WorkspaceRepository {
   bool fail = false;
@@ -64,7 +64,7 @@ void main() {
     (tester) async {
       final repo = FeedbackFixture();
       await tester.pumpWidget(
-        MaterialApp(home: FeedbackScreen(repository: repo)),
+        MaterialApp(home: PilotFeedbackHistoryScreen(repository: repo)),
       );
       await tester.pumpAndSettle();
       expect(find.text('계획 준수율 평가 기록 없음'), findsNWidgets(2));
@@ -98,7 +98,7 @@ void main() {
         ),
       );
       await tester.pumpWidget(
-        MaterialApp(home: FeedbackScreen(repository: repo)),
+        MaterialApp(home: PilotFeedbackHistoryScreen(repository: repo)),
       );
       await tester.pumpAndSettle();
       await tester.tap(find.byType(DropdownButton<int>));
@@ -122,7 +122,7 @@ void main() {
   ) async {
     final repo = FeedbackFixture();
     await tester.pumpWidget(
-      MaterialApp(home: FeedbackScreen(repository: repo)),
+      MaterialApp(home: PilotFeedbackHistoryScreen(repository: repo)),
     );
     await tester.pumpAndSettle();
     repo.fail = true;
@@ -176,7 +176,7 @@ void main() {
                 onPressed: () async {
                   answer = await showDialog<Map<String, dynamic>>(
                     context: context,
-                    builder: (_) => RiskConfirmation(
+                    builder: (_) => OrderRiskCheckDialog(
                       check: check,
                       onPresented: () => presented++,
                     ),

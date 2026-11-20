@@ -1,17 +1,19 @@
 """Official Sign in with ChatGPT credentials and streamed Responses transport.
 
 Only api.openai.com/v1 and auth.openai.com are contacted. No Codex credentials
-are read and there is no API-key or paid-provider fallback.
+are read. API-key use is selected explicitly by the server.
 """
 
 import fcntl
 import json
 import os
+import re
 import secrets
 import stat
 import time
 from contextlib import contextmanager
 from pathlib import Path
+from urllib.parse import urlsplit
 from uuid import UUID
 
 AUTH = "https://auth.openai.com"
@@ -22,8 +24,9 @@ DIRECT_SCOPE = "chatgpt.tokens.use.direct"
 
 
 class ReviewError(Exception):
-    def __init__(self, code):
+    def __init__(self, code, *, reason=None):
         self.code = code
+        self.reason = reason
         super().__init__(code)
 
 
@@ -209,36 +212,136 @@ def models(access_token):
         return [m for m in response.json().get("models", []) if m.get("visibility") == "list"]
 
 
-def completed_response(events):
+def completed_response(events, max_bytes=131072):
     """Never accept a delta or [DONE] without a completed terminal response."""
     size = 0
+    finished_items = {}
     for line in events:
-        size += len(line)
-        if size > 131072:
-            raise ReviewError("response_invalid")
+        size += len(line.encode("utf-8"))
+        if size > max_bytes:
+            raise ReviewError("response_invalid", reason="stream_size_limit")
         if not line.startswith("data:") or line[5:].strip() == "[DONE]":
             continue
         event = json.loads(line[5:].strip())
+        if event.get("type") == "response.output_item.done":
+            finished_items[event.get("output_index", len(finished_items))] = event["item"]
         if event.get("type") in ("response.failed", "response.incomplete", "error"):
-            code = (event.get("response", {}).get("error") or event.get("error") or {}).get("code")
+            response = event.get("response", {})
+            code = (response.get("error") or event.get("error") or {}).get("code") or event.get(
+                "code"
+            )
             if code in (
+                "rate_limit_exceeded",
                 "subscription_sharing_usage_limit_exceeded",
                 "subscription_sharing_usage_unavailable",
             ):
                 raise ReviewError("usage_limit")
-            raise ReviewError("provider_failed")
+            if code == "subscription_sharing_unsupported_capability":
+                raise ReviewError("search_unavailable")
+            reason = code or (response.get("incomplete_details") or {}).get("reason")
+            safe_reason = (
+                reason
+                if isinstance(reason, str) and re.fullmatch(r"[a-zA-Z0-9_-]{1,80}", reason)
+                else event["type"]
+            )
+            raise ReviewError("provider_failed", reason=safe_reason)
         if event.get("type") == "response.completed":
             response = event["response"]
             if response.get("status") != "completed":
-                raise ReviewError("provider_failed")
+                raise ReviewError("provider_failed", reason="invalid_completed_status")
+            # Some routed streams omit output from the terminal envelope.
+            # Recover only complete items, never partial deltas, and still
+            # require response.completed before accepting any of them.
+            if not response.get("output") and finished_items:
+                response["output"] = [finished_items[i] for i in sorted(finished_items)]
             return response
     raise ReviewError("stream_interrupted")
 
 
-def generate(directory, user_id, requested_model, instructions, payload, schema):
+def search_metadata(response):
+    """Keep provider-observed source links only, never downloaded pages or OHLCV."""
+    sources = {}
+    completed = 0
+
+    def add(source):
+        url = source.get("url", "")
+        if not isinstance(url, str) or len(url) > 2000:
+            return
+        try:
+            parsed = urlsplit(url)
+            if (
+                parsed.scheme != "https"
+                or not parsed.hostname
+                or parsed.username
+                or parsed.password
+            ):
+                return
+        except ValueError:
+            return
+        if len(sources) < 100:
+            sources[url] = dict(url=url, title=str(source.get("title") or parsed.hostname)[:300])
+
+    for item in response.get("output", []):
+        if item.get("type") == "web_search_call":
+            completed += item.get("status") == "completed"
+            for source in item.get("action", {}).get("sources", []):
+                add(source)
+        if item.get("type") == "message":
+            for content in item.get("content", []):
+                for annotation in content.get("annotations", []):
+                    if annotation.get("type") == "url_citation":
+                        add(annotation)
+    return dict(used=completed > 0, completed_calls=completed, sources=list(sources.values()))
+
+
+def web_report_text(response, search):
+    """Convert provider citation spans to clickable links; discard internal citation IDs."""
+    allowed = {s["url"] for s in search["sources"]}
+    parts = []
+    for item in response.get("output", []):
+        if item.get("type") != "message":
+            continue
+        for content in item.get("content", []):
+            if content.get("type") != "output_text":
+                continue
+            text = content.get("text", "")
+            spans = {}
+            for a in content.get("annotations", []):
+                start, end, url = a.get("start_index"), a.get("end_index"), a.get("url")
+                if (
+                    a.get("type") == "url_citation"
+                    and url in allowed
+                    and isinstance(start, int)
+                    and isinstance(end, int)
+                    and 0 <= start < end <= len(text)
+                ):
+                    spans[(start, end)] = url
+            boundary = len(text)
+            for (start, end), url in sorted(spans.items(), reverse=True):
+                if end <= boundary:
+                    safe_url = url.replace("(", "%28").replace(")", "%29")
+                    text = text[:start] + f"[출처]({safe_url})" + text[end:]
+                    boundary = start
+            parts.append(re.sub("\ue200[^\ue201]*\ue201", "", text))
+    return "\n\n".join(parts)
+
+
+def generate(
+    directory,
+    user_id,
+    requested_model,
+    instructions,
+    payload,
+    schema,
+    timeout_seconds=45,
+    web_search=False,
+    plain_text=False,
+    *,
+    api_key=None,
+):
     started = time.monotonic()
     try:
-        record = access(directory, user_id)
+        token = api_key if api_key is not None else access(directory, user_id)["access_token"]
         # A queued job is bound to the selected model, even if settings change later.
         body = dict(
             model=requested_model,
@@ -252,27 +355,51 @@ def generate(directory, user_id, requested_model, instructions, payload, schema)
             store=False,
             stream=True,
         )
+        if api_key is not None:
+            body["max_output_tokens"] = 2400
+        if web_search or plain_text:
+            body.pop("text")
+        if web_search:
+            body.update(
+                tools=[dict(type="web_search")],
+                tool_choice="auto",
+                include=["web_search_call.action.sources"],
+            )
         with client() as http:
             with http.stream(
                 "POST",
                 RESOURCE + "/responses",
                 json=body,
-                headers={"Authorization": f"Bearer {record['access_token']}"},
+                headers={"Authorization": f"Bearer {token}"},
+                timeout=timeout_seconds,
             ) as response:
                 if response.status_code in (401, 403):
+                    if api_key is not None:
+                        raise ReviewError("api_key_required")
                     raise ReviewError("reauth_required")
                 if response.status_code == 429:
                     raise ReviewError("usage_limit")
+                if response.status_code == 400 and web_search:
+                    raise ReviewError("search_unavailable")
                 if response.status_code != 200:
-                    raise ReviewError("provider_failed")
+                    raise ReviewError("provider_failed", reason=f"http_{response.status_code}")
 
                 def lines():
                     for line in response.iter_lines():
-                        if time.monotonic() - started > 45:
+                        if time.monotonic() - started > timeout_seconds:
                             raise ReviewError("timeout")
                         yield line
 
-                result = completed_response(lines())
+                # A full quant report emits many incremental SSE events, including
+                # reasoning, plus the final JSON. Keep a bounded larger budget.
+                result = completed_response(
+                    lines(),
+                    max_bytes=16777216
+                    if web_search
+                    else 2097152
+                    if timeout_seconds > 45
+                    else 131072,
+                )
         text = "".join(
             c.get("text", "")
             for item in result.get("output", [])
@@ -280,15 +407,24 @@ def generate(directory, user_id, requested_model, instructions, payload, schema)
             for c in item.get("content", [])
             if c.get("type") == "output_text"
         )
+        search = search_metadata(result) if web_search else None
+        content = web_report_text(result, search) if web_search else text
+        if not web_search and not plain_text:
+            content = json.loads(content)
+        if web_search and not content.strip():
+            raise ReviewError("response_invalid", reason="empty_search_report")
+        if web_search and len(content) > 30000:
+            raise ReviewError("response_invalid", reason="report_size_limit")
         return dict(
-            content=json.loads(text),
+            content=content,
             response_id=result["id"],
             response_model=result.get("model", requested_model),
             usage=result.get("usage", {}),
             latency_ms=round((time.monotonic() - started) * 1000),
+            **(dict(search=search) if web_search else {}),
         )
     except ReviewError:
         raise
-    except Exception:
+    except Exception as exc:
         # No tokens, provider response bodies, or account identities in public errors/logs.
-        raise ReviewError("provider_failed") from None
+        raise ReviewError("provider_failed", reason=type(exc).__name__) from None

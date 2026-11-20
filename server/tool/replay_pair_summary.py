@@ -13,6 +13,11 @@ from types import SimpleNamespace
 from app.services.replay import digest, summary
 
 
+def difference(on, off, key, scale=1):
+    left, right = on.get(key), off.get(key)
+    return (left - right) * scale if left is not None and right is not None else None
+
+
 def summarize_exports(documents, *, include_synthetic=False):
     unique, groups = {}, defaultdict(list)
     duplicates = 0
@@ -33,12 +38,19 @@ def summarize_exports(documents, *, include_synthetic=False):
     for (participant, pair_id), runs in groups.items():
         reason = None
         runs.sort(key=lambda d: d["state"]["sequence"])
+        experiment = runs[0]["state"].get("experiment", "pilot")
         if len(runs) != 2 or [d["state"]["sequence"] for d in runs] != [1, 2]:
             reason = "ON/OFF 두 실행이 완성된 쌍이 아님"
         elif any(not d["state"]["finished"] for d in runs):
             reason = "종료되지 않은 실행"
         elif {d["state"]["pilot_enabled"] for d in runs} != {True, False}:
-            reason = "서로 반대인 Pilot 조건이 아님"
+            reason = "서로 반대인 ON/OFF 조건이 아님"
+        elif runs[1]["state"].get("experiment", "pilot") != experiment:
+            reason = "실험 유형이 다름"
+        elif experiment == "ai_feedback" and any(
+            d["state"]["cursor"] != len(d["case_rows"]) - 1 for d in runs
+        ):
+            reason = "마지막 봉까지 진행하지 않은 ChatGPT 비교 실험"
         elif runs[1]["state"].get("paired_run_id") != runs[0]["run_id"]:
             reason = "첫 실행과 두 번째 실행의 연결 불일치"
         elif any(d["case"]["data_kind"] != "historical" for d in runs) and not include_synthetic:
@@ -70,17 +82,19 @@ def summarize_exports(documents, *, include_synthetic=False):
             # Recompute from saved decisions instead of trusting an edited summary field.
             metrics["on" if d["state"]["pilot_enabled"] else "off"] = summary(case, d["state"])
         on, off = metrics["on"], metrics["off"]
-        a, b = on["plan_compliance_rate"], off["plan_compliance_rate"]
         pairs.append(
             dict(
                 participant_id=participant,
                 pair_id=pair_id,
                 data_kind=runs[0]["case"]["data_kind"],
+                experiment=experiment,
                 condition_order=runs[0]["state"].get("condition_order"),
                 allocation_method=runs[0]["state"].get("allocation_method"),
-                plan_compliance_difference_pp=(a - b) * 100
-                if a is not None and b is not None
-                else None,
+                plan_compliance_difference_pp=difference(on, off, "plan_compliance_rate", 100),
+                flagged_submission_difference_pp=difference(
+                    on, off, "flagged_submission_rate", 100
+                ),
+                post_display_difference_seconds=difference(on, off, "post_display_seconds_mean"),
                 rule_qualified_submissions_difference=(
                     on["rule_qualified_submissions"] - off["rule_qualified_submissions"]
                 ),
@@ -88,21 +102,29 @@ def summarize_exports(documents, *, include_synthetic=False):
             )
         )
     participant_deltas = defaultdict(list)
+    flagged_deltas = defaultdict(list)
     for pair in pairs:
+        key = (pair["experiment"], pair["data_kind"], pair["participant_id"])
         if pair["plan_compliance_difference_pp"] is not None:
-            participant_deltas[(pair["data_kind"], pair["participant_id"])].append(
-                pair["plan_compliance_difference_pp"]
-            )
+            participant_deltas[key].append(pair["plan_compliance_difference_pp"])
+        if pair["flagged_submission_difference_pp"] is not None:
+            flagged_deltas[key].append(pair["flagged_submission_difference_pp"])
     cohorts = []
-    for kind in sorted({p["data_kind"] for p in pairs}):
-        means = [mean(v) for (k, _), v in participant_deltas.items() if k == kind]
+    for group in sorted({(p["experiment"], p["data_kind"]) for p in pairs}):
+        experiment, kind = group
+        matched = [p for p in pairs if (p["experiment"], p["data_kind"]) == group]
+        means = [mean(v) for key, v in participant_deltas.items() if key[:2] == group]
+        flags = [mean(v) for key, v in flagged_deltas.items() if key[:2] == group]
         cohorts.append(
             dict(
                 data_kind=kind,
-                pairs=sum(p["data_kind"] == kind for p in pairs),
-                participants=len({p["participant_id"] for p in pairs if p["data_kind"] == kind}),
+                experiment=experiment,
+                pairs=len(matched),
+                participants=len({p["participant_id"] for p in matched}),
                 participants_with_plan_comparison=len(means),
                 mean_participant_plan_difference_pp=mean(means) if means else None,
+                participants_with_flagged_comparison=len(flags),
+                mean_participant_flagged_difference_pp=mean(flags) if flags else None,
             )
         )
     return dict(

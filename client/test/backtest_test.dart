@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tradepilot_client/features/trading/domain/workspace_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/backtest_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/strategy_backtest_screen.dart';
 
 class BacktestFixture implements WorkspaceRepository {
   final strategies = <Map<String, dynamic>>[];
@@ -53,7 +53,7 @@ void main() {
     (tester) async {
       final repo = BacktestFixture();
       await tester.pumpWidget(
-        MaterialApp(home: BacktestScreen(repository: repo)),
+        MaterialApp(home: StrategyBacktestScreen(repository: repo)),
       );
       await tester.pumpAndSettle();
       await tester.scrollUntilVisible(

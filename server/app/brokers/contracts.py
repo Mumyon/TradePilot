@@ -16,6 +16,7 @@ class MarketQuote:
     price_won: int
     as_of: datetime
     source: str
+    executable: bool = True
 
 
 @dataclass(frozen=True)
@@ -53,3 +54,16 @@ class ExecutionPort(Protocol):
     def place_order(self, order: BrokerOrder) -> BrokerOrderResult: ...
     def cancel_order(self, account_id: str, broker_order_id: str) -> BrokerOrderResult: ...
     def executions(self, account_id: str) -> Iterator[ExecutionEvent]: ...
+
+
+def configured_source(settings) -> str | None:
+    return {"kis": "kis_krx", "namuh": "namuh_krx", "toss": "toss_kr"}.get(
+        settings.market_data_mode
+    )
+
+
+def accepts_source(source: str, settings) -> bool:
+    expected = configured_source(settings)
+    if expected:
+        return source == expected
+    return source != "demo" or settings.market_data_mode == "demo"

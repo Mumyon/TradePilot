@@ -212,6 +212,56 @@ def test_responses_request_uses_only_official_endpoint_and_no_paid_fallback(monk
         chatgpt.generate("unused", "owner", "selected", "instructions", {"facts": []}, {})
 
 
+def test_long_quant_stream_budget_keeps_terminal_validation_and_remains_bounded():
+    delta = "data: " + json.dumps({"type": "response.output_text.delta", "delta": "x" * 4096})
+    completed = "data: " + json.dumps(
+        {"type": "response.completed", "response": {"status": "completed", "id": "long"}}
+    )
+    events = [delta] * 40 + [completed]
+    with pytest.raises(chatgpt.ReviewError, match="response_invalid"):
+        chatgpt.completed_response(events)
+    assert chatgpt.completed_response(events, max_bytes=2097152)["id"] == "long"
+    with pytest.raises(chatgpt.ReviewError, match="response_invalid"):
+        chatgpt.completed_response([delta] * 600, max_bytes=2097152)
+    with pytest.raises(chatgpt.ReviewError, match="stream_interrupted"):
+        chatgpt.completed_response([delta] * 40, max_bytes=2097152)
+
+
+def test_web_research_requires_search_tool_and_has_no_paid_fallback(monkeypatch):
+    monkeypatch.setattr(chatgpt, "access", lambda *_: dict(access_token="fake-credential"))
+    calls = []
+
+    def handle(request):
+        calls.append(request)
+        body = json.loads(request.content)
+        assert body["tools"] == [{"type": "web_search"}]
+        assert body["tool_choice"] == "auto"
+        assert body["include"] == ["web_search_call.action.sources"]
+        assert body["store"] is False and body["stream"] is True
+        return httpx.Response(400, json={"error": {"code": "unsupported"}})
+
+    monkeypatch.setattr(
+        chatgpt, "client", lambda: httpx.Client(transport=httpx.MockTransport(handle))
+    )
+    with pytest.raises(chatgpt.ReviewError, match="search_unavailable"):
+        chatgpt.generate("unused", "owner", "selected", "instructions", {}, {}, web_search=True)
+    assert len(calls) == 1
+
+
+def test_completed_items_survive_empty_terminal_envelope_but_need_terminal_success():
+    item = dict(type="message", content=[dict(type="output_text", text="Verified report")])
+    done = "data: " + json.dumps(dict(type="response.output_item.done", output_index=0, item=item))
+    terminal = "data: " + json.dumps(
+        dict(type="response.completed", response=dict(status="completed", output=[]))
+    )
+    assert chatgpt.completed_response([done, terminal])["output"] == [item]
+    with pytest.raises(chatgpt.ReviewError, match="stream_interrupted"):
+        chatgpt.completed_response([done])
+    failed = "data: " + json.dumps(dict(type="response.failed", response=dict(error={})))
+    with pytest.raises(chatgpt.ReviewError, match="provider_failed"):
+        chatgpt.completed_response([done, failed, terminal])
+
+
 def test_disconnect_clears_tokens_even_when_remote_revocation_fails(tmp_path, monkeypatch, capsys):
     uid = str(uuid4())
     path = chatgpt.credential_path(tmp_path, uid)

@@ -7,8 +7,8 @@ import 'package:integration_test/integration_test.dart';
 import 'package:tradepilot_client/app/tradepilot_app.dart';
 import 'package:tradepilot_client/core/network/api_client.dart';
 import 'package:tradepilot_client/features/trading/data/remote_trading_repository.dart';
-import 'package:tradepilot_client/features/trading/domain/models.dart';
-import 'package:tradepilot_client/features/trading/presentation/risk_confirmation.dart';
+import 'package:tradepilot_client/features/trading/domain/trading_models.dart';
+import 'package:tradepilot_client/features/trading/presentation/order_risk_check_dialog.dart';
 import '../test/api_client_test.dart' show MemoryTokens;
 
 void main() {
@@ -62,7 +62,7 @@ void main() {
             theme: theme,
             debugShowCheckedModeBanner: false,
             home: Scaffold(
-              body: RiskConfirmation(check: check, draft: draft),
+              body: OrderRiskCheckDialog(check: check, draft: draft),
             ),
           ),
         ),

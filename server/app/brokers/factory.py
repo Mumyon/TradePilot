@@ -5,9 +5,20 @@ from .template import BrokerAdapterTemplate
 
 
 def market_data_provider(settings: Settings) -> MarketDataPort:
-    # TODO(broker-wiring): add a named provider here after implementing contracts.
     if settings.market_data_mode == "demo":
         return DemoMarketData()
+    if settings.market_data_mode == "kis":
+        from .kis import KisMarketData
+
+        return KisMarketData(settings)
+    if settings.market_data_mode == "namuh":
+        from .namuh import NamuhMarketData
+
+        return NamuhMarketData(settings)
+    if settings.market_data_mode == "toss":
+        from .toss import TossMarketData
+
+        return TossMarketData(settings)
     return BrokerAdapterTemplate()
 
 

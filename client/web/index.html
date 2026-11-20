@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <base href="$FLUTTER_BASE_HREF">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="TradePilot의 주식 차트와 모의투자 기능을 브라우저에서 체험하세요.">
+    <meta name="theme-color" content="#0b0b0d">
+    <title>TradePilot 웹 시연</title>
+    <style>
+      body {
+        margin: 0;
+        background: #0b0b0d;
+        color: #f2f2f2;
+        font-family: system-ui, sans-serif;
+      }
+      .loading {
+        display: grid;
+        min-height: 100vh;
+        place-content: center;
+        gap: 0.6rem;
+        text-align: center;
+        pointer-events: none;
+      }
+      .loading strong { font-size: 1.5rem; }
+      .loading span { color: #b8b8bf; font-size: 0.875rem; }
+    </style>
+  </head>
+  <body>
+    <div class="loading" id="loading" role="status">
+      <strong>TradePilot</strong>
+      <span id="loading-message">웹 시연을 불러오는 중입니다.</span>
+    </div>
+    <noscript>TradePilot을 실행하려면 JavaScript를 활성화해 주세요.</noscript>
+    <script>
+      window.addEventListener('flutter-first-frame', () => {
+        document.getElementById('loading')?.remove();
+      }, { once: true });
+    </script>
+    <script src="flutter_bootstrap.js" async
+      onerror="document.getElementById('loading-message').textContent = '앱을 불러오지 못했습니다. 페이지를 새로고침해 주세요.'">
+    </script>
+  </body>
+</html>

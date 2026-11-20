@@ -4,7 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:tradepilot_client/app/tradepilot_app.dart';
 import 'package:tradepilot_client/core/network/api_client.dart';
 import 'package:tradepilot_client/features/trading/data/remote_trading_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/design_bindings.dart';
+import 'package:tradepilot_client/features/trading/presentation/trading_layout_bindings.dart';
 import '../test/api_client_test.dart' show MemoryTokens;
 
 void main() {

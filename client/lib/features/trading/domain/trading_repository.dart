@@ -1,4 +1,4 @@
-import 'models.dart';
+import 'trading_models.dart';
 
 enum ConnectionState {
   disconnected,
@@ -20,4 +20,13 @@ abstract interface class TradingRepository {
   Future<void> connect();
   Future<void> pause();
   Future<void> dispose();
+}
+
+abstract interface class ChartQuoteRepository {
+  Stream<Quote> get chartQuotes;
+  void setChartSymbol(String? symbol);
+}
+
+abstract interface class WatchlistInstrumentRepository {
+  Map<String, String> get watchlistInstruments;
 }

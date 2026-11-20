@@ -40,3 +40,6 @@ server/.demo/
 !server/.env.example
 !server/.env.compose.example
 !client/pubspec.lock
+
+# Separate real-quote paper account storage
+server/.paper-market/

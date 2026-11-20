@@ -253,7 +253,7 @@ def metrics(rows, probs):
     )
 
 
-def train(bars, symbol, source, data_kind, csv_hash):
+def train(bars, symbol, source, data_kind, csv_hash, *, strict=False):
     validate_bars(bars)
     rows = samples(bars)
     if len(rows) < 240:
@@ -280,7 +280,9 @@ def train(bars, symbol, source, data_kind, csv_hash):
         )["log_loss"],
     )
     prior = [sum(r["y"] == k for r in training) / len(training) for k in range(3)]
-    evaluated = metrics(testing, [predict(model, r) for r in testing])
+    test_probs = [predict(model, r) for r in testing]
+    evaluated = metrics(testing, test_probs)
+    evaluated["confident_directional_count"] = sum(max(p[0], p[2]) >= 0.65 for p in test_probs)
     baseline = metrics(testing, [prior for _ in testing])
     folds = []
     for fraction in [0.4, 0.6, 0.8]:
@@ -321,6 +323,13 @@ def train(bars, symbol, source, data_kind, csv_hash):
     artifact["quality_gate_passed"] = (
         evaluated["macro_f1"] >= baseline["macro_f1"] and evaluated["brier"] <= baseline["brier"]
     )
+    if strict:
+        artifact["quality_gate_passed"] = (
+            evaluated["macro_f1"] > baseline["macro_f1"]
+            and evaluated["brier"] <= baseline["brier"]
+            and evaluated["confident_directional_count"] > 0
+            and all(evaluated["classes"][key]["recall"] > 0 for key in ("up", "down"))
+        )
     artifact["version"] = (
         "softmax-" + hashlib.sha256(json.dumps(artifact, sort_keys=True).encode()).hexdigest()[:16]
     )

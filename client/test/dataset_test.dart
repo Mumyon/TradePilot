@@ -1,11 +1,11 @@
 import 'backtest_test.dart' show BacktestFixture;
-import 'package:tradepilot_client/features/trading/presentation/backtest_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/strategy_backtest_screen.dart';
 import 'dart:convert';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tradepilot_client/features/trading/domain/workspace_repository.dart';
-import 'package:tradepilot_client/features/trading/presentation/dataset_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/csv_dataset_screen.dart';
 
 class DatasetFixture implements WorkspaceRepository {
   final items = <Map<String, dynamic>>[];
@@ -69,7 +69,7 @@ void main() {
   ) async {
     final repo = DatasetBacktestFixture();
     await tester.pumpWidget(
-      MaterialApp(home: BacktestScreen(repository: repo)),
+      MaterialApp(home: StrategyBacktestScreen(repository: repo)),
     );
     await tester.pumpAndSettle();
     await tester.scrollUntilVisible(
@@ -114,7 +114,7 @@ void main() {
     final repo = DatasetFixture();
     await tester.pumpWidget(
       MaterialApp(
-        home: DatasetScreen(
+        home: CsvDatasetScreen(
           repository: repo,
           pickFile: () async => XFile.fromData(
             utf8.encode('fixture CSV'),
@@ -164,7 +164,7 @@ void main() {
     final repo = DatasetFixture();
     await tester.pumpWidget(
       MaterialApp(
-        home: DatasetScreen(repository: repo, pickFile: () async => null),
+        home: CsvDatasetScreen(repository: repo, pickFile: () async => null),
       ),
     );
     await tester.pumpAndSettle();

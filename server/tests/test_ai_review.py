@@ -232,3 +232,62 @@ def test_daily_attempt_budget_is_shared_between_runs(paired, service):
     assert client.post(other, json={"consent": True}).status_code == 429
     # Cached pending requests do not consume another attempt.
     assert client.post(url, json={"consent": True}).json()["attempts"] == 1
+
+
+def test_training_reuses_ai_goal_and_keeps_replay_separate(setup, service, monkeypatch):
+    from test_replay import order
+
+    client, sessions, _, case, _ = setup
+    settings = enable(service)
+    monkeypatch.setattr(chatgpt, "connection", lambda *_: dict(model="test-fixed-model"))
+    start_url = f"/v1/replay/cases/{case['id']}/runs"
+    first = client.post(
+        start_url,
+        json={
+            "request_id": key(),
+            "pilot_enabled": True,
+            "plan": {"entry_min_won": 1, "entry_max_won": 2},
+        },
+    ).json()
+    first = act(client, order(client, first), "finish")
+    path = f"/v1/replay/runs/{first['id']}"
+    assert client.post(f"{path}/training").status_code == 409
+    second = client.post(
+        start_url,
+        json={"request_id": key(), "pilot_enabled": False, "paired_run_id": first["id"]},
+    ).json()
+    act(client, second, "finish")
+    assert client.post(f"{path}/training").status_code == 409
+
+    def generate(*args):
+        payload = args[4]
+        (candidate,) = payload["training_candidates"]
+        result = output(payload)
+        result["content"]["observations"][0]["fact_id"] = candidate
+        return result
+
+    monkeypatch.setattr(chatgpt, "generate", generate)
+    assert client.post(f"{path}/ai-review", json={"consent": True}).status_code == 200
+    ai_review.process_next(sessions, settings)
+    offer = client.get(f"{path}/ai-review").json()["training"]
+    assert offer["code"] == "plan" and offer["baseline_submitted"] == 1
+    assert offer["question"] == output(None)["content"]["observations"][0]["reflection_question"]
+
+    response = client.post(f"{path}/training")
+    assert response.status_code == 200, response.text
+    practice = response.json()
+    assert practice["training"] == offer
+    assert practice["pilot_enabled"] and practice["pair_id"] != first["pair_id"]
+    assert practice["plan"] == first["plan"]
+    assert client.post(f"{path}/training").json()["id"] == practice["id"]
+    practice = act(client, order(client, practice), "finish")
+    assert practice["training"]["submitted"] == 1
+    assert practice["training"]["evaluated"] == 1
+    assert client.get(f"/v1/replay/runs/{practice['id']}/export").status_code == 409
+    assert (
+        client.post(
+            start_url,
+            json={"request_id": key(), "pilot_enabled": False, "paired_run_id": practice["id"]},
+        ).status_code
+        == 409
+    )

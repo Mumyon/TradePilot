@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:tradepilot_client/features/trading/presentation/journal_screen.dart';
-import 'package:tradepilot_client/features/trading/presentation/risk_confirmation.dart';
+import 'package:tradepilot_client/features/trading/presentation/trade_journal_screen.dart';
+import 'package:tradepilot_client/features/trading/presentation/order_risk_check_dialog.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:tradepilot_client/app/tradepilot_app.dart';
 import 'package:tradepilot_client/core/network/api_client.dart';
 import 'package:tradepilot_client/features/trading/data/remote_trading_repository.dart';
-import 'package:tradepilot_client/features/trading/domain/models.dart';
+import 'package:tradepilot_client/features/trading/domain/trading_models.dart';
 import '../test/api_client_test.dart' show MemoryTokens;
 
 void main() {
@@ -156,7 +156,7 @@ void main() {
         child: MaterialApp(
           theme: appTheme,
           debugShowCheckedModeBanner: false,
-          home: JournalScreen(repository: repo),
+          home: TradeJournalScreen(repository: repo),
         ),
       ),
     );
@@ -189,7 +189,7 @@ void main() {
           theme: appTheme,
           debugShowCheckedModeBanner: false,
           home: Scaffold(
-            body: RiskConfirmation(check: check, draft: checkDraft),
+            body: OrderRiskCheckDialog(check: check, draft: checkDraft),
           ),
         ),
       ),

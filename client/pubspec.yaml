@@ -13,6 +13,8 @@ dependencies:
   uuid: ^4.5.1
   flutter_svg: ^2.3.0
   file_selector: ^1.1.0
+  url_launcher: ^6.3.3
+  flutter_markdown_plus: ^1.0.12
 dev_dependencies:
   integration_test:
     sdk: flutter
@@ -24,6 +26,7 @@ flutter:
   assets:
     - assets/design/tradepilot.json
     - assets/fonts/OFL.txt
+    - assets/images/login-forest.jpg
   fonts:
     - family: Noto Sans KR
       fonts:
